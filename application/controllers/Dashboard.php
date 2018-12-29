@@ -14,7 +14,7 @@ class AdminController extends CI_Controller {
         {
             $this->load->view("v_dashboard");         
         }else{
-            redirect(base_url("LoginController"));
+            redirect(base_url("auth"));
         }
 	}
 
