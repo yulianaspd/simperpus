@@ -10,7 +10,7 @@ class Auth extends CI_Controller {
 
 	public function index()
 	{
-		if( $this->Login->loggedIn() ){
+		if( $this->m_auth->loggedIn() ){
 			redirect(base_url("dashboard"));
 		}else{
 			$this->load->view('v_login');
@@ -30,7 +30,7 @@ class Auth extends CI_Controller {
 				'email' => $email,
 				'password' => $password
 			);
-			$checking = $this->M_auth->checkLogin('user', $where);
+			$checking = $this->m_auth->checkLogin('user', $where);
 			
 			if($checking != FALSE){
 				foreach($checking as $data){
