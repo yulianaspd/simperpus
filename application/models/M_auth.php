@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends CI_Model {
+class M_auth extends CI_Model {
 
 	public function loggedIn(){
 		return $this->session->userdata('email');

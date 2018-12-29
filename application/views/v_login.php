@@ -37,7 +37,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form action="<?php echo base_url('LoginController/loginAction'); ?>" method="post">
+    <form action="<?php echo base_url('auth/login'); ?>" method="post">
       <div class="form-group has-feedback">
         <input type="text" id="email" name="email" class="form-control" placeholder="Username">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
