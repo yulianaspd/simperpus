@@ -12,7 +12,7 @@ class Penulis extends CI_Controller {
 	{
 		$data['title']	= 'Penulis';
 		$data['icon']	= 'fa fa-list';
-		$data['kategori'] = $this->m_penulis->get_data()->result();
+		$data['penulis'] = $this->m_penulis->get_data()->result();
 		$this->load->view('penulis/index', $data);
 	}
 
