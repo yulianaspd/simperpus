@@ -17,7 +17,7 @@ class Kategori extends CI_Controller {
 	}
 
 	public function show(){
-
+		
 	}
 
 	public function create(){

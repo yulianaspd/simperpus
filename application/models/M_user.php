@@ -7,7 +7,6 @@ class M_user extends CI_Model {
 		return $this->db->get('user');
 	}
 
-
 	public function store_data($data){
 		$this->db->insert('user', $data);
 	}
