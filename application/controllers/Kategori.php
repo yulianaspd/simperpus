@@ -44,15 +44,24 @@ class Kategori extends CI_Controller {
 	}
 
 	public function store(){
-		$rak_id = $this->input->post('rak_id');
-		$nama 	= $this->input->post('nama');
-		$data = array (
-			'rak_id' => $rak_id,
-			'nama'	 => $nama
-		);
+		$this->form_validation->set_rules('rak_id','Rak ID','required');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->validation->set_message('required','Harus di isi');
 
-		$this->m_kategori->storeData($data);
-		redirect('kategori/index');
+		if($this->validation->run() == TRUE){
+			$rak_id = $this->input->post('rak_id');
+			$nama 	= $this->input->post('nama');
+			$data = array (
+				'rak_id' => $rak_id,
+				'nama'	 => $nama
+			);
+			$this->m_kategori->storeData($data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
+			redirect('kategori/create');
+		}else{
+			$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"> Gagal! Terjadi kesalahan </div>');
+			redirect('kategori/create');
+		}
 	}
 
 	public function edit($id){
@@ -68,24 +77,33 @@ class Kategori extends CI_Controller {
 	}
 
 	public function update(){
-		$id 	= $this->input->post('id');
-		$rak_id = $this->input->post('rak_id');
-		$nama	= $this->input->post('nama');
-		$updated_at = date('Y-m-d H:i:s');
+		$this->form_validation->set_rules('rak_id','Rak ID','required');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->validation->set_message('required','Harus di isi');
 
-		$data = array(
-			'rak_id'		=> $rak_id,
-			'nama'			=> $nama,
-			'updated_at' 	=> $updated_at
-		);
+		if($this->validation->run() == TRUE){
+			$id 	= $this->input->post('id');
+			$rak_id = $this->input->post('rak_id');
+			$nama	= $this->input->post('nama');
+			$updated_at = date('Y-m-d H:i:s');
 
-		$where = array(
-			'id'	=> $id
-		);
+			$data = array(
+				'rak_id'		=> $rak_id,
+				'nama'			=> $nama,
+				'updated_at' 	=> $updated_at
+			);
 
-		$this->m_kategori->updateData($where,$data);
-		redirect('kategori/index');
+			$where = array(
+				'id'	=> $id
+			);
 
+			$this->m_kategori->updateData($where,$data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
+			redirect('kategori/index');
+		}else{
+			$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"> Gagal! Terjadi kesalahan </div>');
+			redirect('kategori/edit');
+		}
 	}
 
 	public function delete($id){
