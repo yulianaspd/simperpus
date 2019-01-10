@@ -109,6 +109,8 @@ class Kategori extends CI_Controller {
 			'id' => $id;
 		);
 		$this->m_kategori->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+			redirect('kategori/index');
 		redirect('kategori/index');		
 	}
 

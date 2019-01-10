@@ -123,6 +123,8 @@ class Penerbit extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_penerbit->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+			redirect('penerbit/index');
 		redirect('penerbit/index');
 	}
 

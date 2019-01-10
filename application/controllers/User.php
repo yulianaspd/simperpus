@@ -118,6 +118,8 @@ class User extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_user->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+			redirect('user/index');
 		redirect('user/index');
 	}
 

@@ -98,6 +98,8 @@ class Rak extends CI_Controller {
 			'id'	=> $id;
 		);
 		$this->m_rak->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+			redirect('buku/index');
 		redirect('rak/index');
 	}
 

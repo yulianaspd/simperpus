@@ -47,9 +47,9 @@ class Penulis extends CI_Controller {
 			);
 			$this->m_penulis->storeData($data);
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
-			redirect('penulis/index');
+			redirect('penulis/create');
 		}else{
-			redirect('penulis/index');
+			redirect('penulis/create');
 		}
 	}
 
@@ -98,6 +98,8 @@ class Penulis extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_penulis->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+			redirect('penulis/index');
 		redirect('penulis/index');
 	}
 
