@@ -5,7 +5,11 @@ class Kategori extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model(['m_kategori','m_auth']);
+		$this->load->model([
+			'm_kategori',
+			'm_rak',
+			'm_auth'
+		]);
 	}
 
 	public function index()
@@ -19,7 +23,7 @@ class Kategori extends CI_Controller {
 			$this->load->view('layout/header',$data);
 			$this->load->view('kategori/index', $data);
 			$this->load->view('kategori/footer');	
-			
+
 		}else{
 			$this->load->view('v_login');
 		}
@@ -32,7 +36,7 @@ class Kategori extends CI_Controller {
 	public function create(){
 		$data['title'] = 'Input Kategori';
 		$data['icon'] = 'fa fa-list';
-		$data['rak'] = $this->m_kategori->getRak()->result();
+		$data['rak'] = $this->m_rak->getData()->result();
 
 		$this->load->view('layout/header', $data);
 		$this->load->view('kategori/create', $data);
@@ -55,7 +59,7 @@ class Kategori extends CI_Controller {
 		$where = array('id' => $id);
 		$data['title'] = 'Edit Kategori';
 		$data['icon'] = 'fa fa-list';
-		$data['rak'] = $this->m_kategori->getRak()->result();
+		$data['rak'] = $this->m_rak->getData()->result();
 		$data['edit_data'] = $this->m_kategori->getEdit($where)->result();
 
 		$this->load->view('layout/header',$data);

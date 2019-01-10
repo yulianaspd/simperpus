@@ -7,10 +7,6 @@ class M_kategori extends CI_Model {
 		return $this->db->get('kategori');
 	}
 
-	public function getRak(){
-		return $this->db->get('rak');
-	}
-
 	public function storeData($data){
 		$this->db->insert('katgeori', $data);
 	}

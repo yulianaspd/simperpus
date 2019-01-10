@@ -7,18 +7,6 @@ class M_buku extends CI_Model {
 		return $this->db->get('buku');
 	}
 
-	public function getKategori(){
-		return $this->db->get('kategori');
-	}
-
-	public function getPenulis(){
-		return $this->db->get('penulis');
-	}
-
-	public function getPenerbit(){
-		return $this->db->get('penerbit');
-	}
-
 	public function storeData($data){
 		$this->db->insert('buku', $data);
 	}
