@@ -5,7 +5,7 @@ class Penulis extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model(['m_auth','m_penulis']);
+		$this->load->model('m_auth','m_penulis');
 	}
 
 	public function index()

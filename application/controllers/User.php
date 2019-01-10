@@ -5,10 +5,10 @@ class User extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model([
+		$this->load->model(
 			'm_auth',
 			'm_user'
-		]);
+		);
 	}
 
 	public function index()

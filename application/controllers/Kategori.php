@@ -5,11 +5,11 @@ class Kategori extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model([
+		$this->load->model(
 			'm_kategori',
 			'm_rak',
 			'm_auth'
-		]);
+		);
 	}
 
 	public function index()
