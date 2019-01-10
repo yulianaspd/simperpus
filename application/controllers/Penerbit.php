@@ -5,7 +5,10 @@ class Penerbit extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model(['m_penerbit','m_auth']);
+		$this->load->model([
+			'm_penerbit',
+			'm_auth'
+		]);
 	}
 
 	public function index()
@@ -37,19 +40,32 @@ class Penerbit extends CI_Controller {
 	}
 
 	public function store(){
-		$nama	= $this->input->post('nama');
-		$alamat = $this->input->post('alamat');
-		$email	= $this->input->post('email');
-		$telepon = $this->input->post('telepon');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->form_validation->set_rules('alamat','Alamat','required');
+		$this->form_validation->set_rules('email','Email','required');
+		$this->form_validation->set_rules('telepon','Telepon','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		$data = array(
-			'nama'		=> $nama,
-			'alamat' 	=> $alamat,
-			'email'  	=> $email,
-			'telepon'	=> $telepon
-		);
-		$this->m_penerbit->storeData($data);
-		redirect('penerbit/index');
+		if($this->validation->run() == TRUE){
+			$nama	= $this->input->post('nama');
+			$alamat = $this->input->post('alamat');
+			$email	= $this->input->post('email');
+			$telepon = $this->input->post('telepon');
+
+			$data = array(
+				'nama'		=> $nama,
+				'alamat' 	=> $alamat,
+				'email'  	=> $email,
+				'telepon'	=> $telepon
+			);
+			$this->m_penerbit->storeData($data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
+			redirect('penerbit/index');
+		}else{
+			redirect('penerbit/index');
+		}
+
+		
 	}
 
 	public function edit($id){
@@ -66,27 +82,40 @@ class Penerbit extends CI_Controller {
 	}
 
 	public function update(){
-		$id 	= $this->input->post('id');
-		$nama	= $this->input->post('nama');
-		$alamat = $this->input->post('alamat');
-		$email	= $this->input->post('email');
-		$telepon = $this->input->post('telepon');
-		$updated_at	= date('Y-m-d H:i:s');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->form_validation->set_rules('alamat','Alamat','required');
+		$this->form_validation->set_rules('email','Email','required');
+		$this->form_validation->set_rules('telepon','Telepon','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		$data = array(
-			'nama'		=> $nama,
-			'alamat' 	=> $alamat,
-			'email'  	=> $email,
-			'telepon'	=> $telepon
-			'updated_at' => $updated_at
-		);
+		if($this->validation->run() == TRUE){
+			$id 	= $this->input->post('id');
+			$nama	= $this->input->post('nama');
+			$alamat = $this->input->post('alamat');
+			$email	= $this->input->post('email');
+			$telepon = $this->input->post('telepon');
+			$updated_at	= date('Y-m-d H:i:s');
 
-		$where = array(
-			'id'	=> $id
-		);
+			$data = array(
+				'nama'		=> $nama,
+				'alamat' 	=> $alamat,
+				'email'  	=> $email,
+				'telepon'	=> $telepon
+				'updated_at' => $updated_at
+			);
 
-		$this->m_penerbit->updateData($where, $data);
-		redirect('penerbit/index');
+			$where = array(
+				'id'	=> $id
+			);
+
+			$this->m_penerbit->updateData($where, $data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
+			redirect('penerbit/index');
+		}else{
+			redirect('penerbit/index');
+		}
+
+		
 	}
 
 	public function delete($id){

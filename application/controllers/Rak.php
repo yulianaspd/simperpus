@@ -37,12 +37,21 @@ class Rak extends CI_Controller {
 	}
 
 	public function store(){
-		$kode = $this->input->post('kode');
-		$data = array(
-			'kode'	=> $kode;
-		);
-		$this->m_rak->storeData($data);
-		redirect('rak/index');
+		$this->form_validation->set_rules('kode','Kode','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+
+		if($this->validation->run() == TRUE){
+			$kode = $this->input->post('kode');
+			$data = array(
+				'kode'	=> $kode;
+			);
+			$this->m_rak->storeData($data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
+			redirect('rak/create');
+		}else{
+			redirect('rak/create');
+		}
+		
 	}
 
 	public function edit($id){
@@ -59,21 +68,29 @@ class Rak extends CI_Controller {
 	}
 
 	public function update(){
-		$id 	= $this->input->post('id');
-		$kode	= $this->input->post('kode');
-		$updated_at = date('Y-m-d H:i:s');
+		$this->form_validation->set_rules('kode','Kode','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		$data = array(
-			'kode'			=> $kode,
-			'updated_at'	=> $updated_at
-		);
+		if($this->validation->run() == TRUE){
+			$id 	= $this->input->post('id');
+			$kode	= $this->input->post('kode');
+			$updated_at = date('Y-m-d H:i:s');
 
-		$where = array(
-			'id'	=> $id
-		);
+			$data = array(
+				'kode'			=> $kode,
+				'updated_at'	=> $updated_at
+			);
 
-		$this->m_rak->updateData($where,$data);
-		redirect('rak/index');
+			$where = array(
+				'id'	=> $id
+			);
+
+			$this->m_rak->updateData($where,$data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
+			redirect('rak/edit');
+		}else{
+			redirect('rak/edit');
+		}
 	}
 
 	public function delete($id){

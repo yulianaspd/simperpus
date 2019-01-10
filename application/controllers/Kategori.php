@@ -46,7 +46,7 @@ class Kategori extends CI_Controller {
 	public function store(){
 		$this->form_validation->set_rules('rak_id','Rak ID','required');
 		$this->form_validation->set_rules('nama','Nama','required');
-		$this->validation->set_message('required','Harus di isi');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
 		if($this->validation->run() == TRUE){
 			$rak_id = $this->input->post('rak_id');
@@ -59,7 +59,6 @@ class Kategori extends CI_Controller {
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
 			redirect('kategori/create');
 		}else{
-			$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"> Gagal! Terjadi kesalahan </div>');
 			redirect('kategori/create');
 		}
 	}
@@ -79,7 +78,7 @@ class Kategori extends CI_Controller {
 	public function update(){
 		$this->form_validation->set_rules('rak_id','Rak ID','required');
 		$this->form_validation->set_rules('nama','Nama','required');
-		$this->validation->set_message('required','Harus di isi');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
 		if($this->validation->run() == TRUE){
 			$id 	= $this->input->post('id');
@@ -99,9 +98,8 @@ class Kategori extends CI_Controller {
 
 			$this->m_kategori->updateData($where,$data);
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
-			redirect('kategori/index');
+			redirect('kategori/edit');
 		}else{
-			$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"> Gagal! Terjadi kesalahan </div>');
 			redirect('kategori/edit');
 		}
 	}

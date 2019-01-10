@@ -37,12 +37,20 @@ class Penulis extends CI_Controller {
 	}
 
 	public function store(){
-		$nama	= $this->input->post('name');
-		$data = array(
-			'nama'	=> $nama
-		);
-		$this->m_penulis->storeData($data);
-		redirect('penulis/index');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+
+		if($this->validation->run() == TRUE){
+			$nama	= $this->input->post('name');
+			$data = array(
+				'nama'	=> $nama
+			);
+			$this->m_penulis->storeData($data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
+			redirect('penulis/index');
+		}else{
+			redirect('penulis/index');
+		}
 	}
 
 	public function edit($id){
@@ -59,21 +67,30 @@ class Penulis extends CI_Controller {
 	}
 
 	public function update(){
-		$id 	= $this->input->post('id');
-		$name 	= $this->input->post('nama');
-		$updated_at	= date('Y-m-d H:i:s');
+		$this->form_validation->set_rules('nama','Nama','required');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		$data = array(
-			'nama'		 => $nama,
-			'updated_at' => $updated_at
-		);
+		if($this->validation->run() == TRUE){
+			$id 	= $this->input->post('id');
+			$name 	= $this->input->post('nama');
+			$updated_at	= date('Y-m-d H:i:s');
 
-		$where = array(
-			'id'	=> $id
-		);
+			$data = array(
+				'nama'		 => $nama,
+				'updated_at' => $updated_at
+			);
 
-		$this->m_penulis->updateData($where,$data);
-		redirect('penulis/index');
+			$where = array(
+				'id'	=> $id
+			);
+
+			$this->m_penulis->updateData($where,$data);
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
+			redirect('penulis/edit');
+		}else{
+			redirect('penulis/edit');
+		}
+		
 	}
 
 	public function delete($id){
@@ -81,7 +98,7 @@ class Penulis extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_penulis->deleteData($where);
-		redirect('kategori/index');
+		redirect('penulis/index');
 	}
 
 }
