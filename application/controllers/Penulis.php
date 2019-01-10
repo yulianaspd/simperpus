@@ -5,15 +5,22 @@ class Penulis extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_penulis');
+		$this->load->model(['m_auth','m_penulis']);
 	}
 
 	public function index()
 	{
-		$data['title']	= 'Penulis';
-		$data['icon']	= 'fa fa-list';
-		$data['penulis'] = $this->m_penulis->get_data()->result();
-		$this->load->view('penulis/index', $data);
+		if( $this->m_auth->loggedIn() ){
+			$data['title']	= 'Penulis';
+			$data['icon']	= 'fa fa-list';
+			$data['penulis'] = $this->m_penulis->getData()->result();
+
+			$this->load->view('layout/header', $data);
+			$this->load->view('penulis/index', $data);
+			$this->load->view('layout/footer');
+		}else{
+			$this->load->view('v_login');
+		}
 	}
 
 	public function show($id){
@@ -23,7 +30,10 @@ class Penulis extends CI_Controller {
 	public function create(){
 		$data['title']	= 'Input Penulis';
 		$data['icon']	= 'fa fa-list';
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('penulis/create', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function store(){
@@ -31,7 +41,7 @@ class Penulis extends CI_Controller {
 		$data = array(
 			'nama'	=> $nama
 		);
-		$this->m_penulis->store_data($data);
+		$this->m_penulis->storeData($data);
 		redirect('penulis/index');
 	}
 
@@ -41,8 +51,11 @@ class Penulis extends CI_Controller {
 		);
 		$data['title'] = 'Edit Penulis';
 		$data['icon'] = 'fa fa-list';
-		$data['edit_data'] = $this->m_penulis->get_edit($where)->result();
+		$data['edit_data'] = $this->m_penulis->getEdit($where)->result();
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('penulis/edit', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function update(){
@@ -59,7 +72,7 @@ class Penulis extends CI_Controller {
 			'id'	=> $id
 		);
 
-		$this->m_penulis->update_data($where,$data);
+		$this->m_penulis->updateData($where,$data);
 		redirect('penulis/index');
 	}
 
@@ -67,7 +80,7 @@ class Penulis extends CI_Controller {
 		$where = array(
 			'id' => $id
 		);
-		$this->m_penulis->delete_data($where);
+		$this->m_penulis->deleteData($where);
 		redirect('kategori/index');
 	}
 

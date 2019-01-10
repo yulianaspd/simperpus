@@ -5,15 +5,22 @@ class User extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_user');
+		$this->load->model(['m_auth','m_user']);
 	}
 
 	public function index()
 	{
-		$data['title'] = 'User';
-		$data['icon']  = 'fa fa-users';
-		$data['user']  = $this->m_user->get_data()->result();
-		$this->load->view('user/index');	
+		if( $this->m_auth->loggedIn() ){
+			$data['title'] = 'User';
+			$data['icon']  = 'fa fa-users';
+			$data['user']  = $this->m_user->getData()->result();
+
+			$this->load->view('layout/header', $data);
+			$this->load->view('user/index');	
+			$this->load->view('layout/footer');
+		}else{
+			$this->load->view('v_login');
+		}
 	}
 
 	public function show($id){
@@ -39,7 +46,7 @@ class User extends CI_Controller {
 			'level'		= $level
 		);
 
-		$this->m_user->store_data($data);
+		$this->m_user->storeData($data);
 		redirect('user/index');
 	}
 
@@ -49,8 +56,11 @@ class User extends CI_Controller {
 		);
 		$data['title'] = 'Edit User';
 		$data['icon'] = 'fa fa-list';
-		$data['edit_data'] = $this->m_user->get_edit($where)->result();
+		$data['edit_data'] = $this->m_user->getEdit($where)->result();
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('user/edit', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function update(){
@@ -73,7 +83,7 @@ class User extends CI_Controller {
 			'id' => $id
 		);
 
-		$this->m_user->update_data($where, $data);
+		$this->m_user->updateData($where, $data);
 		redirect('user/index');
 	}
 
@@ -81,7 +91,7 @@ class User extends CI_Controller {
 		$where = array(
 			'id' => $id
 		);
-		$this->m_user->delete_data($where);
+		$this->m_user->deleteData($where);
 		redirect('user/index');
 	}
 

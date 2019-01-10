@@ -5,15 +5,24 @@ class Kategori extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_kategori');
+		$this->load->model(['m_kategori','m_auth']);
 	}
 
 	public function index()
 	{
-		$data['title'] = 'Kategori';
-		$data['icon'] = 'fa fa-list';
-		$data['kategori'] = $this->m_kategori->get_data()->result();
-		$this->load->view('kategori/index', $data);
+		if( $this->m_auth->loggedIn() ){
+
+			$data['title'] = 'Kategori';
+			$data['icon'] = 'fa fa-list';
+			$data['kategori'] = $this->m_kategori->getData()->result();
+
+			$this->load->view('layout/header',$data);
+			$this->load->view('kategori/index', $data);
+			$this->load->view('kategori/footer');	
+			
+		}else{
+			$this->load->view('v_login');
+		}
 	}
 
 	public function show(){
@@ -23,8 +32,11 @@ class Kategori extends CI_Controller {
 	public function create(){
 		$data['title'] = 'Input Kategori';
 		$data['icon'] = 'fa fa-list';
-		$data['rak'] = $this->m_kategori->get_rak()->result();
+		$data['rak'] = $this->m_kategori->getRak()->result();
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('kategori/create', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function store(){
@@ -35,7 +47,7 @@ class Kategori extends CI_Controller {
 			'nama'	 => $nama
 		);
 
-		$this->m_kategori->store_data($data);
+		$this->m_kategori->storeData($data);
 		redirect('kategori/index');
 	}
 
@@ -43,9 +55,12 @@ class Kategori extends CI_Controller {
 		$where = array('id' => $id);
 		$data['title'] = 'Edit Kategori';
 		$data['icon'] = 'fa fa-list';
-		$data['rak'] = $this->m_kategori->get_rak()->result();
-		$data['edit_data'] = $this->m_kategori->get_edit($where)->result();
+		$data['rak'] = $this->m_kategori->getRak()->result();
+		$data['edit_data'] = $this->m_kategori->getEdit($where)->result();
+
+		$this->load->view('layout/header',$data);
 		$this->load->view('kategori/edit', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function update(){
@@ -64,7 +79,7 @@ class Kategori extends CI_Controller {
 			'id'	=> $id
 		);
 
-		$this->m_kategori->update_data($where,$data);
+		$this->m_kategori->updateData($where,$data);
 		redirect('kategori/index');
 
 	}
@@ -73,7 +88,7 @@ class Kategori extends CI_Controller {
 		$where = array(
 			'id' => $id;
 		);
-		$this->m_kategori->delete_data($where);
+		$this->m_kategori->deleteData($where);
 		redirect('kategori/index');		
 	}
 

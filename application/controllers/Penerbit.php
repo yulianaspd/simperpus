@@ -5,15 +5,22 @@ class Penerbit extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_penerbit');
+		$this->load->model(['m_penerbit','m_auth']);
 	}
 
 	public function index()
 	{
-		$data['title']	= 'Penerbit';
-		$data['icon']	= 'fa fa-list';
-		$data['penerbit'] = $this->m_penerbit->get_data()->result();
-		$this->load->view('penerbit/index', $data);
+		if( $this->m_auth->loggedIn() ){
+			$data['title']	= 'Penerbit';
+			$data['icon']	= 'fa fa-list';
+			$data['penerbit'] = $this->m_penerbit->getData()->result();
+
+			$this->load->view('layout/header', $data);
+			$this->load->view('penerbit/index', $data);
+			$this->load->view('layout/footer');
+		}else{
+			$this->load->view('v_login');
+		}
 	}
 
 	public function show($id){
@@ -23,7 +30,10 @@ class Penerbit extends CI_Controller {
 	public function create(){
 		$data['title'] = 'Input Penerbit';
 		$data['icon'] = 'fa fa-list';
-		$this->load->view('penerrbit/index',$data);
+
+		$this->load->view('layout/header', $data);
+		$this->load->view('penerbit/index',$data);
+		$this->load->view('layout/footer');
 	}
 
 	public function store(){
@@ -38,7 +48,7 @@ class Penerbit extends CI_Controller {
 			'email'  	=> $email,
 			'telepon'	=> $telepon
 		);
-		$this->m_penerbit->store_data($data);
+		$this->m_penerbit->storeData($data);
 		redirect('penerbit/index');
 	}
 
@@ -48,8 +58,11 @@ class Penerbit extends CI_Controller {
 		);
 		$data['title'] = 'Edit Penerbit';
 		$data['icon'] = 'fa fa-list';
-		$data['edit_data'] = $this->m_penerbit->get_edit($where)->result();
-		$this->load->view('penerbit/edit', $data); 
+		$data['edit_data'] = $this->m_penerbit->getEdit($where)->result();
+
+		$this->load->view('layout/header', $data);
+		$this->load->view('penerbit/edit', $data);
+		$this->load->view('layout/footer'); 
 	}
 
 	public function update(){
@@ -72,7 +85,7 @@ class Penerbit extends CI_Controller {
 			'id'	=> $id
 		);
 
-		$this->m_penerbit->update_data($where, $data);
+		$this->m_penerbit->updateData($where, $data);
 		redirect('penerbit/index');
 	}
 
@@ -80,7 +93,7 @@ class Penerbit extends CI_Controller {
 		$where = array(
 			'id' => $id
 		);
-		$this->m_penerbit->delete_data($where);
+		$this->m_penerbit->deleteData($where);
 		redirect('penerbit/index');
 	}
 

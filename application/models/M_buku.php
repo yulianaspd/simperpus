@@ -3,36 +3,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_buku extends CI_Model {
 
-	public function get_data(){
+	public function getData(){
 		return $this->db->get('buku');
 	}
 
-	public function get_kategori(){
+	public function getKategori(){
 		return $this->db->get('kategori');
 	}
 
-	public function get_penulis(){
+	public function getPenulis(){
 		return $this->db->get('penulis');
 	}
 
-	public function get_penerbit(){
+	public function getPenerbit(){
 		return $this->db->get('penerbit');
 	}
 
-	public function store_data($data){
+	public function storeData($data){
 		$this->db->insert('buku', $data);
 	}
 
-	public function get_edit($where){
+	public function getEdit($where){
 		return $this->db->get_where('buku', $where);
 	}
 
-	public function update_data($where, $data){
+	public function updateData($where, $data){
 		$this->db->where($where);
 		$this->db->update('buku', $data);
 	}
 
-	public function delete_data($where){
+	public function deleteData($where){
 		$this->db->where($where);
 		$this->db->delete('buku');
 	}

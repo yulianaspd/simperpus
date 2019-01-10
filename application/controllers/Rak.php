@@ -5,15 +5,22 @@ class Rak extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_rak');
+		$this->load->model(['m_auth','m_rak']);
 	}
 
 	public function index()
 	{
-		$data['title'] 	= 'Rak';
-		$data['icon'] 	= 'fa fa-list';
-		$data['rak']	= $this->m_rak->get_data()->result();
-		$this->load->view('rak/index', $data);
+		if( $this->m_auth->loggedIn() ){
+			$data['title'] 	= 'Rak';
+			$data['icon'] 	= 'fa fa-list';
+			$data['rak']	= $this->m_rak->getData()->result();
+
+			$this->load->view('layout/header', $data);
+			$this->load->view('rak/index', $data);
+			$this->load->view('layout/footer');
+		}else{
+			$this->load->view('v_login');
+		}
 	}
 
 	public function show($id){
@@ -23,7 +30,10 @@ class Rak extends CI_Controller {
 	public function create(){
 		$data['title']	= 'Input Rak';
 		$data['icon']	= 'fa fa-list';
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('rak/create', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function store(){
@@ -31,7 +41,7 @@ class Rak extends CI_Controller {
 		$data = array(
 			'kode'	=> $kode;
 		);
-		$this->m_rak->store_data($data);
+		$this->m_rak->storeData($data);
 		redirect('rak/index');
 	}
 
@@ -41,8 +51,11 @@ class Rak extends CI_Controller {
 		);
 		$data['title'] = 'Edit Kategori';
 		$data['icon'] = 'fa fa-list';
-		$data['edit_rak'] = $this->m_rak->get_edit($where)->result();
+		$data['edit_rak'] = $this->m_rak->getEdit($where)->result();
+
+		$this->load->view('layout/header', $data);
 		$this->load->view('rak/edit', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function update(){
@@ -59,7 +72,7 @@ class Rak extends CI_Controller {
 			'id'	=> $id
 		);
 
-		$this->m_rak->update_data($where,$data);
+		$this->m_rak->updateData($where,$data);
 		redirect('rak/index');
 	}
 
@@ -67,7 +80,7 @@ class Rak extends CI_Controller {
 		$where = array(
 			'id'	=> $id;
 		);
-		$this->m_rak->delete_data($where);
+		$this->m_rak->deleteData($where);
 		redirect('rak/index');
 	}
 
