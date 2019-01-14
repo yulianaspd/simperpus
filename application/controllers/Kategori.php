@@ -29,8 +29,8 @@ class Kategori extends CI_Controller {
 		}
 	}
 
-	public function show(){
-		
+	public function show($id){			
+	
 	}
 
 	public function create(){

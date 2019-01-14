@@ -12,8 +12,11 @@ class Dashboard extends CI_Controller {
 	{
 		if($this->m_auth->loggedIn())
         {
-			$this->load->view('layout/header');
-			$this->load->view('v_dashboard');  
+        	$data['title'] = 'Dashboard';
+        	$data['dashboard'] ='';
+        	$data['uri']	= $this->uri->segment(1);
+			$this->load->view('layout/header', $data);
+			$this->load->view('v_dashboard', $data);  
 			$this->load->view('layout/footer');       
         }else{
             redirect(base_url("auth"));

@@ -5,22 +5,21 @@ class Rak extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_auth','m_rak');
+		$this->load->model('m_rak');
+		$this->load->helper('url');
 	}
 
 	public function index()
 	{
-		if( $this->m_auth->loggedIn() ){
+		
+			$uri = $this->uri;
 			$data['title'] 	= 'Rak';
 			$data['icon'] 	= 'fa fa-list';
 			$data['rak']	= $this->m_rak->getData()->result();
-
+			$data['uri']	= $this->uri->segment(1);
 			$this->load->view('layout/header', $data);
 			$this->load->view('rak/index', $data);
 			$this->load->view('layout/footer');
-		}else{
-			$this->load->view('v_login');
-		}
 	}
 
 	public function show($id){
@@ -30,7 +29,7 @@ class Rak extends CI_Controller {
 	public function create(){
 		$data['title']	= 'Input Rak';
 		$data['icon']	= 'fa fa-list';
-
+		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
 		$this->load->view('rak/create', $data);
 		$this->load->view('layout/footer');
@@ -43,7 +42,7 @@ class Rak extends CI_Controller {
 		if($this->validation->run() == TRUE){
 			$kode = $this->input->post('kode');
 			$data = array(
-				'kode'	=> $kode;
+				'kode'	=> $kode
 			);
 			$this->m_rak->storeData($data);
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
@@ -56,12 +55,12 @@ class Rak extends CI_Controller {
 
 	public function edit($id){
 		$where = array (
-			'id'	=> $id;
+			'id'	=> $id,
 		);
 		$data['title'] = 'Edit Kategori';
 		$data['icon'] = 'fa fa-list';
 		$data['edit_rak'] = $this->m_rak->getEdit($where)->result();
-
+		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
 		$this->load->view('rak/edit', $data);
 		$this->load->view('layout/footer');
@@ -95,7 +94,7 @@ class Rak extends CI_Controller {
 
 	public function delete($id){
 		$where = array(
-			'id'	=> $id;
+			'id'	=> $id
 		);
 		$this->m_rak->deleteData($where);
 		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');

@@ -4,7 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_kategori extends CI_Model {
 
 	public function getData(){
-		return $this->db->get('kategori');
+		$this->db->select('*'); 
+		$this->db->from('kategori');
+		$this->db->join('rak', 'rak.id = kategori.rak_id');
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	public function getShow($id){
+		
 	}
 
 	public function storeData($data){
