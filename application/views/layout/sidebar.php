@@ -23,12 +23,12 @@
             </li>
             <li class="<?php echo $uri === 'rak' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('rak/index');?>">
-                <i class="fa fa-list"></i> <span>Rak</span>
+                <i class="fa fa-tasks"></i> <span>Rak</span>
                 </a>
             </li>
             <li class="<?php echo $uri === 'kategori' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('kategori/index');?>">
-                <i class="fa fa-list"></i> <span>Kategori</span>
+                <i class="fa fa-bookmark"></i> <span>Kategori</span>
                 </a>
             </li>
             <li class="<?php echo $uri === 'penulis' ? 'active treeview menu-open':''; ?>">
@@ -38,7 +38,7 @@
             </li>
             <li class="<?php echo $uri === 'penerbit' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('penerbit/index'); ?>">
-                <i class="fa fa-building"></i> <span>Penerbit</span>
+                <i class="fa fa-copyright"></i> <span>Penerbit</span>
                 </a>
             </li>
             <li class="<?php echo $uri === 'buku' ? 'active treeview menu-open':''; ?>">
@@ -53,7 +53,7 @@
             </li>
              <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('user/index'); ?>">
-                <i class="fa fa-users"></i> <span>User</span>
+                <i class="fa fa-unlock-alt"></i> <span>User</span>
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>
