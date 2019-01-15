@@ -11,15 +11,37 @@ class Rak extends CI_Controller {
 
 	public function index()
 	{
-		
-			$uri = $this->uri;
-			$data['title'] 	= 'Rak';
-			$data['icon'] 	= 'fa fa-list';
-			$data['rak']	= $this->m_rak->getData()->result();
-			$data['uri']	= $this->uri->segment(1);
-			$this->load->view('layout/header', $data);
-			$this->load->view('rak/index', $data);
-			$this->load->view('layout/footer');
+		$uri = $this->uri;
+		$data['title'] 	= 'Rak';
+		$data['icon'] 	= 'fa fa-list';
+		// $data['rak']	= $this->m_rak->getData()->result();
+		$data['uri']	= $this->uri->segment(1);
+		$this->load->view('layout/header', $data);
+		$this->load->view('rak/index', $data);
+		$this->load->view('layout/footer');
+	}
+
+	public function ajaxGetIndex(){
+		$list = $this->m_rak->getDatatables();
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $rak){
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $rak->kode;
+
+			$data[] = $row;
+		}
+
+		$output = array(
+						"draw" => $_POST['draw'],
+						"recordTotal" => $this->m_rak->countAll(),
+						"recordFiltered" => $this->m_rak->countFiltered(),
+						"data" => $data,
+				);
+
+		echo json_encode($output);
 	}
 
 	public function show($id){

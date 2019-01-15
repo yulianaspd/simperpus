@@ -22,12 +22,11 @@ class Anggota extends CI_Controller {
 	private function uploadFoto(){
 		$config['upload_path']	='./upload/foto/';
 		$config['allowed_types'] = 'gif|jpg|png';
-		$config['file_name']	 = $this->kode;
+		$config['file_name']	 = 'foto-'.$this->kode;
 		$config['overwrite']	 = true;
 		$config['max_size']		 = 3024;
 
 		$this->load->library('upload', $config);
-
 		if($this->upload->do_upload('image')){
 			return $this->upload->data("file_name");
 		}
