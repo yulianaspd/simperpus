@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
     <!-- DataTables -->
-  <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo site_url()?>assets/dist/css/AdminLTE.min.css">
@@ -42,8 +42,8 @@
 <!-- SlimScroll -->
 <script src="<?php echo site_url()?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- DataTables -->
-<script src="<?php echo site_url()?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo site_url()?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+
 <!-- ChartJS -->
 <script src="<?php echo site_url()?>assets/bower_components/chart.js/Chart.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

@@ -22,26 +22,26 @@ class Rak extends CI_Controller {
 	}
 
 	public function ajaxGetIndex(){
-		$list = $this->m_rak->getDatatables();
-		$data = array();
-		$no = $_POST['start'];
-		foreach($list as $rak){
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $rak->kode;
-
-			$data[] = $row;
-		}
-
-		$output = array(
-						"draw" => $_POST['draw'],
-						"recordTotal" => $this->m_rak->countAll(),
-						"recordFiltered" => $this->m_rak->countFiltered(),
-						"data" => $data,
-				);
-
-		echo json_encode($output);
+		$list = $this->m_rak->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $field) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $field->kode;
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_rak->count_all(),
+            "recordsFiltered" => $this->m_rak->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
 	}
 
 	public function show($id){

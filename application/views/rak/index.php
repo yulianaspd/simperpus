@@ -26,10 +26,21 @@
             <!-- /.box-header -->
             <div class="box-body">
               <table id="tabel-rak" class="table table-bordered table-striped">
-                <tr>
-                  <th>No</th>
-                  <th>Kode</th>
-                </tr>
+                 <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Kode</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+
+                  <tfoot>
+                      <tr>
+                          <th>No</th>
+                          <th>Kode</th>
+                      </tr>
+                  </tfoot>
               </table>
             </div>
             <!-- /.box-body -->
@@ -46,22 +57,31 @@
 
 
  <script>  
- // $(document).ready(function(){  
-  $(function () {
-      var dataTable = $('#tabel-rak').DataTable({  
-           "processing":true,  
-           "serverSide":true,  
-           "order":[],  
-           "ajax":{  
-                url:"<?php echo base_url() . 'rak/ajaxGetIndex'; ?>",  
-                type:"POST"  
-           },  
-           "columnDefs":[  
-                {  
-                     "targets":[0, 3, 4],  
-                     "orderable":false,  
-                },  
-           ],  
-      });  
- });  
+ var table;
+    $(document).ready(function() {
+
+        //datatables
+        table = $('#tabel-rak').DataTable({ 
+
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+            
+            "ajax": {
+                "url": "<?php echo base_url('rak/ajaxGetIndex')?>",
+                "type": "POST"
+            },
+
+            
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            ],
+
+        });
+
+    });
+
 </script>
