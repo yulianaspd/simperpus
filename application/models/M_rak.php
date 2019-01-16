@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_rak extends CI_Model {
 	
@@ -73,7 +74,10 @@ class M_rak extends CI_Model {
 		$this->db->from($this->table);
 		return $this->db->count_all_results();
 	}
+	
 //=========================================================
+
+
 	public function getData(){
 		return $this->db->get('rak');
 	}
