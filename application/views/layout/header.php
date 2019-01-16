@@ -13,9 +13,9 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
-    <!-- DataTables -->
-<link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/jvectormap/jquery-jvectormap.css">
+  <!-- DataTables -->
+  <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo site_url()?>assets/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -25,8 +25,7 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-
-  <!-- jQuery 3 -->
+<!-- jQuery 3 -->
 <script src="<?php echo site_url()?>assets/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo site_url()?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -47,9 +46,11 @@
 <!-- ChartJS -->
 <script src="<?php echo site_url()?>assets/bower_components/chart.js/Chart.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- <script src="<?php echo site_url()?>assets/dist/js/pages/dashboard2.js"></script> -->
+<script src="<?php echo site_url()?>assets/dist/js/pages/dashboard2.js"></script> 
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo site_url()?>assets/dist/js/demo.js"></script>
+
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
