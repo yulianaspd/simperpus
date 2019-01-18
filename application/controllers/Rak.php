@@ -49,7 +49,7 @@ class Rak extends CI_Controller {
 	}
 
 	public function create(){
-		if( isset($_SESSION['kode_error']) ){
+		if( $this->session->has_userdata('form_error') ){
 			$data['kode_error'] = $_SESSION['kode_error'];
 			unset($_SESSION['kode_error']);
 		}
@@ -65,7 +65,7 @@ class Rak extends CI_Controller {
 
 	public function store(){
 		$this->form_validation->set_rules('kode','Kode','required');
-		//$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
 		if($this->form_validation->run() == TRUE){
 			$kode = $this->input->post('kode');
@@ -76,8 +76,7 @@ class Rak extends CI_Controller {
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
 			redirect('rak/index');
 		}else{
-			// $this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Gagal! Data gagal simpan. </div>');
-			$_SESSION['kode_error'] = form_error('kode');
+			$this->session->set_flashdata('form_kode', form_error('kode'));
 			redirect('rak/create');
 		}
 		

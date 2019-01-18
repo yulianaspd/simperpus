@@ -26,7 +26,7 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="kodeLabel">Kode</label>
-                  <?php if(isset($kode_error)) { echo $kode_error; } ?>
+                  <?php echo $this->session->flashdata('form_kode') ?>
                   <input type="kode" class="form-control" name="kode" id="kode" placeholder="Kode">
                 </div>
               </div>
