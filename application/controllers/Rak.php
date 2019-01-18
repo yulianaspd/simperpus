@@ -49,27 +49,35 @@ class Rak extends CI_Controller {
 	}
 
 	public function create(){
-		$data['title']	= 'Input Rak';
-		$data['icon']	= 'fa fa-list';
-		$data['uri']	= $this->uri->segment(1);
-		$this->load->view('layout/header', $data);
-		$this->load->view('rak/create', $data);
-		$this->load->view('layout/footer');
+		if( isset($_SESSION['kode_error']) ){
+			$data['kode_error'] = $_SESSION['kode_error'];
+			unset($_SESSION['kode_error']);
+		}
+			$data['parent_title'] = 'Rak';
+			$data['title']	= 'Input Rak';
+			$data['icon']	= 'fa fa-list';
+			$data['uri']	= $this->uri->segment(1);
+
+			$this->load->view('layout/header', $data);
+			$this->load->view('rak/create', $data);
+			$this->load->view('layout/footer');
 	}
 
 	public function store(){
 		$this->form_validation->set_rules('kode','Kode','required');
-		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+		//$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		if($this->validation->run() == TRUE){
+		if($this->form_validation->run() == TRUE){
 			$kode = $this->input->post('kode');
 			$data = array(
 				'kode'	=> $kode
 			);
 			$this->m_rak->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
-			redirect('rak/create');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			redirect('rak/index');
 		}else{
+			// $this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Gagal! Data gagal simpan. </div>');
+			$_SESSION['kode_error'] = form_error('kode');
 			redirect('rak/create');
 		}
 		
