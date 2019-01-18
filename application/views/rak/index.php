@@ -1,3 +1,7 @@
+ <!-- DataTables -->
+<link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
+
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -55,8 +59,9 @@
   </div>
   <!-- /.content-wrapper -->
 
-
- <script>  
+<!-- DataTables -->
+<script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script>  
  var table;
     $(document).ready(function() {
 

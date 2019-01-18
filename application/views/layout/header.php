@@ -12,10 +12,6 @@
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- jvectormap -->
-  <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/jvectormap/jquery-jvectormap.css">
-  <!-- DataTables -->
-  <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo site_url()?>assets/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -33,20 +29,8 @@
 <script src="<?php echo site_url()?>assets/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo site_url()?>assets/dist/js/adminlte.min.js"></script>
-<!-- Sparkline -->
-<script src="<?php echo site_url()?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-<!-- jvectormap  -->
-<script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo site_url()?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- DataTables -->
-<script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-
-<!-- ChartJS -->
-<script src="<?php echo site_url()?>assets/bower_components/chart.js/Chart.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo site_url()?>assets/dist/js/pages/dashboard2.js"></script> 
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo site_url()?>assets/dist/js/demo.js"></script>
 

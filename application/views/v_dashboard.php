@@ -1,4 +1,5 @@
-
+<!-- jvectormap -->
+  <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/jvectormap/jquery-jvectormap.css">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -839,3 +840,14 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+
+<!-- Sparkline -->
+<script src="<?php echo site_url()?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<!-- jvectormap  -->
+<script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- ChartJS -->
+<script src="<?php echo site_url()?>assets/bower_components/chart.js/Chart.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="<?php echo site_url()?>assets/dist/js/pages/dashboard2.js"></script> 
