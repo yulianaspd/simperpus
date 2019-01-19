@@ -25,11 +25,19 @@ class Rak extends CI_Controller {
 		$list = $this->m_rak->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $field) {
+        foreach ($list as $value) {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->kode;
+            $row[] = $value->kode;
+            $row[] = "<a href='".base_url('rak/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+            		&nbsp&nbsp 
+            		<a class='btn btn-danger btn-delete' data-toggle='modal'
+                            data-target='#modal-delete-data'
+                            data-href='". base_url('rak/delete/'.$value->id)."''
+                            data-id=\"".$value->id."\"
+                            data-nama=\"".$value->kode."\"
+                            href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
  
             $data[] = $row;
         }
@@ -49,10 +57,6 @@ class Rak extends CI_Controller {
 	}
 
 	public function create(){
-		if( $this->session->has_userdata('form_error') ){
-			$data['kode_error'] = $_SESSION['kode_error'];
-			unset($_SESSION['kode_error']);
-		}
 			$data['parent_title'] = 'Rak';
 			$data['title']	= 'Input Rak';
 			$data['icon']	= 'fa fa-list';
@@ -126,8 +130,8 @@ class Rak extends CI_Controller {
 			'id'	=> $id
 		);
 		$this->m_rak->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
-			redirect('buku/index');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+			redirect('rak/index');
 		redirect('rak/index');
 	}
 

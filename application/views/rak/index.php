@@ -27,8 +27,9 @@
               <table id="tabel-rak" class="table table-bordered table-striped">
                  <thead>
                       <tr>
-                          <th>No</th>
+                          <th>ID</th>
                           <th>Kode</th>
+                          <th></th>
                       </tr>
                   </thead>
                   <tbody>
@@ -36,8 +37,9 @@
 
                   <tfoot>
                       <tr>
-                          <th>No</th>
+                          <th>ID</th>
                           <th>Kode</th>
+                          <th></th>
                       </tr>
                   </tfoot>
               </table>
