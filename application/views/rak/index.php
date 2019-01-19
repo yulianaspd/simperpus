@@ -6,7 +6,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1><?php echo $title; ?></h1>
+      <h1><span class="<?php echo $icon; ?>"></span> <?php echo $title; ?></h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url('dashboard/index'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active"><?php echo $title; ?></li>

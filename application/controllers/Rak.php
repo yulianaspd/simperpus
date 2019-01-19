@@ -59,7 +59,7 @@ class Rak extends CI_Controller {
 	public function create(){
 			$data['parent_title'] = 'Rak';
 			$data['title']	= 'Input Rak';
-			$data['icon']	= 'fa fa-list';
+			$data['icon']	= 'fa fa-tasks';
 			$data['uri']	= $this->uri->segment(1);
 
 			$this->load->view('layout/header', $data);
@@ -90,39 +90,35 @@ class Rak extends CI_Controller {
 		$where = array (
 			'id'	=> $id,
 		);
-		$data['title'] = 'Edit Kategori';
-		$data['icon'] = 'fa fa-list';
-		$data['edit_rak'] = $this->m_rak->getEdit($where)->result();
+		$data['parent_title'] = 'Rak';
+		$data['title'] = 'Edit Rak';
+		$data['icon'] = 'fa fa-tasks';
+		$data['rak'] = $this->m_rak->getEdit($where)->result();
 		$data['uri']	= $this->uri->segment(1);
+
 		$this->load->view('layout/header', $data);
 		$this->load->view('rak/edit', $data);
 		$this->load->view('layout/footer');
 	}
 
 	public function update(){
-		$this->form_validation->set_rules('kode','Kode','required');
-		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+		
+		$id	= $this->input->post('id');
+		$kode	= $this->input->post('kode');
+		$updated_at = date('Y-m-d H:i:s');
 
-		if($this->validation->run() == TRUE){
-			$id 	= $this->input->post('id');
-			$kode	= $this->input->post('kode');
-			$updated_at = date('Y-m-d H:i:s');
+		$data = array(
+			'kode'			=> $kode,
+			'updated_at'	=> $updated_at
+		);
 
-			$data = array(
-				'kode'			=> $kode,
-				'updated_at'	=> $updated_at
-			);
+		$where = array(
+			'id'	=> $id
+		);
 
-			$where = array(
-				'id'	=> $id
-			);
-
-			$this->m_rak->updateData($where,$data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
-			redirect('rak/edit');
-		}else{
-			redirect('rak/edit');
-		}
+		$this->m_rak->updateData($where,$data);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		redirect('rak/index');
 	}
 
 	public function delete($id){
