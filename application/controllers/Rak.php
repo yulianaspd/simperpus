@@ -14,7 +14,6 @@ class Rak extends CI_Controller {
 		$uri = $this->uri;
 		$data['title'] 	= 'Rak';
 		$data['icon'] 	= 'fa fa-list';
-		// $data['rak']	= $this->m_rak->getData()->result();
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
 		$this->load->view('rak/index', $data);
@@ -127,7 +126,6 @@ class Rak extends CI_Controller {
 		);
 		$this->m_rak->deleteData($where);
 		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
-			redirect('rak/index');
 		redirect('rak/index');
 	}
 

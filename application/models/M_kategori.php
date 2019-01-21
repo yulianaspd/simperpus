@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_kategori extends CI_Model {
 
-	var $table = 'rak'; //nama tabel dari database
-	var $column_order = array(null, 'rak_id','nama'); //field yang ada di table user
-	var $column_search = array('rak_id','nama'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $table = 'kategori'; //nama tabel dari database
+	var $column_order = array(null, 'kategori.rak_id','kategori.nama'); //field yang ada di table user
+	var $column_search = array('kategori.rak_id','kategori.nama'); //field yang diizin untuk pencarian 
+	var $order = array('kategori.id' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -17,7 +17,12 @@ class M_kategori extends CI_Model {
 	private function _get_datatables_query()
 	{
 		
+		//$this->db->from($this->table);
+		$this->db->select('kategori.id');
+		$this->db->select('kategori.nama');
+		$this->db->select('rak.kode'); 
 		$this->db->from($this->table);
+		$this->db->join('rak', 'rak.id = kategori.rak_id');
 
 		$i = 0;
 	
@@ -71,7 +76,12 @@ class M_kategori extends CI_Model {
 
 	public function count_all()
 	{
+		//$this->db->from($this->table);
+		$this->db->select('kategori.id');
+		$this->db->select('kategori.nama');
+		$this->db->select('rak.kode');
 		$this->db->from($this->table);
+		$this->db->join('rak', 'rak.id = kategori.rak_id');
 		return $this->db->count_all_results();
 	}
 	
@@ -90,7 +100,7 @@ class M_kategori extends CI_Model {
 	}
 
 	public function storeData($data){
-		$this->db->insert('katgeori', $data);
+		$this->db->insert('kategori', $data);
 	}
 
 	public function getEdit($where){
