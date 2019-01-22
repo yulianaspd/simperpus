@@ -2,9 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_penerbit extends CI_Model {
-	var $table = 'rak'; //nama tabel dari database
-	var $column_order = array(null, 'kode'); //field yang ada di table user
-	var $column_search = array('kode'); //field yang diizin untuk pencarian 
+	var $table = 'penerbit'; //nama tabel dari database
+	var $column_order = array(null, 'nama','alamat','telepon','email'); //field yang ada di table user
+	var $column_search = array('nama','alamat','telepon','email'); //field yang diizin untuk pencarian 
 	var $order = array('id' => 'asc'); // default order 
 
 	public function __construct()

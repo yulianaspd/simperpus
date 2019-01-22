@@ -11,7 +11,6 @@ class Rak extends CI_Controller {
 
 	public function index()
 	{
-		$uri = $this->uri;
 		$data['title'] 	= 'Rak';
 		$data['icon'] 	= 'fa fa-list';
 		$data['uri']	= $this->uri->segment(1);
