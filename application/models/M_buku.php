@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_buku extends CI_Model {
 
-	var $table = 'rak'; //nama tabel dari database
-	var $column_order = array(null, 'isbn','penulis_id','kategori_id','penerbit_id','judul','halaman'); //field yang ada di table user
-	var $column_search = array('kode'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $table = 'buku'; //nama tabel dari database
+	var $column_order = array(null,'isbn', 'judul', 'halaman', 'kategori.nama'); //field yang ada di table user
+	var $column_search = array('isbn', 'judul', 'halaman', 'kategori.nama'); //field yang diizin untuk pencarian 
+	var $order = array('buku.id' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -17,7 +17,18 @@ class M_buku extends CI_Model {
 	private function _get_datatables_query()
 	{
 		
+		//$this->db->from($this->table);
+		$this->db->select('buku.id');
+		$this->db->select('buku.isbn');
+		$this->db->select('buku.judul');
+		$this->db->select('buku.halaman');
+		$this->db->select('kategori.nama AS kategori');
+		$this->db->select('penulis.nama AS penulis');
+		$this->db->select('penerbit.nama AS penerbit');
 		$this->db->from($this->table);
+		$this->db->join('kategori','kategori.id = buku.kategori_id');
+		$this->db->join('penulis','penulis.id = buku.penulis_id');
+		$this->db->join('penerbit','penerbit.id = buku.penerbit_id');
 
 		$i = 0;
 	
@@ -50,7 +61,7 @@ class M_buku extends CI_Model {
 		{
 			$order = $this->order;
 			$this->db->order_by(key($order), $order[key($order)]);
-		}
+		}	
 	}
 
 	function get_datatables()
@@ -71,7 +82,18 @@ class M_buku extends CI_Model {
 
 	public function count_all()
 	{
+		//$this->db->from($this->table);
+		$this->db->select('buku.id');
+		$this->db->select('buku.isbn');
+		$this->db->select('buku.judul');
+		$this->db->select('buku.halaman');
+		$this->db->select('kategori.nama AS kategori');
+		$this->db->select('penulis.nama AS penulis');
+		$this->db->select('penerbit.nama AS penerbit');
 		$this->db->from($this->table);
+		$this->db->join('kategori','kategori.id = buku.kategori_id');
+		$this->db->join('penulis','penulis.id = buku.penulis_id');
+		$this->db->join('penerbit','penerbit.id = buku.penerbit_id');
 		return $this->db->count_all_results();
 	}
 	

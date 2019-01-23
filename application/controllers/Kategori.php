@@ -40,7 +40,7 @@ class Kategori extends CI_Controller {
  
             $data[] = $row;
 		}
-		 $output = array(
+		$output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->m_kategori->count_all(),
             "recordsFiltered" => $this->m_kategori->count_filtered(),
