@@ -13,15 +13,46 @@ class Anggota extends CI_Controller {
 		$data['title'] 	 = 'Anggota';
 		$data['icon'] 	 = 'fa fa-users';
 		$data['uri']	= $this->uri->segment(1);
-		$data['anggota'] = $this->m_anggota->get_data()->result();
 		$this->load->view('layout/header', $data);
 		$this->load->view('anggota/index', $data);
 		$this->load->view('layout/footer');
 	}
 
+	public function ajaxGetIndex(){
+		$list = $this->m_anggota->get_datatables();
+		$data = array();
+		$no   = $_POST['start'];
+		foreach($list as $value){
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = '<div class="text-center">'.$value->jenis_identitas.'<br>'.$value->no_identitas.'</div>';
+			$row[] = $value->nama_lengkap.' ('.$value->nama_panggilan.')';
+			$row[] = $value->telepon;
+			$row[] = $value->alamat;
+			 $row[] = "<a href='".base_url('kategori/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+            		&nbsp&nbsp 
+            		<a class='btn btn-danger btn-delete' data-toggle='modal'
+                    data-target='#modal-delete-data'
+                    data-href='". base_url('kategori/delete/'.$value->id)."''
+                    data-id=\"".$value->id."\"
+                    data-nama=\"".$value->nama_lengkap."\"
+                    href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
+            $data[] = $row;
+		}
+		$output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_anggota->count_all(),
+            "recordsFiltered" => $this->m_anggota->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+	}
+
 	private function uploadFoto(){
 		$config['upload_path']	='./upload/foto/';
-		$config['allowed_types'] = 'gif|jpg|png';
+		$config['allowed_types'] = 'jpeg|jpg|png';
 		$config['file_name']	 = 'foto-'.$this->kode;
 		$config['overwrite']	 = true;
 		$config['max_size']		 = 3024;
@@ -39,12 +70,19 @@ class Anggota extends CI_Controller {
 	}
 
 	public function create(){
-		$data['title']		= 'Input files';
-		$data['icon']		= 'fa fa-users';
+		$data['parent_title']	= 'Anggota';
+		$data['title']	= 'Input Anggota';
+		$data['icon']	= 'fa fa-users';
 		$data['uri']	= $this->uri->segment(1);
+		$data['jenis'] = array(
+			'1' => 'KTP',
+			'2' => 'SIM',
+			'3' => 'Kartu Pelajar / Mahasiswa',
+			'4' => 'Lainya'
 
+		);
 		$this->load->view('layout/header', $data);
-		$this->load->view('kategori/create');
+		$this->load->view('anggota/create');
 		$this->load->view('layout/footer');
 	}
 
@@ -58,7 +96,7 @@ class Anggota extends CI_Controller {
 		$this->form_validation->set_rules('foto','Foto','required');
 		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		if($this->validation->run() == TRUE){
+		if($this->form_validation->run() == TRUE){
 			//membuat kode acak berdasarkan waktu
 			$time = time().rand(0,32);
 			$kode = base_convert($time, 10, 32); 
@@ -140,9 +178,9 @@ class Anggota extends CI_Controller {
 					'telepon'			=> $telepon
 				);
 			
-			if(){
+			// if(){
 
-			}
+			// }
 
 			if($this->upload->do_upload('foto')){
 				//upload foto ke directory

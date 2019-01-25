@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_anggota extends CI_Model {
 
 	var $table = 'anggota'; //nama tabel dari database
-	var $column_order = array(null, 'kode','no_identitas','jenis_identitas','nama_lengkap','nama_panggilan','alamat','telepon','foto'); //field yang ada di table user
-	var $column_search = array('kode','no_identitas','jenis_identitas','nama_lengkap','nama_panggilan','alamat','telepon','foto'); //field yang diizin untuk pencarian 
+	var $column_order = array(null, 'kode','no_identitas','jenis_identitas','nama_lengkap','nama_panggilan','alamat','telepon'); //field yang ada di table user
+	var $column_search = array('kode','no_identitas','jenis_identitas','nama_lengkap','nama_panggilan','alamat','telepon'); //field yang diizin untuk pencarian 
 	var $order = array('id' => 'asc'); // default order 
 
 	public function __construct()
@@ -24,8 +24,7 @@ class M_anggota extends CI_Model {
 		foreach ($this->column_search as $item) // loop column 
 		{
 			if($_POST['search']['value']) // if datatable send POST for search
-			{
-				
+			{	
 				if($i===0) // first loop
 				{
 					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
@@ -81,11 +80,6 @@ class M_anggota extends CI_Model {
 	}
 
 	public function showData($id){
-		$this->db->select('*'); 
-		$this->db->from('kategori');
-		$this->db->where('id', $id);
-		
-		return $query = $this->db->get();
 	}
 
 	public function storeData($data){
