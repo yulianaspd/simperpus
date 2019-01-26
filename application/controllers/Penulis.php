@@ -27,11 +27,11 @@ class Penulis extends CI_Controller {
             $row = array();
             $row[] = $no;
             $row[] = $value->nama_lengkap;
-            $row[] = "<a href='".base_url('rak/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+            $row[] = "<a href='".base_url('penulis/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
             		&nbsp&nbsp 
             		<a class='btn btn-danger btn-delete' data-toggle='modal'
                             data-target='#modal-delete-data'
-                            data-href='". base_url('rak/delete/'.$value->id)."''
+                            data-href='". base_url('penulis/delete/'.$value->id)."''
                             data-id=\"".$value->id."\"
                             data-nama=\"".$value->nama_lengkap."\"
                             href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
@@ -54,8 +54,10 @@ class Penulis extends CI_Controller {
 	}
 
 	public function create(){
+		$data['parent_title'] = 'Penulis';
 		$data['title']	= 'Input Penulis';
-		$data['icon']	= 'fa fa-list';
+		$data['icon']	= 'fa fa-user';
+		$data['uri'] 	= $this->uri->segment(1);
 
 		$this->load->view('layout/header', $data);
 		$this->load->view('penulis/create', $data);
@@ -63,18 +65,27 @@ class Penulis extends CI_Controller {
 	}
 
 	public function store(){
-		$this->form_validation->set_rules('nama','Nama','required');
+		$this->form_validation->set_rules('nama_lengkap','Nama Lengkap','required');
+		$this->form_validation->set_rules('nama_alias','Nama Alias','required');
 		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		if($this->validation->run() == TRUE){
-			$nama	= $this->input->post('name');
-			$data = array(
-				'nama'	=> $nama
-			);
+		if($this->form_validation->run() == TRUE){
+			$nama_lengkap	= $this->input->post('nama_lengkap');
+			$nama_alias		= $this->input->post('nama_alias');
+			$data 	= array(
+							'nama_lengkap'	=> $nama_lengkap,
+							'nama_alias'	=> $nama_alias
+						);
 			$this->m_penulis->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
-			redirect('penulis/create');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			redirect('penulis/index');
 		}else{
+			$this->session->set_flashdata(
+				array(
+					'nama_lengkap' => form_error('nama_lengkap'),
+					'nama_alias' => form_error('nama_alias') 
+				)
+			);
 			redirect('penulis/create');
 		}
 	}
@@ -83,9 +94,11 @@ class Penulis extends CI_Controller {
 		$where = array(
 			'id' => $id
 		);
+		$data['parent_title'] = 'Penulis';
 		$data['title'] = 'Edit Penulis';
-		$data['icon'] = 'fa fa-list';
-		$data['edit_data'] = $this->m_penulis->getEdit($where)->result();
+		$data['icon'] = 'fa fa-user';
+		$data['uri']	= $this->uri->segment(1);
+		$data['penulis'] = $this->m_penulis->getEdit($where)->result();
 
 		$this->load->view('layout/header', $data);
 		$this->load->view('penulis/edit', $data);
@@ -93,17 +106,20 @@ class Penulis extends CI_Controller {
 	}
 
 	public function update(){
-		$this->form_validation->set_rules('nama','Nama','required');
-		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+		// $this->form_validation->set_rules('nama_lengkap','Nama Lengkap','required');
+		// $this->form_validation->set_rules('nama_alias','Nama Lengkap','required');
+		// $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
-		if($this->validation->run() == TRUE){
-			$id 	= $this->input->post('id');
-			$name 	= $this->input->post('nama');
-			$updated_at	= date('Y-m-d H:i:s');
-
+		// if($this->form_validation->run() == TRUE){
+			$id 			= $this->input->post('id');
+			$nama_lengkap 	= $this->input->post('nama_lengkap');
+			$nama_alias 	= $this->input->post('nama_alias');
+			$updated_at		= date('Y-m-d H:i:s');
+			
 			$data = array(
-				'nama'		 => $nama,
-				'updated_at' => $updated_at
+				'nama_lengkap'	=> $nama_lengkap,
+				'nama_alias'	=> $nama_alias,
+				'updated_at' 	=> $updated_at
 			);
 
 			$where = array(
@@ -111,11 +127,17 @@ class Penulis extends CI_Controller {
 			);
 
 			$this->m_penulis->updateData($where,$data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil update. </div>');
-			redirect('penulis/edit');
-		}else{
-			redirect('penulis/edit');
-		}
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			redirect('penulis/index');
+		// }else{
+		// 	$this->session->set_flashdata(
+		// 		array(
+		// 			'nama_lengkap' => form_error('nama_lengkap'),
+		// 			'nama_alias' => form_error('nama_alias') 
+		// 		)
+		// 	);
+		// 	redirect('penulis/edit');
+		// }
 		
 	}
 
