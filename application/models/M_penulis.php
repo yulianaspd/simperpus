@@ -2,9 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_penulis extends CI_Model {
-	var $table = 'rak'; //nama tabel dari database
-	var $column_order = array(null, 'nama','alamat','telepon'); //field yang ada di table user
-	var $column_search = array('nama','alamat','telepon'); //field yang diizin untuk pencarian 
+	var $table = 'penulis'; //nama tabel dari database
+	var $column_order = array(null, 'nama_lengkap','nama_alias'); //field yang ada di table penulis
+	var $column_search = array('nama_lengkap','nama_alias'); //field yang diizin untuk pencarian 
 	var $order = array('id' => 'asc'); // default order 
 
 	public function __construct()
@@ -15,7 +15,6 @@ class M_penulis extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		
 		$this->db->from($this->table);
 
 		$i = 0;
@@ -49,7 +48,7 @@ class M_penulis extends CI_Model {
 		{
 			$order = $this->order;
 			$this->db->order_by(key($order), $order[key($order)]);
-		}
+		}		
 	}
 
 	function get_datatables()

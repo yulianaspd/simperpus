@@ -5,22 +5,48 @@ class Penulis extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_auth','m_penulis');
+		$this->load->model('m_penulis');
 	}
 
 	public function index()
 	{
-		if( $this->m_auth->loggedIn() ){
-			$data['title']	= 'Penulis';
-			$data['icon']	= 'fa fa-list';
-			$data['penulis'] = $this->m_penulis->getData()->result();
+		$data['title']	= 'Penulis';
+		$data['icon']	= 'fa fa-user';
+		$data['uri']	= $this->uri->segment(1);
+		$this->load->view('layout/header', $data);
+		$this->load->view('penulis/index', $data);
+		$this->load->view('layout/footer');
+	}
 
-			$this->load->view('layout/header', $data);
-			$this->load->view('penulis/index', $data);
-			$this->load->view('layout/footer');
-		}else{
-			$this->load->view('v_login');
-		}
+	public function ajaxGetIndex(){
+		$list = $this->m_penulis->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $value) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $value->nama_lengkap;
+            $row[] = "<a href='".base_url('rak/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+            		&nbsp&nbsp 
+            		<a class='btn btn-danger btn-delete' data-toggle='modal'
+                            data-target='#modal-delete-data'
+                            data-href='". base_url('rak/delete/'.$value->id)."''
+                            data-id=\"".$value->id."\"
+                            data-nama=\"".$value->nama_lengkap."\"
+                            href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_penulis->count_all(),
+            "recordsFiltered" => $this->m_penulis->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
 	}
 
 	public function show($id){
