@@ -55,14 +55,14 @@ class Rak extends CI_Controller {
 	}
 
 	public function create(){
-			$data['parent_title'] = 'Rak';
-			$data['title']	= 'Input Rak';
-			$data['icon']	= 'fa fa-tasks';
-			$data['uri']	= $this->uri->segment(1);
+		$data['parent_title'] = 'Rak';
+		$data['title']	= 'Input Rak';
+		$data['icon']	= 'fa fa-tasks';
+		$data['uri']	= $this->uri->segment(1);
 
-			$this->load->view('layout/header', $data);
-			$this->load->view('rak/create', $data);
-			$this->load->view('layout/footer');
+		$this->load->view('layout/header', $data);
+		$this->load->view('rak/create', $data);
+		$this->load->view('layout/footer');
 	}
 
 	public function store(){
