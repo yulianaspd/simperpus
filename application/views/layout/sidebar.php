@@ -51,33 +51,49 @@
                 <i class="fa fa-users"></i> <span>Anggota</span>
                 </a>
             </li>
-             <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
+            <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('user/index'); ?>">
                 <i class="fa fa-unlock-alt"></i> <span>User</span>
                 </a>
             </li>
             <li class="header">TRANSAKSI</li>
-            <li class="treeview">
-                <a href="#">
-                <i class="fa fa-table"></i> <span>Tables</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                </a>
-                <ul class="treeview-menu">
-                <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                </ul>
-            </li> 
-            <li class="header">LAPORAN</li> 
-             <li class="">
-                <a href="#">
-                <i class="fa fa-users"></i> <span>Transaksi Pinjam</span>
+            <li class="<?php echo $uri === 'pinjam' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('pinjam/index'); ?>">
+                <i class="fa fa-shopping-cart"></i> <span>Pinjam</span>
                 </a>
             </li>
-             <li class="">
+            <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('kembali/index'); ?>">
+                <i class="fa  fa-download"></i> <span>Kembali</span>
+                </a>
+            </li>
+            <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('perpanjang/index'); ?>">
+                <i class="fa fa-exchange"></i> <span>Perpanjang</span>
+                </a>
+            </li>
+            <li class="header">LAPORAN</li> 
+            <li class="">
                 <a href="#">
-                <i class="fa fa-money"></i> <span>Denda</span>
+                <i class="fa fa-history"></i> <span>History Transaksi</span>
+                </a>
+            </li>
+            
+            <li class="">
+                <a href="#">
+                <i class="fa fa-file-text-o"></i> <span>Laporan Buku</span>
+                </a>
+            </li>
+
+            <li class="">
+                <a href="#">
+                <i class="fa fa-line-chart"></i> <span>Laporan Transaksi</span>
+                </a>
+            </li>
+
+            <li class="">
+                <a href="#">
+                <i class="fa fa-money"></i> <span>Laporan Denda</span>
                 </a>
             </li>
         </ul>
