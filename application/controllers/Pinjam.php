@@ -47,22 +47,15 @@ class Pinjam extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
 		if($this->form_validation->run() == TRUE){
-			$time 		 = time().rand(0,32);
-			$kode_pinjam = base_convert($time, 10, 16); 
 
+			$time 		 	= time().rand(0,32);
+			$kode_pinjam 	= base_convert($time, 10, 16); 
 			$user_id 		= $this->session->userdata('id');
 			$anggota_id 	= $this->input->post('anggota_id');
 			$tanggal_pinjam = date('Y-m-d');
 			$qty			= 1;
 			$total_denda 	= 0;
 
-			foreach( $buku as $index => $value){
-				$buku_id = $value; 
-			}
-
-			$where_kode_pinjam array(
-				'kode'	=> $kode_pinjam
-			);
 			$data_pinjam = array(
 				'kode_pinjam'	=> $kode_pinjam,
 				'user_id'		=> $user_id,
@@ -75,8 +68,22 @@ class Pinjam extends CI_Controller {
 
 			$pinjam_id = $this->m_pinjam->get_show($where_kode_pinjam);
 
-			$data_pinjam_detail = array(
+			foreach( $buku as $index => $value){
+				$data_detail = array(
+					'kode_pinjam' 		=> $kode_pinjam,
+					'buku_id' 			=> $value,
+					'jml_perpanjangan' 	=> 0,
+					'jatuh_tempo'		=> $jatuh_tempo,
+					'status'			=> 1,
+					'tanggal_kembali' 	=> $tanggal_kembali,
+					'denda'				=> 0
+				);
 
+				$this->m_pinjamDetail->storedata($data_detail);
+			}
+
+			$where_kode_pinjam array(
+				'kode'	=> $kode_pinjam
 			);
 
 			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
