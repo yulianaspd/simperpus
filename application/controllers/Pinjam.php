@@ -9,8 +9,9 @@ class Pinjam extends CI_Controller {
 			[
 				'm_pinjam',
 				'm_pinjamDetail',
+				'm_pinjamTemp',
 				'm_buku',
-				'm_anggota',
+				'm_anggota'
 			]
 		);
 		$this->load->helper('url');
@@ -18,7 +19,7 @@ class Pinjam extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] 	= 'Pinjam Buku';
+		$data['title'] 	= 'P';
 		$data['icon'] 	= 'fa fa-shopping-cart';
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
@@ -27,20 +28,73 @@ class Pinjam extends CI_Controller {
 	}
         
 
-	public function show($id){
+	public function showAnggota(){
+		$kode = $this->input->post('kode');
+		$anggota = $this->m_anggota->showData($kode);
+
+		if($anggota == []){
+			$error = array(
+				'keterangan' => "NOK",
+				'error' 	 => "Kode anggota tidak ditemukan" 
+			);
+			echo json_encode($error);
+		}else{
+			if($anggota[0]->status == 0){
+				$error = array(
+					'keterangan' => "NOK",
+					'error' 	 => "Status anggota tidak aktif" 
+				);
+				echo json_encode($error);
+			}else{
+				$result = array(
+					'keterangan' => "OK",
+					'anggota'		 => $anggota[0] 
+				);
+				echo json_encode($result);	
+			}	
+		}
 
 	}
 
-	public function create(){
-		$data['parent_title'] = 'Rak';
-		$data['title']	= 'Input Rak';
-		$data['icon']	= 'fa fa-tasks';
-		$data['uri']	= $this->uri->segment(1);
-
-		$this->load->view('layout/header', $data);
-		$this->load->view('rak/create', $data);
-		$this->load->view('layout/footer');
+	public function showBuku($isbn){
+		$buku 	 = $this->m_buku->showData($isbn)->result();
+		$result = $buku[0];
+		echo json_encode($buku); 
 	}
+
+
+	public function ajaxGetIndex(){
+		$list = $this->m_pinjamTemp->get_datatables();
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $value){
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $value->judul;
+			$row[] = "
+					&nbsp&nbsp 
+					<a href='".base_url('buku/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+            		&nbsp&nbsp 
+            		<a class='btn btn-danger btn-delete' data-toggle='modal'
+                    data-target='#modal-delete-data'
+                    data-href='". base_url('buku/delete/'.$value->id)."''
+                    data-id=\"".$value->id."\"
+                    data-nama=\"".$value->judul."\"
+                    href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
+
+            $data[] = $row;
+		}
+		$output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_buku->count_all(),
+            "recordsFiltered" => $this->m_buku->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+	}
+
 
 	public function store(){
 		$this->form_validation->set_rules('kode','Kode','required');
@@ -82,7 +136,7 @@ class Pinjam extends CI_Controller {
 				$this->m_pinjamDetail->storedata($data_detail);
 			}
 
-			$where_kode_pinjam array(
+			$where_kode_pinjam = array(
 				'kode'	=> $kode_pinjam
 			);
 

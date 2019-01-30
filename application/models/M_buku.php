@@ -102,6 +102,12 @@ class M_buku extends CI_Model {
 		return $this->db->get('buku');
 	}
 
+	public function showData($isbn){
+		$this->db->select('*');
+		$this->db->from('buku');
+		$this->db->where('isbn', $isbn);
+	}
+
 	public function storeData($data){
 		$this->db->insert('buku', $data);
 	}
