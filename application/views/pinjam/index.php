@@ -87,7 +87,6 @@
                          <thead>
                               <tr>
                                   <th>No</th>
-                                  <th>ISBN</th>
                                   <th>Judul</th>
                                   <th></th>
                               </tr>
@@ -174,6 +173,23 @@
               console.log(data);
             }
         });     
+    });
+
+    $("#table-pinjam-temp_wrapper").on('click', '.delete-temp', function(e){
+      var url = $(this).data('href');
+      $.ajax({
+        
+        type: "POST",
+        dataType:"JSON",
+        url: url,
+        success: function(data){
+           table.ajax.reload();
+        },
+        error:function(data){
+          console.log(data);
+        }
+
+      })
     });
 
   });

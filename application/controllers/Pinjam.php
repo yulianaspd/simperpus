@@ -71,7 +71,6 @@ class Pinjam extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = $value->isbn;
 			$row[] = $value->judul;
 			$row[] = "
             		<a class='btn btn-danger delete-temp'
