@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_buku extends CI_Model {
+class M_PinjamTemp extends CI_Model {
 
 	var $table = 'pinjam_temp'; //nama tabel dari database
 	var $column_order = array(null,'buku_id', 'isbn', 'judul'); //field yang ada di table user

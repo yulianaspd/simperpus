@@ -63,7 +63,7 @@ class Pinjam extends CI_Controller {
 	}
 
 
-	public function ajaxGetIndex(){
+	public function ajaxPinjamTemp(){
 		$list = $this->m_pinjamTemp->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
@@ -71,28 +71,30 @@ class Pinjam extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
+			$row[] = $value->isbn;
 			$row[] = $value->judul;
 			$row[] = "
-					&nbsp&nbsp 
-					<a href='".base_url('buku/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
-            		&nbsp&nbsp 
-            		<a class='btn btn-danger btn-delete' data-toggle='modal'
-                    data-target='#modal-delete-data'
-                    data-href='". base_url('buku/delete/'.$value->id)."''
-                    data-id=\"".$value->id."\"
-                    data-nama=\"".$value->judul."\"
+            		<a class='btn btn-danger delete-temp'
+                    data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
                     href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
 
             $data[] = $row;
 		}
 		$output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->m_buku->count_all(),
-            "recordsFiltered" => $this->m_buku->count_filtered(),
+            "recordsTotal" => $this->m_pinjamTemp->count_all(),
+            "recordsFiltered" => $this->m_pinjamTemp->count_filtered(),
             "data" => $data,
         );
         //output dalam format JSON
         echo json_encode($output);
+	}
+
+	public function deleteTemp($id){
+		$where = array(
+			'id'	=> $id
+		);
+		$this->m_pinjamTemp->deleteData($where);
 	}
 
 

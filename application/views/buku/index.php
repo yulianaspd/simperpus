@@ -1,4 +1,4 @@
- <!-- DataTables -->
+<!-- DataTables -->
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
 
 

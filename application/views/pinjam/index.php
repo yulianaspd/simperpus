@@ -1,3 +1,6 @@
+<!-- DataTables -->
+<link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -41,7 +44,7 @@
               <div class="box-body">
                 
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-5">
                     <table class="table table-striped">
                         <tr>
                           <th style="width: 10px">#</th>
@@ -70,19 +73,21 @@
                         </tr>
                       </table>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-7">
                     <label>INPUT BUKU</label>
-                    <div class="input-group input-group-sm">
-                      <input type="text" id="isbn" name="isbn" class="form-control" placeholder="ISBN">
+                    <div class="input-group input-group-md">
+                      <input type="text" id="isbn" name="isbn" class="form-control" placeholder="Input / Scan Barcode ISBN">
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                       </span>
                     </div>
-                    <div class="table-responsive">
-                      <table id="table-buku" class="table table-bordered table-striped nowrap">
+                    <br><br>
+                    <!-- <div class="table-responsive"> -->
+                      <table id="table-pinjam-temp" class="table table-bordered table-striped">
                          <thead>
                               <tr>
                                   <th>No</th>
+                                  <th>ISBN</th>
                                   <th>Judul</th>
                                   <th></th>
                               </tr>
@@ -90,15 +95,8 @@
                           <tbody>
                             
                           </tbody>
-                          <tfoot>
-                              <tr>
-                                  <th>No</th>
-                                  <th>Judul</th>
-                                  <th></th>
-                              </tr>
-                          </tfoot>
                       </table>
-                    </div>
+                    <!-- </div> -->
 
                   </div>
                 </div>
@@ -122,11 +120,33 @@
   </div>
   <!-- /.content-wrapper -->
  
-
+<!-- DataTables -->
+<script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
 <script>
+   var table;
   $(document).ready(function(){
     
     $("#box-buku").hide();
+
+     //datatables
+    table = $('#table-pinjam-temp').DataTable({ 
+        "processing": true, 
+        "serverSide": true, 
+        "pagination": false,
+        "order": [], 
+        
+        "ajax": {
+            "url": "<?php echo base_url('pinjam/ajaxPinjamTemp')?>",
+            "type": "POST"
+        },
+        
+        "columnDefs": [
+        { 
+            "targets": [ 0 ], 
+            "orderable": false, 
+        },
+        ],
+    });
 
     $("#btn-cek-anggota").click(function(){
       var kode = $("#kode").val();
