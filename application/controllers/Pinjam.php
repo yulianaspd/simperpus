@@ -56,12 +56,56 @@ class Pinjam extends CI_Controller {
 
 	}
 
-	public function showBuku($isbn){
-		$buku 	 = $this->m_buku->showData($isbn)->result();
-		$result = $buku[0];
-		echo json_encode($buku); 
-	}
+	public function scanInputTemp(){
+		$isbn 	= $this->input->post('isbn');
+		$buku 	= $this->m_buku->showData($isbn);
 
+		if($buku == []){
+
+			$result_temp = array(
+				'keterangan' => "NOK",
+				'error' 	 => "Buku tidak ditemukan" 
+			);
+			echo json_encode($result_temp);
+
+		}else{
+
+			$result_buku = $buku[0];
+			$buku_id	= $result_buku->id;
+			$isbn		= $result_buku->isbn;
+			$judul 		= $result_buku->judul;
+			
+			$where_buku_id = array(
+				'buku_id' => $buku_id
+			);
+
+			$data = array(
+				'buku_id' => $buku_id,
+				'isbn'	  => $isbn,
+				'judul'	  => $judul
+			);
+
+			$check_buku_id = $this->m_pinjamTemp->cekBukuId($where_buku_id);
+			if($check_buku_id != FALSE){
+
+				$this->m_pinjamTemp->storeData($data);
+				$result_temp = array(
+					'keterangan' => "OK",
+					'msg' 	 	 => "Buku bberhasil input"
+				);
+				echo json_encode($result_temp);
+
+			}else{
+
+				$result_temp = array(
+					'keterangan' => "NOK",
+					'error' 	 => "Buku sudah input" 
+				);
+				echo json_encode($result_temp);			
+			}
+		}
+
+	}
 
 	public function ajaxPinjamTemp(){
 		$list = $this->m_pinjamTemp->get_datatables();
@@ -89,11 +133,16 @@ class Pinjam extends CI_Controller {
         echo json_encode($output);
 	}
 
+
 	public function deleteTemp($id){
 		$where = array(
 			'id'	=> $id
 		);
 		$this->m_pinjamTemp->deleteData($where);
+		$data = array(
+			'keterangan' => "OK"
+		);
+		echo json_encode($data);
 	}
 
 

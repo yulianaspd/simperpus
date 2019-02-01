@@ -76,6 +76,19 @@ class M_PinjamTemp extends CI_Model {
 	}
 	
 //=========================================================
+	public function cekBukuId($where){
+		$query = $this->db->get_where('pinjam_temp', $where);
+		if($query->num_rows() == 0){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+
+	public function storeData($data){
+		$this->db->insert('pinjam_temp', $data);
+	}
+
 	public function deleteData($where){
 		$this->db->where($where);
 		$this->db->delete('pinjam_temp');

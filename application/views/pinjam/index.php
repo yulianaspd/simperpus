@@ -78,7 +78,7 @@
                     <div class="input-group input-group-md">
                       <input type="text" id="isbn" name="isbn" class="form-control" placeholder="Input / Scan Barcode ISBN">
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        <button type="button" id="btn-input-buku" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                       </span>
                     </div>
                     <br><br>
@@ -174,6 +174,37 @@
             }
         });     
     });
+
+    $("#btn-input-buku").click(function(e){
+      var isbn = $("#isbn").val();
+      $.ajax({
+         type: "POST",
+          dataType: 'JSON',
+          data:{
+                isbn : isbn
+              },
+          url:"<?php echo base_url('pinjam/scanInputTemp'); ?>",
+          success: function (data) {
+            
+            if(data.keterangan != 'NOK'){
+               if(data.keterangan != 'NOK' ){
+                  table.ajax.reload();
+                  $("#isbn").val('');
+                  console.log(data.keterangan);
+                  console.log(data.msg);
+               }else{
+                  alert(data.error)
+               }
+            }else{
+              $("#isbn").val('');
+              alert(data.error);
+            }   
+          },
+          error: function(data){
+            console.log(data);
+          }
+      })
+    })
 
     $("#table-pinjam-temp_wrapper").on('click', '.delete-temp', function(e){
       var url = $(this).data('href');
