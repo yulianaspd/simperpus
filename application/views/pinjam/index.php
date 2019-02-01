@@ -23,7 +23,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <!-- form start -->
-            <form id="form-pinjam" role="form" action="#" method="POST">
+            <form id="form-pinjam" role="form" action="#">
               <div class="box-body">
                 <label>Kode Anggota</label>
                 <div class="input-group input-group-md">
@@ -40,7 +40,7 @@
 
           <div class="box box-primary" id="box-buku">
             <!-- form start -->
-            <form id="form-pinjam" role="form" action="#" method="POST">
+            <form id="form-pinjam" role="form" action="#">
               <div class="box-body">
                 
                 <div class="row">
@@ -54,11 +54,12 @@
                         <tr>
                           <td>1.</td>
                           <td>KODE</td>
+                          <input type="hidden" id="anggota_id">
                           <td class="text-right kode"></td>
                         </tr>
                         <tr>
                           <td>2.</td>
-                          <td>NAMA LENGKAP</td>
+                          <td>NAMA LENGKAP <?php echo $this->session->userdata('id') ?></td>
                           <td class="text-right nama_lengkap"></td>
                         </tr>
                         <tr>
@@ -78,7 +79,7 @@
                     <div class="input-group input-group-md">
                       <input type="text" id="isbn" name="isbn" class="form-control" placeholder="Input / Scan Barcode ISBN">
                       <span class="input-group-btn">
-                        <button type="button" id="btn-input-buku" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        <button type="button" id="btn-input-buku" class="btn btn-info btn-flat"><i class="fa fa-download"></i></button>
                       </span>
                     </div>
                     <br><br>
@@ -87,6 +88,7 @@
                          <thead>
                               <tr>
                                   <th>No</th>
+                                  <th>Buku ID</th>
                                   <th>Judul</th>
                                   <th></th>
                               </tr>
@@ -104,7 +106,7 @@
                 <!-- /.box-body -->
               <div class="box-footer">
                 <button type="button" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-success pull-right"><i class="fa fa-rocket"></i> Proses</button>
+                <button type="button" class="btn btn-success pull-right" id="btn-proses"><i class="fa fa-rocket"></i> Proses</button>
               </div>
             </form>
           </div>
@@ -140,10 +142,16 @@
         },
         
         "columnDefs": [
-        { 
+          { 
             "targets": [ 0 ], 
             "orderable": false, 
-        },
+          },
+          {
+            "targets": [ 1 ],
+            "visible": false,
+            "orderable": false,
+            "searchable": false
+          },
         ],
     });
 
@@ -159,11 +167,13 @@
             success: function (data) {
                    
               if(data.keterangan != 'NOK'){
+                $("#anggota_id").val(data.anggota.id);
                 $(".kode").html('<b>'+data.anggota.kode +'</b>');
                 $(".nama_lengkap").html('<b>'+data.anggota.nama_lengkap +'</b>');
                 $(".alamat").html('<b>'+data.anggota.alamat +'</b>');
                 $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
                 $("#box-buku").slideDown(); 
+                $("#kode").prop('disabled', true);
               }else{
                  $("#box-buku").slideUp();
                 alert(data.error);
@@ -221,6 +231,34 @@
         }
 
       })
+    });
+
+
+    $('#btn-proses').click(function(e) {
+        e.preventDefault();    
+        var buku_id = $.map(table.data(), function (item) {
+            return item[1]
+        });
+        var anggota_id  = $("#anggota_id").val();
+        var user_id     = "<?php echo $this->session->userdata('id') ?>";
+
+        $.ajax({
+          type: "POST",
+          dataType:"JSON",
+          data: {
+            buku_id:buku_id,
+            user_id:user_id,
+            anggota_id:anggota_id
+          },
+          url: "<?php echo base_url('pinjam/store'); ?>",
+          success: function(data){
+             console.log(data);
+          },
+          error:function(data){
+            console.log(data);
+          }
+        })
+        
     });
 
   });

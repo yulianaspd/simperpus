@@ -6,12 +6,18 @@ class M_pinjam extends CI_Model {
 	public function getData(){
 	}
 
-	public function getShow($id){
-		return $this->db->get_where('pinjam', $where);
+	public function showData($kode){
+		$this->db->select('*');
+		$this->db->from('pinjam');
+		$this->db->where('kode_pinjam', $kode);
+		$query = $this->db->get();
+
+		return $query->result();
 	}
 
 	public function storeData($data){
 		$this->db->insert('pinjam', $data);
+		return TRUE;
 	}
 
 	public function getEdit($where){

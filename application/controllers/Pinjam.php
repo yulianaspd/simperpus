@@ -104,7 +104,6 @@ class Pinjam extends CI_Controller {
 				echo json_encode($result_temp);			
 			}
 		}
-
 	}
 
 	public function ajaxPinjamTemp(){
@@ -115,6 +114,7 @@ class Pinjam extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
+			$row[] = $value->id;
 			$row[] = $value->judul;
 			$row[] = "
             		<a class='btn btn-danger delete-temp'
@@ -147,14 +147,15 @@ class Pinjam extends CI_Controller {
 
 
 	public function store(){
-		$this->form_validation->set_rules('kode','Kode','required');
-		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
-
-		if($this->form_validation->run() == TRUE){
+		// $this->form_validation->set_rules('kode','Kode','required');
+		// $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
+	
+		// if($this->form_validation->run() == TRUE){
 
 			$time 		 	= time().rand(0,32);
 			$kode_pinjam 	= base_convert($time, 10, 16); 
-			$user_id 		= $this->session->userdata('id');
+			$user_id 		= $this->input->post('user_id');
+			$buku_id 		= $this->input->post('buku_id');
 			$anggota_id 	= $this->input->post('anggota_id');
 			$tanggal_pinjam = date('Y-m-d');
 			$qty			= 1;
@@ -168,34 +169,39 @@ class Pinjam extends CI_Controller {
 				'qty'			=> $qty,
 				'total_denda'	=> $total_denda
 			);
-			$this->m_rak->storeData($data);
+			$this->m_pinjam->storeData($data_pinjam);
 
-			$pinjam_id = $this->m_pinjam->get_show($where_kode_pinjam);
 
-			foreach( $buku as $index => $value){
-				$data_detail = array(
+			foreach( $buku_id as $index => $value){
+				$data_detail_pinjam = array(
 					'kode_pinjam' 		=> $kode_pinjam,
 					'buku_id' 			=> $value,
 					'jml_perpanjangan' 	=> 0,
-					'jatuh_tempo'		=> $jatuh_tempo,
+					'jatuh_tempo'		=> date('Y-m-d'),
 					'status'			=> 1,
-					'tanggal_kembali' 	=> $tanggal_kembali,
+					'tanggal_kembali' 	=> date('Y-m-d'),
 					'denda'				=> 0
 				);
 
-				$this->m_pinjamDetail->storedata($data_detail);
+				$this->m_pinjamDetail->storedata($data_detail_pinjam);
 			}
 
-			$where_kode_pinjam = array(
-				'kode'	=> $kode_pinjam
+			$result = array(
+				'keterangan' => "OK",
+				'data'		 => $data_detail_pinjam,
 			);
+			echo json_encode($result);
 
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
-			redirect('rak/index');
-		}else{
-			$this->session->set_flashdata('form_kode', form_error('kode'));
-			redirect('rak/create');
-		}
+			// $where_kode_pinjam = array(
+			// 	'kode'	=> $kode_pinjam
+			// );
+
+		// 	$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		// 	redirect('rak/index');
+		// }else{
+		// 	$this->session->set_flashdata('form_kode', form_error('kode'));
+		// 	redirect('rak/create');
+		// }
 		
 	}
 
