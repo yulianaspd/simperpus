@@ -235,24 +235,42 @@
 
 
     $('#btn-proses').click(function(e) {
-        e.preventDefault();    
-        var buku_id = $.map(table.data(), function (item) {
-            return item[1]
-        });
         var anggota_id  = $("#anggota_id").val();
         var user_id     = "<?php echo $this->session->userdata('id') ?>";
 
         $.ajax({
           type: "POST",
           dataType:"JSON",
+          url: "<?php echo base_url('pinjam/store'); ?>",
           data: {
-            buku_id:buku_id,
             user_id:user_id,
             anggota_id:anggota_id
           },
-          url: "<?php echo base_url('pinjam/store'); ?>",
           success: function(data){
              console.log(data);
+             var pinjam_id = data.result_pinjam.id;
+              e.preventDefault();    
+             
+              var buku_table = $.map(table.data(), function (item) {
+                    return item[1]
+              });
+              var buku_id = JSON.stringify(buku_table);
+             $.ajax({
+                type: "POST",
+                dataType:"JSON",
+                url:"<?php echo base_url('pinjam/storeDetail'); ?>",
+                data:{
+                  buku_id:buku_id,
+                  pinjam_id:pinjam_id
+                },
+                success: function(data){
+                  console.log(data)
+                },
+                error:function(data){
+                  //console.log(data)
+                }
+             })
+
           },
           error:function(data){
             console.log(data);

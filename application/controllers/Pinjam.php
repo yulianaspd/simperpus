@@ -155,7 +155,6 @@ class Pinjam extends CI_Controller {
 			$time 		 	= time().rand(0,32);
 			$kode_pinjam 	= base_convert($time, 10, 16); 
 			$user_id 		= $this->input->post('user_id');
-			$buku_id 		= $this->input->post('buku_id');
 			$anggota_id 	= $this->input->post('anggota_id');
 			$tanggal_pinjam = date('Y-m-d');
 			$qty			= 1;
@@ -169,29 +168,37 @@ class Pinjam extends CI_Controller {
 				'qty'			=> $qty,
 				'total_denda'	=> $total_denda
 			);
-			$this->m_pinjam->storeData($data_pinjam);
+			
+			$store_pinjam = $this->m_pinjam->storeData($data_pinjam);
+			
 
-
-			foreach( $buku_id as $index => $value){
-				$data_detail_pinjam = array(
-					'kode_pinjam' 		=> $kode_pinjam,
-					'buku_id' 			=> $value,
-					'jml_perpanjangan' 	=> 0,
-					'jatuh_tempo'		=> date('Y-m-d'),
-					'status'			=> 1,
-					'tanggal_kembali' 	=> date('Y-m-d'),
-					'denda'				=> 0
+			if($store_pinjam == TRUE){
+				$show_pinjam = $this->m_pinjam->showData($kode_pinjam);
+				// $buku_id 		= $this->input->post('buku_id');
+				// foreach( $buku_id as $index => $value){
+				// 	$data_detail_pinjam = array(
+				// 		'pinjam_id' 		=> $show_pinjam[0]->id,
+				// 		'buku_id' 			=> $value,
+				// 		'jml_perpanjangan' 	=> 0,
+				// 		'jatuh_tempo'		=> date('Y-m-d'),
+				// 		'status'			=> 1,
+				// 		'tanggal_kembali' 	=> date('Y-m-d'),
+				// 		'denda'				=> 0
+				// 	);
+				// 	$this->m_pinjamDetail->storedata($data_detail_pinjam);
+					$result = array(
+						'keterangan' 	 => "OK",
+						'result_pinjam'	 => $show_pinjam[0],
+					);
+					echo json_encode($result);
+				//}	
+			}else{
+				$result = array(
+					'keterangan' => "NOK",
+					'error'		 => "input pinjam error",
 				);
-
-				$this->m_pinjamDetail->storedata($data_detail_pinjam);
+				echo json_encode($result);
 			}
-
-			$result = array(
-				'keterangan' => "OK",
-				'data'		 => $data_detail_pinjam,
-			);
-			echo json_encode($result);
-
 			// $where_kode_pinjam = array(
 			// 	'kode'	=> $kode_pinjam
 			// );
@@ -202,8 +209,36 @@ class Pinjam extends CI_Controller {
 		// 	$this->session->set_flashdata('form_kode', form_error('kode'));
 		// 	redirect('rak/create');
 		// }
-		
 	}
+
+	public function storeDetail(){
+		$arrayBuku = array();
+		$pinjam_id	= $this->input->post('pinjam_id');
+		$buku_id   	= $this->input->post('buku_id');
+		
+		$array_buku = json_decode($buku_id,true);
+		$data_detail_pinjam = array();
+		foreach($array_buku as $value) { 
+			$data_detail_pinjam = array(
+					'pinjam_id' 		=> $pinjam_id,
+					'buku_id' 			=> $value,
+					'jml_perpanjangan' 	=> 0,
+					'jatuh_tempo'		=> date('Y-m-d'),
+					'status'			=> 1,
+					'tanggal_kembali' 	=> date('Y-m-d'),
+					'denda'				=> 0
+				);
+			$this->m_pinjamDetail->storeData($data_detail_pinjam);
+		}
+
+		
+		$result = array(
+			'keterangan' => "OK",
+			'data'		 => $array_buku,
+		);
+		echo json_encode($result);
+		
+	}	
 
 	public function edit($id){
 		$where = array (
