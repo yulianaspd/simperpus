@@ -20,9 +20,6 @@ class M_pinjam extends CI_Model {
 		return TRUE;
 	}
 
-	public function getEdit($where){
-		return $this->db->get_where('pinjam', $where);
-	}
 
 	public function updateData($where, $data){
 		$this->db->where($where);

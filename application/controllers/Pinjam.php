@@ -19,7 +19,7 @@ class Pinjam extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] 	= 'P';
+		$data['title'] 	= 'Transaksi Pinjam';
 		$data['icon'] 	= 'fa fa-shopping-cart';
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
