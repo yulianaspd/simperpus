@@ -194,7 +194,6 @@ class Pinjam extends CI_Controller {
 					'jml_perpanjangan' 	=> 0,
 					'jatuh_tempo'		=> date('Y-m-d'),
 					'status'			=> 1,
-					'tanggal_kembali' 	=> date('Y-m-d'),
 					'denda'				=> 0
 				);
 			$where_pinjam_temp = array(

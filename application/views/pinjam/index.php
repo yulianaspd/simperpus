@@ -105,7 +105,6 @@
               </div>
                 <!-- /.box-body -->
               <div class="box-footer">
-                <button type="button" class="btn btn-default">Cancel</button>
                 <button type="button" class="btn btn-success pull-right" id="btn-proses"><i class="fa fa-rocket"></i> Proses</button>
               </div>
             </form>
@@ -156,6 +155,17 @@
         ],
     });
 
+    function clearForm(){
+      $("#anggota_id").val('');
+      $(".kode").html('');
+      $(".nama_lengkap").html('');
+      $(".alamat").html('');
+      $(".telepon").html('');
+      $("#box-buku").slideUp(); 
+      $("#kode").prop('disabled', false);
+      table.ajax.reload();
+    }
+
     $("#btn-cek-anggota").click(function(){
       var kode = $("#kode").val();
         $.ajax({
@@ -175,8 +185,9 @@
                 $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
                 $("#box-buku").slideDown(); 
                 $("#kode").prop('disabled', true);
+                $("#kode").val('');
               }else{
-                 $("#box-buku").slideUp();
+                $("#box-buku").slideUp();
                 alert(data.error);
               }   
             },
@@ -261,20 +272,19 @@
                   pinjam_id:pinjam_id
                 },
                 success: function(data){
-                  console.log(data)
+                  clearForm();
                   swal({
-                    title: "Good job!",
-                    text: "You clicked the button!",
+                    title: "success!",
                     icon: "success",
                   });
                 },
                 error:function(data){
-                  console.log(data)
+                  console.log(data);
                 }
              })
           },
           error:function(data){
-            console.log(data);
+           console.log(data);
           }
         })
         
