@@ -123,6 +123,7 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
    var table;
   $(document).ready(function(){
@@ -247,14 +248,10 @@
             anggota_id:anggota_id
           },
           success: function(data){
-             console.log(data);
-             var pinjam_id = data.result_pinjam.id;
-              e.preventDefault();    
-             
-              var buku_table = $.map(table.data(), function (item) {
-                    return item[1]
-              });
-              var buku_id = JSON.stringify(buku_table);
+            var pinjam_id = data.result_pinjam.id;
+            var buku_id = $.map(table.data(), function (item) {
+                              return item[1]
+                          });
              $.ajax({
                 type: "POST",
                 dataType:"JSON",
@@ -265,12 +262,16 @@
                 },
                 success: function(data){
                   console.log(data)
+                  swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                  });
                 },
                 error:function(data){
-                  //console.log(data)
+                  console.log(data)
                 }
              })
-
           },
           error:function(data){
             console.log(data);
