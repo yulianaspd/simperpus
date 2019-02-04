@@ -218,10 +218,10 @@ class Pinjam extends CI_Controller {
 		
 		$array_buku = json_decode($buku_id,true);
 		$data_detail_pinjam = array();
-		foreach($array_buku as $value) { 
+		// foreach($array_buku as $value) { 
 			$data_detail_pinjam = array(
 					'pinjam_id' 		=> $pinjam_id,
-					'buku_id' 			=> $value,
+					'buku_id' 			=> $array_buku[0],
 					'jml_perpanjangan' 	=> 0,
 					'jatuh_tempo'		=> date('Y-m-d'),
 					'status'			=> 1,
@@ -229,7 +229,7 @@ class Pinjam extends CI_Controller {
 					'denda'				=> 0
 				);
 			$this->m_pinjamDetail->storeData($data_detail_pinjam);
-		}
+		//}
 
 		
 		$result = array(

@@ -38,6 +38,7 @@
     <p class="login-logo"><b>SIM</b>PERPUS</p>
 
     <form action="<?php echo base_url('auth/login'); ?>" method="post">
+      <?php echo $this->session->flashdata('notif') ?>
       <div class="form-group has-feedback">
         <input type="text" id="email" name="email" class="form-control" placeholder="Username">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

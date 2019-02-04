@@ -5,7 +5,7 @@ class Auth extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_user');
+		$this->load->model('m_user','m_auth');
 	}
 
 	public function index()
@@ -40,11 +40,12 @@ class Auth extends CI_Controller {
 						'password' 	=> $data->password 
 					);
 					$this->session->set_userdata($session_data);
-					redirect(base_url("dashboard"));
+					redirect(base_url("dashboard/index"));
 				}
 			}else{
-				$data['error'] = 'username / password salah';
-				$this->load->view('v_dashboard',$data);
+				$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Username / Password Salah ! </div>');
+				redirect('auth/index');
+				// $this->load->view('v_login');
 			}
 		}else{
 			$this->load->view('v_login');
