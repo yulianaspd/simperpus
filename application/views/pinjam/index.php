@@ -84,7 +84,7 @@
                     </div>
                     <br><br>
                     <!-- <div class="table-responsive"> -->
-                      <table id="table-pinjam-temp" class="table table-bordered table-striped">
+                      <table id="table-pinjam-temp" class="table table-bordered table-striped" style="width:100%">
                          <thead>
                               <tr>
                                   <th>No</th>
@@ -126,14 +126,16 @@
 <script>
    var table;
   $(document).ready(function(){
-    
     $("#box-buku").hide();
 
      //datatables
     table = $('#table-pinjam-temp').DataTable({ 
         "processing": true, 
         "serverSide": true, 
-        "pagination": false,
+        "paginate": false,
+        "searching": false,
+        "lengthChange": false,
+        "info":false,
         "order": [], 
         
         "ajax": {
@@ -185,7 +187,6 @@
                 $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
                 $("#box-buku").slideDown(); 
                 $("#kode").prop('disabled', true);
-                $("#kode").val('');
               }else{
                 $("#box-buku").slideUp();
                 alert(data.error);
@@ -276,6 +277,7 @@
                   swal({
                     title: "success!",
                     icon: "success",
+                    text:"heheheh"
                   });
                 },
                 error:function(data){

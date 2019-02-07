@@ -183,14 +183,14 @@ class Pinjam extends CI_Controller {
 	}
 
 	public function storeDetail(){
-		$arrayBuku = array();
 		$pinjam_id	= $this->input->post('pinjam_id');
 		$buku_id   	= $this->input->post('buku_id');
-		
+		$arrayBuku = explode(",", $buku_id);
+
 		foreach($buku_id as $value) { 
 			$data_detail_pinjam = array(
 					'pinjam_id' 		=> $pinjam_id,
-					'buku_id' 			=> $array_buku[0],
+					'buku_id' 			=> $value,
 					'jml_perpanjangan' 	=> 0,
 					'jatuh_tempo'		=> date('Y-m-d'),
 					'status'			=> 1,
