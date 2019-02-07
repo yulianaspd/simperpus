@@ -30,13 +30,13 @@
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
-    <img class="img-rounded" width="100px" height="100px" src="<?php echo site_url() ?>assets/img/login-header.png" alt="Login SIMPERPUS">
-  </div>
+  
   <!-- /.login-logo -->
   <div class="login-box-body">
+    <div class="login-logo">
+      <img class="img-rounded" width="100px" height="100px" src="<?php echo site_url() ?>assets/img/login-header.png" alt="Login SIMPERPUS">
+    </div>
     <p class="login-logo"><b>SIM</b>PERPUS</p>
-
     <form action="<?php echo base_url('auth/login'); ?>" method="post">
       <?php echo $this->session->flashdata('notif') ?>
       <div class="form-group has-feedback">

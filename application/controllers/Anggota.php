@@ -30,11 +30,11 @@ class Anggota extends CI_Controller {
 			$row[] = $value->nama_lengkap.' ('.$value->nama_panggilan.')';
 			$row[] = $value->telepon;
 			$row[] = $value->alamat;
-			 $row[] = "<a href='".base_url('kategori/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
+			 $row[] = "<a href='".base_url('anggota/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
             		&nbsp&nbsp 
             		<a class='btn btn-danger btn-delete' data-toggle='modal'
                     data-target='#modal-delete-data'
-                    data-href='". base_url('kategori/delete/'.$value->id)."''
+                    data-href='". base_url('anggota/delete/'.$value->id)."''
                     data-id=\"".$value->id."\"
                     data-nama=\"".$value->nama_lengkap."\"
                     href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
@@ -48,21 +48,6 @@ class Anggota extends CI_Controller {
         );
         //output dalam format JSON
         echo json_encode($output);
-	}
-
-	private function uploadFoto(){
-		$config['upload_path']	='./upload/foto/';
-		$config['allowed_types'] = 'jpeg|jpg|png';
-		$config['file_name']	 = 'foto-'.$this->kode;
-		$config['overwrite']	 = true;
-		$config['max_size']		 = 3024;
-
-		$this->load->library('upload', $config);
-		if($this->upload->do_upload('image')){
-			return $this->upload->data("file_name");
-		}
-
-		return "default.jpg";
 	}
 
 	public function show($id){
@@ -89,11 +74,11 @@ class Anggota extends CI_Controller {
 	public function store(){
 		$this->form_validation->set_rules('no_identitas','No Identitas','required');
 		$this->form_validation->set_rules('jenis_identitas','Jenis identitas','required');
+		$this->form_validation->set_rules('no_identitas','No identitas','required');
 		$this->form_validation->set_rules('nama_lengkap','Nama Lengkap','required');
 		$this->form_validation->set_rules('nama_panggilan','Nama Panggilan','required');
 		$this->form_validation->set_rules('alamat','Alamat','required');
 		$this->form_validation->set_rules('telepon','Telepon','required');
-		$this->form_validation->set_rules('foto','Foto','required');
 		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
 
 		if($this->form_validation->run() == TRUE){
@@ -103,26 +88,45 @@ class Anggota extends CI_Controller {
 
 			$kode			= $kode;
 			$jenis_identitas = $this->input->post('jenis_identitas');
+			$no_identitas 	= $this->input->post('no_identitas');
 			$nama_lengkap	= $this->input->post('nama_lengkap');
 			$nama_panggilan	= $this->input->post('nama_panggilan');
 			$alamat			= $this->input->post('alamat');
 			$telepon		= $this->input->post('telepon');
-			$foto 			= $this->uploadFoto();
 			
 			$data = array(
 					'kode'			 	=> $kode,
 					'jenis_identitas' 	=> $jenis_identitas,
+					'no_identitas'		=> $no_identitas,
 					'nama_lengkap' 		=> $nama_lengkap,
 					'nama_panggilan' 	=> $nama_panggilan,
 					'alamat'			=> $alamat,
 					'telepon'			=> $telepon,
-					'foto'				=> $foto
+					'status'			=> 1
 				);
 			
 			$this->m_anggota->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
-			redirect('anggota/create');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil disimpan. </div>');
+			redirect('anggota/index');
 		}else{
+			form_error('jenis_identitas') != '' ? $data['jenis_identitas_value'] = '' : $data['jenis_identitas_value'] = set_value('jenis_identitas');
+			form_error('no_jenis_identitas') != '' ? $data['no_identitas_value'] = '' : $data['no_identitas_value'] = set_value('no_identitas');
+			form_error('nama_lengkap') != '' ? $data['nama_lengkap_value'] = '' : $data['nama_lengkap_value'] = set_value('nama_lengkap');
+			form_error('nama_panggilan') != '' ? $data['nama_panggilan_value'] = '' :  $data['nama_panggilan_value'] = set_value('nama_panggilan');
+			form_error('alamat') != '' ? $data['alamat_value'] = '' :  $data['alamat_value'] = set_value('alamat');
+			form_error('telepon') != '' ? $data['telepon_value'] = '' :  $data['telepon_value'] = set_value('telepon');
+
+			$this->session->set_flashdata(
+				array(
+					'jenis_identitas' => form_error('jenis_identitas'),
+					'no_identitas'	=> form_error('no_identitas'),
+					'nama_lengkap'	=> form_error('nama_lengkap'),
+					'nama_panggilan' => form_error('nama_panggilan'),
+					'alamat'		=> form_error('alamat'),
+					'telepon' 		=> form_error('telepon')
+				)
+			);
+			$this->session->set_flashdata($data);
 			redirect('anggota/create');
 		}
 	}
@@ -131,6 +135,16 @@ class Anggota extends CI_Controller {
 		$where = array(
 			'id' => $id
 		);
+		
+		$data['jenis'] = array(
+			'1' => 'KTP',
+			'2' => 'SIM',
+			'3' => 'Kartu Pelajar / Mahasiswa',
+			'4' => 'Lainya'
+
+		);
+
+		$data['parent_title']	= 'Anggota';
 		$data['title']	= 'Edit Anggota';
 		$data['icon']	= 'fa fa-users';
 		$data['uri']	= $this->uri->segment(1);
@@ -142,75 +156,40 @@ class Anggota extends CI_Controller {
 	}
 
 	public function update(){
-		$this->form_validation->set_rules('id','ID','required');
-		$this->form_validation->set_rules('kode','Kode','required');
-		$this->form_validation->set_rules('no_identitas','No Identitas','required');
-		$this->form_validation->set_rules('jenis_identitas','Jenis identitas','required');
-		$this->form_validation->set_rules('nama_lengkap','Nama Lengkap','required');
-		$this->form_validation->set_rules('nama_panggilan','Nama Panggilan','required');
-		$this->form_validation->set_rules('alamat','Alamat','required');
-		$this->form_validation->set_rules('telepon','Telepon','required');
-		$this->form_validation->set_rules('foto','Foto','required');
-		$this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom: 5px">', '</div>');
-		//konfigurasi upload
-		$config['upload_path']	 = 'uploads/foto-anggota/';
-		$config['allowed_types'] = 'jpeg|jpg|png';
-		$config['max_size']		 = 3024;
-		$this->load->library('upload', $config);
+		$id 			= $this->input->post('id');
+		$jenis_identitas = $this->input->post('jenis_identitas');
+		$no_identitas = $this->input->post('no_identitas');
+		$nama_lengkap	= $this->input->post('nama_lengkap');
+		$nama_panggilan	= $this->input->post('nama_panggilan');
+		$alamat			= $this->input->post('alamat');
+		$telepon		= $this->input->post('telepon');
 
-		if($this->validation->run() == TRUE){
-			$id 			= $this->input->post('id');
-			$kode			= $this->input->post('kode');
-			$jenis_identitas = $this->input->post('jenis_identitas');
-			$nama_lengkap	= $this->input->post('nama_lengkap');
-			$nama_panggilan	= $this->input->post('nama_panggilan');
-			$alamat			= $this->input->post('alamat');
-			$telepon		= $this->input->post('telepon');
+		$where = array(
+				'id'	=> $id
+			);
 
-			$anggota = $this->m_anggota->showData($id);
-
-			$data = array(
-					'kode'			 	=> $kode,
-					'jenis_identitas' 	=> $jenis_identitas,
-					'nama_lengkap' 		=> $nama_lengkap,
-					'nama_panggilan' 	=> $nama_panggilan,
-					'alamat'			=> $alamat,
-					'telepon'			=> $telepon
-				);
-			
-			// if(){
-
-			// }
-
-			if($this->upload->do_upload('foto')){
-				//upload foto ke directory
-				$upload_data = $this->upload->data();
-				$file_name = $upload_data['file_name'];
-				$data_foto = array( 'foto' => $file_name );
-			}else{
-				$data['error_msg'] = $this->upload->display_errors();
-				redirect('anggota/create', $data);
-			}
-
-			$this->m_anggota->storeData(array_merge($data, $data_foto));
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data tersimpan. </div>');
-			redirect('anggota/create');
-			
-		}else{
-
-			redirect('anggota/create');
-			
-		}
+		$data = array(
+				'kode'			 	=> $kode,
+				'jenis_identitas' 	=> $jenis_identitas,
+				'no_identitas' 		=> $no_identitas,
+				'nama_lengkap' 		=> $nama_lengkap,
+				'nama_panggilan' 	=> $nama_panggilan,
+				'alamat'			=> $alamat,
+				'telepon'			=> $telepon
+			);
+		
+		$this->m_anggota->updateData($where, $data);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil di update. </div>');
+		redirect('anggota/index');
 	}
 
 	public function delete($id){
 		$where = array(
 			'id' => $id
 		);
-		$this->m_buku->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
-			redirect('buku/index');
-		redirect('buku/index');
+		$this->m_anggota->deleteData($where);
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil dihapus. </div>');
+		redirect('anggota/index');
 	}
 
 }
