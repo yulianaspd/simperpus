@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_pinjam extends CI_Model {
+class M_Pinjam extends CI_Model {
 
 	public function getData(){
 	}

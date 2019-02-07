@@ -73,36 +73,44 @@ class M_kembali extends CI_Model {
 		}	
 	}
 
-	function get_datatables()
+	function get_datatables($kode_anggota)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($kode_anggota);
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	function count_filtered()
+	function count_filtered($kode_anggota)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($kode_anggota);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all()
+	public function count_all($kode_anggota)
 	{
 		//$this->db->from($this->table);
-		$this->db->select('buku.id');
-		$this->db->select('buku.isbn');
-		$this->db->select('buku.judul');
-		$this->db->select('buku.halaman');
-		$this->db->select('kategori.nama AS kategori');
-		$this->db->select('penulis.nama AS penulis');
-		$this->db->select('penerbit.nama AS penerbit');
+		$this->db->select([
+					'pinjam.id',
+					'pinjam.kode_pinjam',
+					'anggota.kode',
+					'anggota.nama_lengkap',
+					'pinjam.tanggal_pinjam',
+					'pinjam.qty',
+					'pinjam.total_denda',
+				]);
 		$this->db->from($this->table);
-		$this->db->join('kategori','kategori.id = buku.kategori_id');
-		$this->db->join('penulis','penulis.id = buku.penulis_id');
-		$this->db->join('penerbit','penerbit.id = buku.penerbit_id');
+		$this->db->join('user','user.id = pinjam.user_id');
+		$this->db->join('anggota','anggota.id = pinjam.anggota_id');
+		$this->db->where('anggota.kode', $kode_anggota)
+		$query_pinjam = $this->db->get();
+		$query_pinjam->result();
+
+		$this->db->select();
+		$this->db->from($query_pinjam);
+		$this->db->join('pinjam_detail',$query_pinjam->id,'pinjam_detail.pinjam_id');
 		return $this->db->count_all_results();
 	}
 	
