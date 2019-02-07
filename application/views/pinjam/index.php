@@ -105,7 +105,6 @@
               </div>
                 <!-- /.box-body -->
               <div class="box-footer">
-                <button type="button" class="btn btn-default">Cancel</button>
                 <button type="button" class="btn btn-success pull-right" id="btn-proses"><i class="fa fa-rocket"></i> Proses</button>
               </div>
             </form>
@@ -123,6 +122,7 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
    var table;
   $(document).ready(function(){
@@ -155,6 +155,17 @@
         ],
     });
 
+    function clearForm(){
+      $("#anggota_id").val('');
+      $(".kode").html('');
+      $(".nama_lengkap").html('');
+      $(".alamat").html('');
+      $(".telepon").html('');
+      $("#box-buku").slideUp(); 
+      $("#kode").prop('disabled', false);
+      table.ajax.reload();
+    }
+
     $("#btn-cek-anggota").click(function(){
       var kode = $("#kode").val();
         $.ajax({
@@ -174,8 +185,9 @@
                 $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
                 $("#box-buku").slideDown(); 
                 $("#kode").prop('disabled', true);
+                $("#kode").val('');
               }else{
-                 $("#box-buku").slideUp();
+                $("#box-buku").slideUp();
                 alert(data.error);
               }   
             },
@@ -247,14 +259,10 @@
             anggota_id:anggota_id
           },
           success: function(data){
-             console.log(data);
-             var pinjam_id = data.result_pinjam.id;
-              e.preventDefault();    
-             
-              var buku_table = $.map(table.data(), function (item) {
-                    return item[1]
-              });
-              var buku_id = JSON.stringify(buku_table);
+            var pinjam_id = data.result_pinjam.id;
+            var buku_id = $.map(table.data(), function (item) {
+                              return item[1]
+                          });
              $.ajax({
                 type: "POST",
                 dataType:"JSON",
@@ -264,16 +272,19 @@
                   pinjam_id:pinjam_id
                 },
                 success: function(data){
-                  console.log(data)
+                  clearForm();
+                  swal({
+                    title: "success!",
+                    icon: "success",
+                  });
                 },
                 error:function(data){
-                  //console.log(data)
+                  console.log(data);
                 }
              })
-
           },
           error:function(data){
-            console.log(data);
+           console.log(data);
           }
         })
         

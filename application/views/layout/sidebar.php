@@ -75,10 +75,9 @@
             <li class="header">LAPORAN</li> 
             <li class="">
                 <a href="#">
-                <i class="fa fa-history"></i> <span>History Transaksi</span>
+                <i class="fa fa-list-alt"></i> <span>Data Transaksi Pinjam</span>
                 </a>
             </li>
-            
             <li class="">
                 <a href="#">
                 <i class="fa fa-file-text-o"></i> <span>Laporan Buku</span>
