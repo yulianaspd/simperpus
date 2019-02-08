@@ -7,7 +7,7 @@ class Kembali extends CI_Controller {
 		parent::__construct();
 		$this->load->model(
 			[
-				'm_kembali'
+				'm_kembali',
 				'm_pinjam',
 				'm_pinjamDetail',
 				'm_buku',
@@ -26,7 +26,6 @@ class Kembali extends CI_Controller {
 		$this->load->view('kembali/index', $data);
 		$this->load->view('layout/footer');
 	}
-        
 
 	public function showAnggota(){
 		$kode = $this->input->post('kode');
@@ -54,49 +53,34 @@ class Kembali extends CI_Controller {
 			}	
 		}
 	}
-	
 
-	// public function ajaxPinjamTemp(){
-	// 	$list = $this->m_pinjamTemp->get_datatables();
-	// 	$data = array();
-	// 	$no = $_POST['start'];
-	// 	foreach($list as $value){
-	// 		$no++;
-	// 		$row = array();
-	// 		$row[] = $no;
-	// 		$row[] = $value->buku_id;
-	// 		$row[] = $value->judul;
-	// 		$row[] = "
- //            		<a class='btn btn-danger delete-temp'
- //                    data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
- //                    href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
+	public function ajaxGetPinjam(){
+		$kode_anggota = $this->input->post('kode_anggota');
+		$list = $this->m_kembali->get_datatables();
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $value){
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $value->judul;
+			$row[] = $value->tanggal_pinjam;
+			$row[] = $value->jatuh_tempo;
+			$row[] = "
+            		<a class='btn btn-danger delete-temp'
+                    data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
+                    href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
 
- //            $data[] = $row;
-	// 	}
-	// 	$output = array(
- //            "draw" => $_POST['draw'],
- //            "recordsTotal" => $this->m_pinjamTemp->count_all(),
- //            "recordsFiltered" => $this->m_pinjamTemp->count_filtered(),
- //            "data" => $data,
- //        );
- //        //output dalam format JSON
- //        echo json_encode($output);
-	// }
-	
-}
-
-
-
-
-	
-
-
-	
-
-	
-
-	
-	
-
+            $data[] = $row;
+		}
+		$output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_kembali->count_all(),
+            "recordsFiltered" => $this->m_kembali->count_filtered(),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+	}
 
 }

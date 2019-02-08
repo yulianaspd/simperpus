@@ -128,8 +128,9 @@
   $(document).ready(function(){
     
     $("#box-buku").hide();
+    var kode_anggota = $("#kode").val();
 
-     //datatables
+    //datatables
     table = $('#table-pinjam-temp').DataTable({ 
         "processing": true, 
         "serverSide": true, 
@@ -137,7 +138,7 @@
         "order": [], 
         
         "ajax": {
-            "url": "<?php echo base_url('pinjam/ajaxPinjamTemp')?>",
+            "url": "<?php echo base_url('kembali/ajaxGetPinjam')?>",
             "type": "POST"
         },
         
@@ -174,7 +175,7 @@
             data:{
                   kode : kode
                 },
-            url:"<?php echo base_url('pinjam/showAnggota'); ?>",
+            url:"<?php echo base_url('kembali/showAnggota'); ?>",
             success: function (data) {
                    
               if(data.keterangan != 'NOK'){
@@ -186,6 +187,7 @@
                 $("#box-buku").slideDown(); 
                 $("#kode").prop('disabled', true);
                 $("#kode").val('');
+                table.ajax.reload();
               }else{
                 $("#box-buku").slideUp();
                 alert(data.error);
