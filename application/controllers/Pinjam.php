@@ -151,8 +151,9 @@ class Pinjam extends CI_Controller {
 		$kode_pinjam 	= base_convert($time, 10, 16); 
 		$user_id 		= $this->input->post('user_id');
 		$anggota_id 	= $this->input->post('anggota_id');
+		$buku_id   		= $this->input->post('buku_id');
 		$tanggal_pinjam = date('Y-m-d');
-		$qty			= 1;
+		$qty			= count($buku_id);
 		$total_denda 	= 0;
 
 		$data_pinjam = array(
@@ -168,11 +169,31 @@ class Pinjam extends CI_Controller {
 		$store_pinjam = $this->m_pinjam->storeData($data_pinjam);
 		if($store_pinjam == TRUE){
 			$show_pinjam = $this->m_pinjam->showData($kode_pinjam);
-				$result = array(
-					'keterangan' 	 => "OK",
-					'result_pinjam'	 => $show_pinjam[0],
+			$pinjam_id	= $show_pinjam[0]->id;
+			// $arrayBuku = explode(",", $buku_id);
+			
+			foreach($buku_id as $value) { 
+				$data_detail_pinjam = array(
+						'pinjam_id' 		=> $pinjam_id,
+						'buku_id' 			=> $value,
+						'jml_perpanjangan' 	=> 0,
+						'jatuh_tempo'		=> date('Y-m-d'),
+						'status'			=> 1,
+						'denda'				=> 0
+					);
+				
+				$pinjam_temp = array(
+					'buku_id' 			=> $value,
 				);
-				echo json_encode($result);
+				$this->m_pinjamDetail->storeData($data_detail_pinjam);
+				$this->m_pinjamTemp->deleteData($pinjam_temp);
+			}
+			$result = array(
+				'keterangan' => "OK",
+				'msg'		 => "Transaksi Sukses",
+			);
+			echo json_encode($result);
+
 		}else{
 			$result = array(
 				'keterangan' => "NOK",
@@ -181,33 +202,6 @@ class Pinjam extends CI_Controller {
 			echo json_encode($result);
 		}
 	}
-
-	public function storeDetail(){
-		$pinjam_id	= $this->input->post('pinjam_id');
-		$buku_id   	= $this->input->post('buku_id');
-		$arrayBuku = explode(",", $buku_id);
-
-		foreach($buku_id as $value) { 
-			$data_detail_pinjam = array(
-					'pinjam_id' 		=> $pinjam_id,
-					'buku_id' 			=> $value,
-					'jml_perpanjangan' 	=> 0,
-					'jatuh_tempo'		=> date('Y-m-d'),
-					'status'			=> 1,
-					'denda'				=> 0
-				);
-			$where_pinjam_temp = array(
-				'buku_id' 			=> $value,
-			);
-			$this->m_pinjamDetail->storeData($data_detail_pinjam);
-		}
-
-		$result = array(
-			'keterangan' 		=> "OK",
-			'detail_pinjam'		=> $data_detail_pinjam,
-		);
-		echo json_encode($result);
-	}	
 
 	
 	public function delete($id){

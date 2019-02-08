@@ -122,7 +122,6 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
    var table;
   $(document).ready(function(){
@@ -165,6 +164,7 @@
       $(".telepon").html('');
       $("#box-buku").slideUp(); 
       $("#kode").prop('disabled', false);
+      $("#kode").val('');
       table.ajax.reload();
     }
 
@@ -250,40 +250,22 @@
     $('#btn-proses').click(function(e) {
         var anggota_id  = $("#anggota_id").val();
         var user_id     = "<?php echo $this->session->userdata('id') ?>";
-
+        var buku_id = $.map(table.data(), function (item) {
+                              return item[1]
+                      });
         $.ajax({
           type: "POST",
           dataType:"JSON",
           url: "<?php echo base_url('pinjam/store'); ?>",
           data: {
             user_id:user_id,
-            anggota_id:anggota_id
+            anggota_id:anggota_id,
+            buku_id:buku_id
           },
           success: function(data){
-            var pinjam_id = data.result_pinjam.id;
-            var buku_id = $.map(table.data(), function (item) {
-                              return item[1]
-                          });
-             $.ajax({
-                type: "POST",
-                dataType:"JSON",
-                url:"<?php echo base_url('pinjam/storeDetail'); ?>",
-                data:{
-                  buku_id:buku_id,
-                  pinjam_id:pinjam_id
-                },
-                success: function(data){
-                  clearForm();
-                  swal({
-                    title: "success!",
-                    icon: "success",
-                    text:"heheheh"
-                  });
-                },
-                error:function(data){
-                  console.log(data);
-                }
-             })
+            console.log(data);
+            clearForm();
+            alert("Transaksi Sukses");
           },
           error:function(data){
            console.log(data);
