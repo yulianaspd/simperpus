@@ -1,13 +1,13 @@
--- MySQL dump 10.17  Distrib 10.3.12-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.35-MariaDB, for Win32 (AMD64)
 --
 -- Host: localhost    Database: db_simperpus
 -- ------------------------------------------------------
--- Server version	10.3.12-MariaDB-1:10.3.12+maria~bionic-log
+-- Server version	10.1.35-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -32,10 +32,10 @@ CREATE TABLE `anggota` (
   `alamat` varchar(255) NOT NULL,
   `telepon` varchar(12) NOT NULL,
   `status` int(11) NOT NULL COMMENT '1= AKTIF / 0 = TDK AKTIF',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kode` (`kode`,`no_identitas`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `anggota` (
 
 LOCK TABLES `anggota` WRITE;
 /*!40000 ALTER TABLE `anggota` DISABLE KEYS */;
-INSERT INTO `anggota` VALUES (1,'4kjk2sd','1234567890','KTP','Irving Dian Pratama','Irving','Jl Jendral soedirman purbalingga','009876879',1,'2019-01-25 07:16:29');
+INSERT INTO `anggota` VALUES (1,'4kjk2sd','1234567890','KTP','Irving Dian Pratama','Irving','Jl Jendral soedirman purbalingga','009876879',1,'2019-01-25 07:16:29'),(2,'edq3lbv','1234567890','KTP','Mr John Lennon','John','California. US','0987654321',1,'2019-02-08 03:47:11');
 /*!40000 ALTER TABLE `anggota` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `buku` (
   `judul` varchar(255) NOT NULL,
   `halaman` int(11) NOT NULL,
   `jumlah_tersedia` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `penulis_id` (`penulis_id`),
@@ -99,7 +99,7 @@ CREATE TABLE `history_perpanjangan` (
   `user_id` int(11) NOT NULL,
   `jatuh_tempo_awal` date NOT NULL,
   `jatuh_tempo_akhir` date NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `peminjaman_id` (`peminjaman_id`),
   KEY `user_id` (`user_id`),
   KEY `buku_id` (`buku_id`),
@@ -130,7 +130,7 @@ CREATE TABLE `kategori` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rak_id` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rak_id` (`rak_id`),
@@ -161,7 +161,7 @@ CREATE TABLE `penerbit` (
   `alamat` varchar(255) NOT NULL,
   `telepon` varchar(12) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -187,7 +187,7 @@ DROP TABLE IF EXISTS `penulis`;
 CREATE TABLE `penulis` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -217,14 +217,14 @@ CREATE TABLE `pinjam` (
   `tanggal_pinjam` datetime NOT NULL,
   `qty` int(11) NOT NULL,
   `total_denda` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `anggota_id` (`anggota_id`),
   CONSTRAINT `pinjam_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `pinjam_ibfk_2` FOREIGN KEY (`anggota_id`) REFERENCES `anggota` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `pinjam` (
 
 LOCK TABLES `pinjam` WRITE;
 /*!40000 ALTER TABLE `pinjam` DISABLE KEYS */;
-INSERT INTO `pinjam` VALUES (129,'24142770a0',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 19:58:37','0000-00-00 00:00:00'),(130,'241427a4fa',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 20:00:51','0000-00-00 00:00:00'),(131,'241427bf86',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 20:01:59','0000-00-00 00:00:00'),(132,'39b9d93b8',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 20:02:13','0000-00-00 00:00:00'),(133,'39b9d96dd',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 20:03:34','0000-00-00 00:00:00'),(134,'39b9d9737',1,1,'2019-02-08 00:00:00',1,0,'2019-02-07 20:03:43','0000-00-00 00:00:00');
+INSERT INTO `pinjam` VALUES (152,'24144cbd22',1,1,'2019-02-08 00:00:00',1,0,'2019-02-08 02:46:01','0000-00-00 00:00:00'),(153,'24144d3a7a',1,1,'2019-02-08 00:00:00',2,0,'2019-02-08 02:51:22','0000-00-00 00:00:00'),(154,'24144d81f5',1,1,'2019-02-08 00:00:00',2,0,'2019-02-08 02:54:25','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `pinjam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,15 +250,15 @@ CREATE TABLE `pinjam_detail` (
   `buku_id` int(11) NOT NULL,
   `jml_perpanjangan` int(11) NOT NULL,
   `jatuh_tempo` date NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL COMMENT '1 = Keluar / 0= Kembali',
   `tanggal_kembali` date NOT NULL,
   `denda` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pinjam_id` (`pinjam_id`),
   CONSTRAINT `pinjam_detail_ibfk_1` FOREIGN KEY (`pinjam_id`) REFERENCES `pinjam` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +267,7 @@ CREATE TABLE `pinjam_detail` (
 
 LOCK TABLES `pinjam_detail` WRITE;
 /*!40000 ALTER TABLE `pinjam_detail` DISABLE KEYS */;
-INSERT INTO `pinjam_detail` VALUES (13,129,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 19:58:37','0000-00-00 00:00:00'),(14,130,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 20:00:51','0000-00-00 00:00:00'),(15,131,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 20:02:00','0000-00-00 00:00:00'),(16,132,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 20:02:13','0000-00-00 00:00:00'),(17,133,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 20:03:34','0000-00-00 00:00:00'),(18,134,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-07 20:03:43','0000-00-00 00:00:00');
+INSERT INTO `pinjam_detail` VALUES (41,152,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:46:01','0000-00-00 00:00:00'),(42,152,2,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:46:01','0000-00-00 00:00:00'),(43,153,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:51:23','0000-00-00 00:00:00'),(44,153,2,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:51:23','0000-00-00 00:00:00'),(45,154,1,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:54:25','0000-00-00 00:00:00'),(46,154,2,0,'2019-02-08',1,'0000-00-00',0,'2019-02-08 02:54:25','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `pinjam_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,11 +283,11 @@ CREATE TABLE `pinjam_temp` (
   `buku_id` int(11) NOT NULL,
   `isbn` varchar(50) NOT NULL,
   `judul` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `buku_id` (`buku_id`),
   CONSTRAINT `pinjam_temp_ibfk_1` FOREIGN KEY (`buku_id`) REFERENCES `buku` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +296,6 @@ CREATE TABLE `pinjam_temp` (
 
 LOCK TABLES `pinjam_temp` WRITE;
 /*!40000 ALTER TABLE `pinjam_temp` DISABLE KEYS */;
-INSERT INTO `pinjam_temp` VALUES (16,1,'735416238','Adobe Photoshop Tutorial','2019-02-07 19:56:28');
 /*!40000 ALTER TABLE `pinjam_temp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +309,7 @@ DROP TABLE IF EXISTS `rak`;
 CREATE TABLE `rak` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kode` varchar(20) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -338,7 +337,7 @@ CREATE TABLE `user` (
   `nama` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -362,4 +361,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-08  3:06:53
+-- Dump completed on 2019-02-08 16:39:39
