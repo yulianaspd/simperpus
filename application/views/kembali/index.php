@@ -84,12 +84,13 @@
                     </div>
                     <br><br>
                     <!-- <div class="table-responsive"> -->
-                      <table id="table-pinjam-temp" class="table table-bordered table-striped">
+                      <table id="table-pinjam-temp" class="table table-bordered table-striped" style="width:100%">
                          <thead>
                               <tr>
                                   <th>No</th>
-                                  <th>Buku ID</th>
                                   <th>Judul</th>
+                                  <th>Tanggal Pinjam</th>
+                                  <th>Jatuh Tempo</th>
                                   <th></th>
                               </tr>
                           </thead>
@@ -128,7 +129,7 @@
   $(document).ready(function(){
     
     $("#box-buku").hide();
-    var kode_anggota = $("#kode").val();
+    var id_anggota = 1;
 
     //datatables
     table = $('#table-pinjam-temp').DataTable({ 
@@ -139,7 +140,10 @@
         
         "ajax": {
             "url": "<?php echo base_url('kembali/ajaxGetPinjam')?>",
-            "type": "POST"
+            "type": "POST",
+            "data": {
+               id_anggota:id_anggota
+            }
         },
         
         "columnDefs": [
@@ -149,7 +153,7 @@
           },
           {
             "targets": [ 1 ],
-            "visible": false,
+            "visible": true,
             "orderable": false,
             "searchable": false
           },

@@ -55,17 +55,23 @@ class Kembali extends CI_Controller {
 	}
 
 	public function ajaxGetPinjam(){
-		$kode_anggota = $this->input->post('kode_anggota');
-		$list = $this->m_kembali->get_datatables();
-		$data = array();
-		$no = $_POST['start'];
+		$id_anggota = $this->input->post('id_anggota');
+		$list 	= $this->m_kembali->get_datatables($id_anggota);
+		$data 	= array();
+		$no 	= $_POST['start'];
+		$today = date("Y-m-d");
+		$keterangan;
 		foreach($list as $value){
+
+			$date_diff =abs(strtotime($today)-strtotime($value->jatuh_tempo))/86400;
+			
+
 			$no++;
 			$row = array();
 			$row[] = $no;
 			$row[] = $value->judul;
 			$row[] = $value->tanggal_pinjam;
-			$row[] = $value->jatuh_tempo;
+			$row[] = $date_diff;
 			$row[] = "
             		<a class='btn btn-danger delete-temp'
                     data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
@@ -75,8 +81,8 @@ class Kembali extends CI_Controller {
 		}
 		$output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->m_kembali->count_all(),
-            "recordsFiltered" => $this->m_kembali->count_filtered(),
+            "recordsTotal" => $this->m_kembali->count_all($id_anggota),
+            "recordsFiltered" => $this->m_kembali->count_filtered($id_anggota),
             "data" => $data,
         );
         //output dalam format JSON

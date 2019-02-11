@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_kembali extends CI_Model {
 
-	var $table = 'pinjam'; //nama tabel dari database
+	var $table = 'pinjam_detail'; //nama tabel dari database
 	var $column_order = array(null,'judul', 'tanggal_pinjam','jatuh_tempo','status'); //field yang ada di table user
 	var $column_search = array('judul', 'tanggal_pinjam','jatuh_tempo','status'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $order = array('pinjam_detail.id' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -14,50 +14,22 @@ class M_kembali extends CI_Model {
 		$this->load->database();
 	}
 
-	private function _get_datatables_query()
+	private function _get_datatables_query($anggota_id)
 	{
+		$this->db->select('
+				pinjam_detail.id,
+				buku.judul AS judul,
+				DATE_FORMAT(pinjam_detail.created_at, "%d-%m-%Y %H:%i") AS tanggal_pinjam,
+				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") AS jatuh_tempo,
+				pinjam_detail.status
+			');
+		$this->db->from($this->table);
+		$this->db->join('pinjam','pinjam.id = pinjam_detail.pinjam_id');
+		$this->db->join('buku','buku.id = pinjam_detail.buku_id');
+		$this->db->where('pinjam.anggota_id', $anggota_id);
+		$this->db->where('pinjam_detail.status', 1);
+
 		
-		//$this->db->from($this->table);
-		// $this->db->select('pinjam.id');
-		// $this->db->select('pinjam.kode_pinjam');
-		// $this->db->select('anggota.kode');
-		// $this->db->select('anggota.nama_lengkap');
-		// $this->db->from($this->table);
-		// $this->db->join('anggota','anggota.id = pinjam.anggota_id');
-		// $query_pinjam = $this->db->get();
-
-		// $this->db->select();
-		// $this->from($query->pinjam)
-		$this->db->query('SELECT detail_pinjam_buku.id,
-								 detail_pinjam_buku.pinjam_id,
-								 detail_pinjam_buku.judul,
-								 detail_pinjam_buku.tanggal_pinjam,
-								 detail_pinjam_buku.jatuh_tempo,
-								 detail_pinjam_buku.status
-						FROM
-						(
-							SELECT pinjam.id, anggota.kode
-						    FROM pinjam, anggota
-						    WHERE
-						    pinjam.anggota_id = anggota.id 
-						)AS pinjam_buku,
-						(
-						    SELECT
-						    pinjam_detail.id,
-						    pinjam_detail.pinjam_id,
-						    buku.judul,
-						    pinjam_detail.created_at AS tanggal_pinjam,
-						    pinjam_detail.jatuh_tempo,
-						    pinjam_detail.status
-						    FROM
-						    pinjam_detail,
-						    buku
-						    WHERE
-						    buku.id = pinjam_detail.buku_id AND
-							pinjam_detail.status != 0    
-						) AS detail_pinjam_buku
-						WHERE pinjam_buku.id= detail_pinjam_buku.pinjam_id')->get();
-
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -92,53 +64,37 @@ class M_kembali extends CI_Model {
 		}	
 	}
 
-	function get_datatables()
+	function get_datatables($anggota_id)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($anggota_id);
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	function count_filtered()
+	function count_filtered($anggota_id)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($anggota_id);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all()
+	public function count_all($anggota_id)
 	{
-		$this->db->query('SELECT detail_pinjam_buku.id,
-								 detail_pinjam_buku.pinjam_id,
-								 detail_pinjam_buku.judul,
-								 detail_pinjam_buku.tanggal_pinjam,
-								 detail_pinjam_buku.jatuh_tempo,
-								 detail_pinjam_buku.status
-						FROM
-						(
-							SELECT pinjam.id, anggota.kode
-						    FROM pinjam, anggota
-						    WHERE
-						    pinjam.anggota_id = anggota.id 
-						)AS pinjam_buku,
-						(
-						    SELECT
-						    pinjam_detail.id,
-						    pinjam_detail.pinjam_id,
-						    buku.judul,
-						    pinjam_detail.created_at AS tanggal_pinjam,
-						    pinjam_detail.jatuh_tempo,
-						    pinjam_detail.status
-						    FROM
-						    pinjam_detail,
-						    buku
-						    WHERE
-						    buku.id = pinjam_detail.buku_id AND
-							pinjam_detail.status != 0    
-						) AS detail_pinjam_buku
-						WHERE pinjam_buku.id= detail_pinjam_buku.pinjam_id')->get();
+		$this->db->select('
+				pinjam_detail.id,
+				buku.judul AS judul,
+				DATE_FORMAT(pinjam_detail.created_at, "%d-%m-%Y %H:%i") AS tanggal_pinjam,
+				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") jatuh_tempo,
+				pinjam_detail.status
+			');
+		$this->db->from($this->table);
+		$this->db->join('pinjam','pinjam.id = pinjam_detail.pinjam_id');
+		$this->db->join('buku','buku.id = pinjam_detail.buku_id');
+		$this->db->where('pinjam.anggota_id', $anggota_id);
+		$this->db->where('pinjam_detail.status', 1);
+
 		return $this->db->count_all_results();
 	}
 	
