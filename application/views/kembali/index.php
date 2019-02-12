@@ -41,67 +41,57 @@
           <div class="box box-primary" id="box-buku">
             <!-- form start -->
             <form id="form-pinjam" role="form" action="#">
-              <div class="box-body">
+              <div class="box-body">  
+                <table class="table table-striped">
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <td>1.</td>
+                      <td>KODE</td>
+                      <input type="hidden" id="anggota_id" value="">
+                      <td class="text-right kode"></td>
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>NAMA LENGKAP <?php echo $this->session->userdata('id') ?></td>
+                      <td class="text-right nama_lengkap"></td>
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Alamat</td>
+                      <td class="text-right alamat"></td>
+                    </tr>
+                    <tr>
+                      <td>4.</td>
+                      <td>TELEPON</td>
+                      <td class="text-right telepon"></td>
+                    </tr>
+                  </table>
+                  
+                  <br>
+                  <br>
+                  <b><h1 class="page-header text-center">DAFTAR PINJAM BUKU</h1></b>
+                  <!-- <div class="table-responsive"> -->
+                    <table id="table-pinjam" class="table table-bordered table-striped" style="width:100%">
+                       <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul</th>
+                                <th>Tanggal Pinjam</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Terlambat</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                    
                 
-                <div class="row">
-                  <div class="col-md-5">
-                    <table class="table table-striped">
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                        <tr>
-                          <td>1.</td>
-                          <td>KODE</td>
-                          <input type="hidden" id="anggota_id">
-                          <td class="text-right kode"></td>
-                        </tr>
-                        <tr>
-                          <td>2.</td>
-                          <td>NAMA LENGKAP <?php echo $this->session->userdata('id') ?></td>
-                          <td class="text-right nama_lengkap"></td>
-                        </tr>
-                        <tr>
-                          <td>3.</td>
-                          <td>Alamat</td>
-                          <td class="text-right alamat"></td>
-                        </tr>
-                        <tr>
-                          <td>4.</td>
-                          <td>TELEPON</td>
-                          <td class="text-right telepon"></td>
-                        </tr>
-                      </table>
-                  </div>
-                  <div class="col-md-7">
-                    <label>INPUT BUKU</label>
-                    <div class="input-group input-group-md">
-                      <input type="text" id="isbn" name="isbn" class="form-control" placeholder="Input / Scan Barcode ISBN">
-                      <span class="input-group-btn">
-                        <button type="button" id="btn-input-buku" class="btn btn-info btn-flat"><i class="fa fa-download"></i></button>
-                      </span>
-                    </div>
-                    <br><br>
-                    <!-- <div class="table-responsive"> -->
-                      <table id="table-pinjam-temp" class="table table-bordered table-striped" style="width:100%">
-                         <thead>
-                              <tr>
-                                  <th>No</th>
-                                  <th>Judul</th>
-                                  <th>Tanggal Pinjam</th>
-                                  <th>Jatuh Tempo</th>
-                                  <th></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                            
-                          </tbody>
-                      </table>
-                    <!-- </div> -->
-
-                  </div>
-                </div>
                 
               </div>
                 <!-- /.box-body -->
@@ -129,21 +119,20 @@
   $(document).ready(function(){
     
     $("#box-buku").hide();
-    var id_anggota = 1;
-
     //datatables
-    table = $('#table-pinjam-temp').DataTable({ 
+    table = $('#table-pinjam').DataTable({ 
         "processing": true, 
         "serverSide": true, 
         "pagination": false,
+        "lengthChange": false,
         "order": [], 
         
         "ajax": {
             "url": "<?php echo base_url('kembali/ajaxGetPinjam')?>",
             "type": "POST",
-            "data": {
-               id_anggota:id_anggota
-            }
+            "data": function (data) {
+                      data.anggota_id = $('#anggota_id').val();
+                  }
         },
         
         "columnDefs": [
@@ -190,7 +179,6 @@
                 $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
                 $("#box-buku").slideDown(); 
                 $("#kode").prop('disabled', true);
-                $("#kode").val('');
                 table.ajax.reload();
               }else{
                 $("#box-buku").slideUp();

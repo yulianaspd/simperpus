@@ -86,7 +86,7 @@ class M_kembali extends CI_Model {
 				pinjam_detail.id,
 				buku.judul AS judul,
 				DATE_FORMAT(pinjam_detail.created_at, "%d-%m-%Y %H:%i") AS tanggal_pinjam,
-				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") jatuh_tempo,
+				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") AS jatuh_tempo,
 				pinjam_detail.status
 			');
 		$this->db->from($this->table);

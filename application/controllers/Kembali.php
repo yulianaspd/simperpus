@@ -47,7 +47,7 @@ class Kembali extends CI_Controller {
 			}else{
 				$result = array(
 					'keterangan' => "OK",
-					'anggota'		 => $anggota[0] 
+					'anggota'	 => $anggota[0] 
 				);
 				echo json_encode($result);	
 			}	
@@ -55,15 +55,25 @@ class Kembali extends CI_Controller {
 	}
 
 	public function ajaxGetPinjam(){
-		$id_anggota = $this->input->post('id_anggota');
-		$list 	= $this->m_kembali->get_datatables($id_anggota);
-		$data 	= array();
-		$no 	= $_POST['start'];
-		$today = date("Y-m-d");
-		$keterangan;
-		foreach($list as $value){
+		$anggota_id = $this->input->post('anggota_id');
+		$list 		= $this->m_kembali->get_datatables($anggota_id);
+		$data 		= array();
+		$no 		= $_POST['start'];
+		$today 		= date("Y-m-d");
+		$terlambat;
 
-			$date_diff =abs(strtotime($today)-strtotime($value->jatuh_tempo))/86400;
+		
+  		
+		foreach($list as $value){
+			$time1 = new DateTime($value->jatuh_tempo);
+  			$time2 = new DateTime($today);
+  			$resultTime = date_diff($time1, $time2);
+			$date_diff = (strtotime($today) - strtotime($value->jatuh_tempo))/86400;
+			if($date_diff > 0){
+				$terlambat = '<div style="color:red">'.$date_diff." hari</div>";
+			}else{
+				$terlambat = "-";
+			}
 			
 
 			$no++;
@@ -71,7 +81,8 @@ class Kembali extends CI_Controller {
 			$row[] = $no;
 			$row[] = $value->judul;
 			$row[] = $value->tanggal_pinjam;
-			$row[] = $date_diff;
+			$row[] = $value->jatuh_tempo;
+			$row[] = $terlambat;
 			$row[] = "
             		<a class='btn btn-danger delete-temp'
                     data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
@@ -81,8 +92,8 @@ class Kembali extends CI_Controller {
 		}
 		$output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->m_kembali->count_all($id_anggota),
-            "recordsFiltered" => $this->m_kembali->count_filtered($id_anggota),
+            "recordsTotal" => $this->m_kembali->count_all($anggota_id),
+            "recordsFiltered" => $this->m_kembali->count_filtered($anggota_id),
             "data" => $data,
         );
         //output dalam format JSON

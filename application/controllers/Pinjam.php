@@ -48,7 +48,7 @@ class Pinjam extends CI_Controller {
 			}else{
 				$result = array(
 					'keterangan' => "OK",
-					'anggota'		 => $anggota[0] 
+					'anggota'    => $anggota[0] 
 				);
 				echo json_encode($result);	
 			}	
