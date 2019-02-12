@@ -1,5 +1,7 @@
 <!-- DataTables -->
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css')?>">
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -114,6 +116,8 @@
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
 <script>
    var table;
   $(document).ready(function(){
@@ -149,7 +153,18 @@
         ],
     });
 
-    function clearForm(){
+    //Flat red color scheme for iCheck
+    // $('#table-pinjam_wrapper').find('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+    //   checkboxClass: 'icheckbox_flat-green',
+    //   radioClass   : 'iradio_flat-green'
+    // });
+
+   $(table.table().container()).on('ifChanged', '.flat-red', function(event){
+      var cell = table.cell($(this).closest('td'));
+      cell.checkboxes.select(this.checked);
+   });
+
+   function clearForm(){
       $("#anggota_id").val('');
       $(".kode").html('');
       $(".nama_lengkap").html('');
@@ -190,55 +205,7 @@
             }
         });     
     });
-
-    $("#btn-input-buku").click(function(e){
-      var isbn = $("#isbn").val();
-      $.ajax({
-         type: "POST",
-          dataType: 'JSON',
-          data:{
-                isbn : isbn
-              },
-          url:"<?php echo base_url('pinjam/scanInputTemp'); ?>",
-          success: function (data) {
-            
-            if(data.keterangan != 'NOK'){
-               if(data.keterangan != 'NOK' ){
-                  table.ajax.reload();
-                  $("#isbn").val('');
-                  console.log(data.keterangan);
-                  console.log(data.msg);
-               }else{
-                  alert(data.error)
-               }
-            }else{
-              $("#isbn").val('');
-              alert(data.error);
-            }   
-          },
-          error: function(data){
-            console.log(data);
-          }
-      })
-    })
-
-    $("#table-pinjam-temp_wrapper").on('click', '.delete-temp', function(e){
-      var url = $(this).data('href');
-      $.ajax({
-        
-        type: "POST",
-        dataType:"JSON",
-        url: url,
-        success: function(data){
-           table.ajax.reload();
-        },
-        error:function(data){
-          console.log(data);
-        }
-
-      })
-    });
-
+  
 
     $('#btn-proses').click(function(e) {
         var anggota_id  = $("#anggota_id").val();
@@ -280,9 +247,8 @@
           error:function(data){
            console.log(data);
           }
-        })
-        
+        }) 
     });
-
-  });
+    
+ });    
 </script>

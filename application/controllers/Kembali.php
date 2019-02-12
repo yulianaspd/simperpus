@@ -19,7 +19,7 @@ class Kembali extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] 	= 'Transaksi Kembali';
+		$data['title'] 	= 'K';
 		$data['icon'] 	= 'fa  fa-download';
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
@@ -83,10 +83,19 @@ class Kembali extends CI_Controller {
 			$row[] = $value->tanggal_pinjam;
 			$row[] = $value->jatuh_tempo;
 			$row[] = $terlambat;
-			$row[] = "
-            		<a class='btn btn-danger delete-temp'
-                    data-href='". base_url('pinjam/deleteTemp/'.$value->id)."''
-                    href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
+			$row[] = '
+		              <div class="form-group">
+		                <label>
+		                  <input type="checkbox" class="flat-red" checked>
+		                </label>
+		                <label>
+		                  <input type="checkbox" class="flat-red">
+		                </label>
+		                <label>
+		                  <input type="checkbox" class="flat-red" disabled>
+		                  Flat green skin checkbox
+		                </label>
+		              </div>';
 
             $data[] = $row;
 		}
