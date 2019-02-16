@@ -80,18 +80,32 @@
                     <table id="table-pinjam" class="table table-bordered table-striped" style="width:100%">
                        <thead>
                             <tr>
+                                <th>
+                                  <div class="checkbox">
+                                    <label><input type="checkbox" class="icheckbox_flat-blue" id="check-all" value=""></label>
+                                  </div>
+                                </th>
                                 <th>No</th>
                                 <th>Judul</th>
                                 <th>Tanggal Pinjam</th>
                                 <th>Jatuh Tempo</th>
                                 <th>Terlambat</th>
-                                <th></th>
+                                <th>Denda</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
                           
                         </tbody>
+                        <tfoot>
+                            <tr>
+                              <th colspan="6">TOTAL SEMUA DENDA</th>
+                              
+                              <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
+                    <div class="total_denda"></div>
                     
                 
                 
@@ -119,7 +133,13 @@
 <!-- iCheck 1.0.1 -->
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
 <script>
-   var table;
+  var table;
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+  });
+
   $(document).ready(function(){
     
     $("#box-buku").hide();
@@ -138,117 +158,157 @@
                       data.anggota_id = $('#anggota_id').val();
                   }
         },
-        
+        // "drawCallback": function(){
+        //    $('input[type="checkbox"]').iCheck({
+        //       checkboxClass: 'icheckbox_flat-blue'
+        //    });
+        // },
+         "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 6 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 6, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 6 ).footer() ).html(
+                formatter.format(total) 
+            );
+        },
         "columnDefs": [
           { 
             "targets": [ 0 ], 
             "orderable": false, 
           },
-          {
-            "targets": [ 1 ],
+          { 
+            "targets": [ 5 ], 
             "visible": true,
             "orderable": false,
             "searchable": false
           },
-        ],
-    });
-
-    //Flat red color scheme for iCheck
-    // $('#table-pinjam_wrapper').find('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-    //   checkboxClass: 'icheckbox_flat-green',
-    //   radioClass   : 'iradio_flat-green'
-    // });
-
-   $(table.table().container()).on('ifChanged', '.flat-red', function(event){
-      var cell = table.cell($(this).closest('td'));
-      cell.checkboxes.select(this.checked);
-   });
-
-   function clearForm(){
-      $("#anggota_id").val('');
-      $(".kode").html('');
-      $(".nama_lengkap").html('');
-      $(".alamat").html('');
-      $(".telepon").html('');
-      $("#box-buku").slideUp(); 
-      $("#kode").prop('disabled', false);
-      table.ajax.reload();
-    }
-
-    $("#btn-cek-anggota").click(function(){
-      var kode = $("#kode").val();
-        $.ajax({
-            type: "POST",
-            dataType: 'JSON',
-            data:{
-                  kode : kode
-                },
-            url:"<?php echo base_url('kembali/showAnggota'); ?>",
-            success: function (data) {
-                   
-              if(data.keterangan != 'NOK'){
-                $("#anggota_id").val(data.anggota.id);
-                $(".kode").html('<b>'+data.anggota.kode +'</b>');
-                $(".nama_lengkap").html('<b>'+data.anggota.nama_lengkap +'</b>');
-                $(".alamat").html('<b>'+data.anggota.alamat +'</b>');
-                $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
-                $("#box-buku").slideDown(); 
-                $("#kode").prop('disabled', true);
-                table.ajax.reload();
-              }else{
-                $("#box-buku").slideUp();
-                alert(data.error);
-              }   
-            },
-            error: function(data){
-              console.log(data);
-            }
-        });     
-    });
-  
-
-    $('#btn-proses').click(function(e) {
-        var anggota_id  = $("#anggota_id").val();
-        var user_id     = "<?php echo $this->session->userdata('id') ?>";
-
-        $.ajax({
-          type: "POST",
-          dataType:"JSON",
-          url: "<?php echo base_url('pinjam/store'); ?>",
-          data: {
-            user_id:user_id,
-            anggota_id:anggota_id
-          },
-          success: function(data){
-            var pinjam_id = data.result_pinjam.id;
-            var buku_id = $.map(table.data(), function (item) {
-                              return item[1]
-                          });
-             $.ajax({
-                type: "POST",
-                dataType:"JSON",
-                url:"<?php echo base_url('pinjam/storeDetail'); ?>",
-                data:{
-                  buku_id:buku_id,
-                  pinjam_id:pinjam_id
-                },
-                success: function(data){
-                  clearForm();
-                  swal({
-                    title: "success!",
-                    icon: "success",
-                  });
-                },
-                error:function(data){
-                  console.log(data);
-                }
-             })
-          },
-          error:function(data){
-           console.log(data);
+          {
+          "targets": [ 6 ],
+            "orderable": false,
+            "searchable": false  
           }
-        }) 
+        ],  
     });
-    
- });    
+
+ }); 
+
+function clearForm(){
+    $("#anggota_id").val('');
+    $(".kode").html('');
+    $(".nama_lengkap").html('');
+    $(".alamat").html('');
+    $(".telepon").html('');
+    $("#box-buku").slideUp(); 
+    $("#kode").prop('disabled', false);
+    table.ajax.reload();
+  }
+
+  $("#btn-cek-anggota").click(function(){
+    var kode = $("#kode").val();
+      $.ajax({
+          type: "POST",
+          dataType: 'JSON',
+          data:{
+                kode : kode
+              },
+          url:"<?php echo base_url('kembali/showAnggota'); ?>",
+          success: function (data) {
+                 
+            if(data.keterangan != 'NOK'){
+              $("#anggota_id").val(data.anggota.id);
+              $(".kode").html('<b>'+data.anggota.kode +'</b>');
+              $(".nama_lengkap").html('<b>'+data.anggota.nama_lengkap +'</b>');
+              $(".alamat").html('<b>'+data.anggota.alamat +'</b>');
+              $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
+              $("#box-buku").slideDown(); 
+              $("#kode").prop('disabled', true);
+
+              table.ajax.reload();
+              console.log(table.ajax.json().total_denda); 
+            }else{
+              $("#box-buku").slideUp();
+              alert(data.error);
+            }   
+          },
+          error: function(data){
+            console.log(data);
+          }
+      });     
+  });
+
+ $('#btn-proses').click(function(e) {
+      var anggota_id  = $("#anggota_id").val();
+      var user_id     = "<?php echo $this->session->userdata('id') ?>";
+
+      $.ajax({
+        type: "POST",
+        dataType:"JSON",
+        url: "<?php echo base_url('pinjam/store'); ?>",
+        data: {
+          user_id:user_id,
+          anggota_id:anggota_id
+        },
+        success: function(data){
+          var pinjam_id = data.result_pinjam.id;
+          var buku_id = $.map(table.data(), function (item) {
+                            return item[1]
+                        });
+           $.ajax({
+              type: "POST",
+              dataType:"JSON",
+              url:"<?php echo base_url('pinjam/storeDetail'); ?>",
+              data:{
+                buku_id:buku_id,
+                pinjam_id:pinjam_id
+              },
+              success: function(data){
+                clearForm();
+                swal({
+                  title: "success!",
+                  icon: "success",
+                });
+              },
+              error:function(data){
+                console.log(data);
+              }
+           })
+        },
+        error:function(data){
+         console.log(data);
+        }
+      }) 
+  });
+
+  $("#check-all").on('change', function(){
+    if(this.checked) {
+      console.log('hahah');
+      $("#table-pinjam_wrapper ,input:checkbox").not(this).prop('checked', this.checked);
+    }else{
+      $("#table-pinjam_wrapper ,input:checkbox").not(this).prop('checked', false);
+    }
+  }); 
 </script>

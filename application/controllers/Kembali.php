@@ -61,7 +61,8 @@ class Kembali extends CI_Controller {
 		$no 		= $_POST['start'];
 		$today 		= date("Y-m-d");
 		$terlambat;
-
+		$denda = 0;
+		$total_denda = 0;
 		
   		
 		foreach($list as $value){
@@ -71,39 +72,43 @@ class Kembali extends CI_Controller {
 			$date_diff = (strtotime($today) - strtotime($value->jatuh_tempo))/86400;
 			if($date_diff > 0){
 				$terlambat = '<div style="color:red">'.$date_diff." hari</div>";
+				$denda = 1000*$date_diff;
 			}else{
 				$terlambat = "-";
+				$denda ;
 			}
 			
 
 			$no++;
 			$row = array();
+			$row[] = '
+		              <div class="checkbox">
+		                <label>
+		                  <input type="checkbox" class="icheckbox_flat-blue" value="'.$value->id.'">
+		                </label>
+		              </div>';
 			$row[] = $no;
 			$row[] = $value->judul;
 			$row[] = $value->tanggal_pinjam;
 			$row[] = $value->jatuh_tempo;
-			$row[] = $terlambat;
+			$row[] = $terlambat." Hari";
+			$row[] = number_format($denda);
 			$row[] = '
-		              <div class="form-group">
+		              <div class="checkbox">
 		                <label>
-		                  <input type="checkbox" class="flat-red" checked>
-		                </label>
-		                <label>
-		                  <input type="checkbox" class="flat-red">
-		                </label>
-		                <label>
-		                  <input type="checkbox" class="flat-red" disabled>
-		                  Flat green skin checkbox
+		                  <input type="checkbox" class="icheckbox_flat-blue" value="'.$value->id.'">
 		                </label>
 		              </div>';
 
             $data[] = $row;
+            $total_denda += $denda;
 		}
 		$output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->m_kembali->count_all($anggota_id),
             "recordsFiltered" => $this->m_kembali->count_filtered($anggota_id),
             "data" => $data,
+            "total_denda" => $total_denda,
         );
         //output dalam format JSON
         echo json_encode($output);
