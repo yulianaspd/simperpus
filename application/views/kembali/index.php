@@ -75,23 +75,21 @@
                   
                   <br>
                   <br>
-                  <b><h1 class="page-header text-center">DAFTAR PINJAM BUKU</h1></b>
                   <!-- <div class="table-responsive"> -->
                     <table id="table-pinjam" class="table table-bordered table-striped" style="width:100%">
                        <thead>
                             <tr>
-                                <th>
-                                  <div class="checkbox">
-                                    <label><input type="checkbox" class="icheckbox_flat-blue" id="check-all" value=""></label>
-                                  </div>
-                                </th>
-                                <th>No</th>
-                                <th>Judul</th>
-                                <th>Tanggal Pinjam</th>
-                                <th>Jatuh Tempo</th>
-                                <th>Terlambat</th>
-                                <th>Denda</th>
-                                
+                              <th>
+                                <div class="checkbox">
+                                  <label><input type="checkbox" class="icheckbox_flat-blue" id="check-all" value=""></label>
+                                </div>
+                              </th>
+                              <th>No</th>
+                              <th>Judul</th>
+                              <th>Tanggal Pinjam</th>
+                              <th>Jatuh Tempo</th>
+                              <th>Terlambat</th>
+                              <th>Denda</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,16 +97,13 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                              <th colspan="6">TOTAL SEMUA DENDA</th>
+                              <th colspan="6"><h3>TOTAL DENDA</h3></th>
                               
                               <th></th>
                             </tr>
                         </tfoot>
                     </table>
-                    <div class="total_denda"></div>
-                    
-                
-                
+                    <div class="total_denda_footer"></div>
               </div>
                 <!-- /.box-body -->
               <div class="box-footer">
@@ -126,6 +121,40 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+<div class="modal fade" id="modal-confirm-list-kembali" role="dialog" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><center><span class="fa fa-question-circle"></span> List Buku embali</center></h4>
+            </div>
+            <form action="#">
+                <div class="modal-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <th></th>
+                      <th></th>
+                    </thead>
+                    <tr>
+                      <td>Jumlah Buku</td>
+                      <td class="text-right jml_buku"></td>
+                    </tr>
+                    <tr>
+                      <td>Total Denda</td>
+                      <td class="text-right total_denda"></td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="fa fa-times"></span> Batal</button>
+                    <button type="submit" class="btn btn-success"><span class="fa fa-rocket"></span> Proses</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
@@ -148,6 +177,7 @@
         "processing": true, 
         "serverSide": true, 
         "pagination": false,
+        "searching": false,
         "lengthChange": false,
         "order": [], 
         
@@ -192,7 +222,7 @@
  
             // Update footer
             $( api.column( 6 ).footer() ).html(
-                formatter.format(total) 
+                '<h3>'+formatter.format(total)+'</h3>' 
             );
         },
         "columnDefs": [
@@ -246,7 +276,7 @@ function clearForm(){
               $(".telepon").html('<b>'+data.anggota.telepon +'</b>');
               $("#box-buku").slideDown(); 
               $("#kode").prop('disabled', true);
-
+              $("#btn-cek-anggota").attr('disabled','disabled');
               table.ajax.reload();
               console.log(table.ajax.json().total_denda); 
             }else{
@@ -260,48 +290,83 @@ function clearForm(){
       });     
   });
 
- $('#btn-proses').click(function(e) {
-      var anggota_id  = $("#anggota_id").val();
-      var user_id     = "<?php echo $this->session->userdata('id') ?>";
+   $("#btn-proses").click(function(){
 
-      $.ajax({
-        type: "POST",
-        dataType:"JSON",
-        url: "<?php echo base_url('pinjam/store'); ?>",
-        data: {
-          user_id:user_id,
-          anggota_id:anggota_id
-        },
-        success: function(data){
-          var pinjam_id = data.result_pinjam.id;
-          var buku_id = $.map(table.data(), function (item) {
-                            return item[1]
-                        });
-           $.ajax({
-              type: "POST",
-              dataType:"JSON",
-              url:"<?php echo base_url('pinjam/storeDetail'); ?>",
-              data:{
-                buku_id:buku_id,
-                pinjam_id:pinjam_id
-              },
-              success: function(data){
-                clearForm();
-                swal({
-                  title: "success!",
-                  icon: "success",
-                });
-              },
-              error:function(data){
-                console.log(data);
-              }
-           })
-        },
-        error:function(data){
-         console.log(data);
-        }
-      }) 
-  });
+        var buku_id = $.map(table.data(), function (item) {
+                              return item[1]
+                      });
+        var total_data = $("#table-pinjam_wrapper").find('input[name="pinjam_detail_id"]:checked').length;
+        if(total_data == 0){
+            alert("Data belum dipilih !");
+        }else{
+            $("#modal-confirm-list-kembali").modal('show');
+            $(".jml_buku").text(total_data);
+            
+            var arr_proses = [];
+            $.map(table.data(), function (item) {
+                var arr = [];
+                arr['id'] = item[7];
+                arr['denda'] = item[6];
+                return arr_proses.push(arr);
+            });
+            var total_denda = 0;
+            var rowcollection =  table.$("input[name='pinjam_detail_id']:checked");
+            rowcollection.each(function(index,elem){
+              var checkbox_value = $(elem).val();
+              var arr_denda = arr_proses.find( function(item) { 
+                return item['id'] == checkbox_value 
+              });
+              var res = arr_denda['denda'].replace(",", "");
+              total_denda += parseInt(res,10);
+            });
+             $(".total_denda").text(total_denda);
+        }  
+    });  
+
+ // $('#btn-proses').click(function(e) {
+ //    numberNotChecked = $("#table-pinjam_wrapper .pinjam_detail_id").attr('checked').length;
+ //    console.log(numberNotChecked);
+      // var anggota_id  = $("#anggota_id").val();
+      // var user_id     = "<?php echo $this->session->userdata('id') ?>";
+
+      // $.ajax({
+      //   type: "POST",
+      //   dataType:"JSON",
+      //   url: "<?php echo base_url('pinjam/store'); ?>",
+      //   data: {
+      //     user_id:user_id,
+      //     anggota_id:anggota_id
+      //   },
+      //   success: function(data){
+      //     var pinjam_id = data.result_pinjam.id;
+      //     var buku_id = $.map(table.data(), function (item) {
+      //                       return item[1]
+      //                   });
+      //      $.ajax({
+      //         type: "POST",
+      //         dataType:"JSON",
+      //         url:"<?php echo base_url('pinjam/storeDetail'); ?>",
+      //         data:{
+      //           buku_id:buku_id,
+      //           pinjam_id:pinjam_id
+      //         },
+      //         success: function(data){
+      //           clearForm();
+      //           swal({
+      //             title: "success!",
+      //             icon: "success",
+      //           });
+      //         },
+      //         error:function(data){
+      //           console.log(data);
+      //         }
+      //      })
+      //   },
+      //   error:function(data){
+      //    console.log(data);
+      //   }
+      // }) 
+  //});
 
   $("#check-all").on('change', function(){
     if(this.checked) {

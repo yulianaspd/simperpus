@@ -87,6 +87,7 @@
           </div>
       </div>
   </div>
+  
 <script>
     $(document).ready(function() {
         /* FUNGSI TOMBOL DELETE DATA */

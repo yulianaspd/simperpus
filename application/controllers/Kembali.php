@@ -19,7 +19,7 @@ class Kembali extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] 	= 'K';
+		$data['title'] 	= 'Kembali';
 		$data['icon'] 	= 'fa  fa-download';
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
@@ -78,13 +78,12 @@ class Kembali extends CI_Controller {
 				$denda ;
 			}
 			
-
 			$no++;
 			$row = array();
 			$row[] = '
 		              <div class="checkbox">
 		                <label>
-		                  <input type="checkbox" class="icheckbox_flat-blue" value="'.$value->id.'">
+		                  <input type="checkbox" class="icheckbox_flat-blue" name="pinjam_detail_id" value="'.$value->id.'">
 		                </label>
 		              </div>';
 			$row[] = $no;
@@ -93,12 +92,7 @@ class Kembali extends CI_Controller {
 			$row[] = $value->jatuh_tempo;
 			$row[] = $terlambat." Hari";
 			$row[] = number_format($denda);
-			$row[] = '
-		              <div class="checkbox">
-		                <label>
-		                  <input type="checkbox" class="icheckbox_flat-blue" value="'.$value->id.'">
-		                </label>
-		              </div>';
+		    $row[] = $value->id;
 
             $data[] = $row;
             $total_denda += $denda;

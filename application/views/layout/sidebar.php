@@ -62,7 +62,7 @@
                 <i class="fa fa-shopping-cart"></i> <span>Pinjam</span>
                 </a>
             </li>
-            <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
+            <li class="<?php echo $uri === 'kembali' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('kembali/index'); ?>">
                 <i class="fa  fa-download"></i> <span>Kembali</span>
                 </a>
