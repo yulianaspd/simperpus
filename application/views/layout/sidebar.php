@@ -73,25 +73,27 @@
                 </a>
             </li>
             <li class="header">LAPORAN</li> 
-            <li class="">
-                <a href="#">
-                <i class="fa fa-list-alt"></i> <span>Data Transaksi Pinjam</span>
+
+            <li class="<?php echo $uri === 'laporananggota' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporananggota/index'); ?>">
+                <i class="fa fa-list-alt"></i> <span>Laporan Angggota</span>
                 </a>
             </li>
-            <li class="">
-                <a href="#">
+
+            <li class="<?php echo $uri === 'laporanbuku' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporanbuku/index'); ?>">
                 <i class="fa fa-file-text-o"></i> <span>Laporan Buku</span>
                 </a>
             </li>
 
-            <li class="">
-                <a href="#">
+            <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporantransaksi/index'); ?>">
                 <i class="fa fa-line-chart"></i> <span>Laporan Transaksi</span>
                 </a>
             </li>
 
-            <li class="">
-                <a href="#">
+            <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporandenda/index'); ?>">
                 <i class="fa fa-money"></i> <span>Laporan Denda</span>
                 </a>
             </li>
