@@ -108,4 +108,35 @@ class Kembali extends CI_Controller {
         echo json_encode($output);
 	}
 
+	public function prosesKembali(){
+		//update tabel pinjam_detail field status,tanggal_kembali,denda
+		$id 			 = $this->input->post('id');
+		$denda 			 = $this->input->post('denda');
+		$where_id_pinjam_detail = array(
+				'id'	=> $id
+			);
+
+		foreach($denda as $value){
+			$data_detail = array(
+				'status' 		  => 0,
+				'tanggal_kembali' => date('Y-m-d H:i:s'),
+				'denda'			  => $value,
+				'updated_at' 	  => date('Y-m-d H:i:s')	
+			);
+			//$this->m_pinjamDetail->updateData($where_id_pinjam_detail, $data_detail);
+		}
+
+		//update tabel pinjam field total_denda
+		$total_denda = $this->input->post('total_denda');
+
+		$output = array(
+			"id"			  => $id,
+			"denda"			  => $denda,
+			"total_denda"	  => $total_denda,
+		);
+
+		print_r($denda);
+		//echo json_encode($output);	
+	}
+
 }

@@ -97,36 +97,4 @@ class M_kembali extends CI_Model {
 
 		return $this->db->count_all_results();
 	}
-	
-//=========================================================
-	public function getData(){
-		return $this->db->get('buku');
-	}
-
-	public function showData($isbn){
-		$this->db->select('*');
-		$this->db->from('buku');
-		$this->db->where('isbn', $isbn);
-		$query = $this->db->get();
-
-		return $query->result();
-	}
-
-	public function storeData($data){
-		$this->db->insert('buku', $data);
-	}
-
-	public function getEdit($where){
-		return $this->db->get_where('buku', $where);
-	}
-
-	public function updateData($where, $data){
-		$this->db->where($where);
-		$this->db->update('buku', $data);
-	}
-
-	public function deleteData($where){
-		$this->db->where($where);
-		$this->db->delete('buku');
-	}
 }
