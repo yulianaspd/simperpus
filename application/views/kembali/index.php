@@ -295,15 +295,27 @@ function clearForm(){
       });     
   });
 
-  var request_id = [];
+  var array_pinjam_id = [];
   var request_denda = [];
   var request_total_denda = 0;
+  var request_pinjam_id = [];
+
+  //mengambil & distinct value pinjam_id yang sama
+  function getUniquePinjamId(list) {
+    var result = [];
+    $.each(list, function(i, e) {
+        if ($.inArray(e, result) == -1) result.push(e);
+    });
+    return result;
+  }
+  
 
   $('#modal-confirm-list-kembali').on('show.bs.modal', function(e) {
     request_id = [];
     request_denda = [];
     request_total_denda = 0;    
   });/*Konfirmasi Delete*/
+
 
   $("#btn-checkout").click(function(){
 
@@ -321,40 +333,54 @@ function clearForm(){
             $.map(table.data(), function (item) {
                 var arr = [];
                 arr['id'] = item[7];
+                arr['pinjam_id'] = item[8];
                 arr['denda'] = item[6];
                 return arr_proses.push(arr);
             });
 
             var total_denda = 0;
             var rowcollection =  table.$("input[name='pinjam_detail_id']:checked");
+           
             rowcollection.each(function(index,elem){
               var checkbox_value = $(elem).val();
               var arr_denda = arr_proses.find( function(item) { 
                 return item['id'] == checkbox_value 
               });
+
+
               var res = arr_denda['denda'].replace(",", "");
               total_denda += parseInt(res,10);
+              
+              var valueToPush = new Array();
+              valueToPush[0] = arr_denda['id'];
+              valueToPush[1] = res;
+              request_denda.push(valueToPush);
 
-              request_id.push(arr_denda['id']);
-              request_denda.push(res);
+              array_pinjam_id.push(arr_denda['pinjam_id']);
               request_total_denda = total_denda;
             });
-             $(".total_denda").html('<b>'+moneyFormat(total_denda)+'</b>');
+        
+            request_pinjam_id.push(getUniquePinjamId(array_pinjam_id));
+
+            $(".total_denda").html('<b>'+moneyFormat(total_denda)+'</b>');
         }  
     });  
 
  $('#btn-proses').click(function(e) {
       $.ajax({
         type: "POST",
-        dataType:"JSON",
+        dataType:"json",
         url: "<?php echo base_url('kembali/prosesKembali'); ?>",
         data: {
-          id          :request_id,
-          denda       :JSON.stringify(request_denda),
+          pinjam_id: request_pinjam_id,
+          denda :request_denda,
           total_denda :request_total_denda
         },
         success: function(data){
-          console.log(data);
+          if(data.keterangan == 'OK'){
+              $('#modal-confirm-list-kembali').modal('hide');
+          }
+          alert(data.msg);
           table.ajax.reload();
         },
         error:function(data){

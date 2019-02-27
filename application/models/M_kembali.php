@@ -18,6 +18,7 @@ class M_kembali extends CI_Model {
 	{
 		$this->db->select('
 				pinjam_detail.id,
+				pinjam_detail.pinjam_id,
 				buku.judul AS judul,
 				DATE_FORMAT(pinjam_detail.created_at, "%d-%m-%Y %H:%i") AS tanggal_pinjam,
 				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") AS jatuh_tempo,
@@ -84,6 +85,7 @@ class M_kembali extends CI_Model {
 	{
 		$this->db->select('
 				pinjam_detail.id,
+				pinjam_detail.pinjam_id,
 				buku.judul AS judul,
 				DATE_FORMAT(pinjam_detail.created_at, "%d-%m-%Y %H:%i") AS tanggal_pinjam,
 				DATE_FORMAT(pinjam_detail.jatuh_tempo, "%d-%m-%Y") AS jatuh_tempo,
@@ -96,5 +98,15 @@ class M_kembali extends CI_Model {
 		$this->db->where('pinjam_detail.status', 1);
 
 		return $this->db->count_all_results();
+	}
+
+	public function sumTotalDendaById($pinjam_id){
+		$this->db->select('pinjam_id');
+		$this->db->select('SUM(denda) AS total_denda');
+		$this->db->from('pinjam_detail');
+		$this->db->where('pinjam_id', $pinjam_id);
+		$query = $this->db->get()->result();
+
+		return $query[0];
 	}
 }

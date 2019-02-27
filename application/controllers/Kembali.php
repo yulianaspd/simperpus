@@ -93,6 +93,7 @@ class Kembali extends CI_Controller {
 			$row[] = $terlambat." Hari";
 			$row[] = number_format($denda);
 		    $row[] = $value->id;
+		    $row[] = $value->pinjam_id;
 
             $data[] = $row;
             $total_denda += $denda;
@@ -109,34 +110,45 @@ class Kembali extends CI_Controller {
 	}
 
 	public function prosesKembali(){
-		//update tabel pinjam_detail field status,tanggal_kembali,denda
-		$id 			 = $this->input->post('id');
-		$denda 			 = $this->input->post('denda');
-		$where_id_pinjam_detail = array(
-				'id'	=> $id
-			);
+		$denda = $this->input->post('denda');
+		$pinjam_id = $this->input->post('pinjam_id');
+		$total_denda = $this->input->post('total_denda');
 
+		//update tabel pinjam_detail field status,tanggal_kembali,denda
 		foreach($denda as $value){
+			$where = array(
+				'id'	=> $value[0]
+			);
+			
 			$data_detail = array(
 				'status' 		  => 0,
 				'tanggal_kembali' => date('Y-m-d H:i:s'),
-				'denda'			  => $value,
+				'denda'			  => $value[1],
 				'updated_at' 	  => date('Y-m-d H:i:s')	
 			);
-			//$this->m_pinjamDetail->updateData($where_id_pinjam_detail, $data_detail);
+			$this->m_pinjamDetail->updateData($where, $data_detail);
+		}
+		
+		//update tabel pinjam field total_denda
+		foreach($pinjam_id[0] as $val_pinjam_id){
+			$res = $this->m_kembali->sumTotalDendaById($val_pinjam_id);
+			$where_pinjam_id = array(
+				'id'	=> $val_pinjam_id
+			);
+
+			$data_pinjam_id = array(
+				'total_denda' 	=> $res->total_denda,
+				'updated_at'	=> date('Y-m-d H:i:s'),
+			);
+
+			$this->m_pinjam->updateData($where_pinjam_id, $data_pinjam_id);
 		}
 
-		//update tabel pinjam field total_denda
-		$total_denda = $this->input->post('total_denda');
-
-		$output = array(
-			"id"			  => $id,
-			"denda"			  => $denda,
-			"total_denda"	  => $total_denda,
+		$result = array(
+			'keterangan' => "OK",
+			'msg'		 => "Transaksi Sukses",
 		);
-
-		print_r($denda);
-		//echo json_encode($output);	
+		echo json_encode($result);
 	}
 
 }

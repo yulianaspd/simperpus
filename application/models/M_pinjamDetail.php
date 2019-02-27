@@ -6,9 +6,16 @@ class M_pinjamDetail extends CI_Model {
 	public function getData(){
 	}
 
-	public function getShow($id){
-		
+	public function showPinjamId($id){
+		$this->db->distinct();
+		$this->db->select('id');
+		$this->db->from('pinjam');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+
+		return $query;
 	}
+
 
 	public function storeData($data){
 		$this->db->insert('pinjam_detail', $data);
