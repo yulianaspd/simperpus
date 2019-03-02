@@ -23,7 +23,7 @@ class M_buku extends CI_Model {
 		$this->db->select('buku.judul');
 		$this->db->select('buku.halaman');
 		$this->db->select('kategori.nama AS kategori');
-		$this->db->select('penulis.nama AS penulis');
+		$this->db->select('penulis.nama_lengkap AS penulis');
 		$this->db->select('penerbit.nama AS penerbit');
 		$this->db->from($this->table);
 		$this->db->join('kategori','kategori.id = buku.kategori_id');
@@ -88,7 +88,7 @@ class M_buku extends CI_Model {
 		$this->db->select('buku.judul');
 		$this->db->select('buku.halaman');
 		$this->db->select('kategori.nama AS kategori');
-		$this->db->select('penulis.nama AS penulis');
+		$this->db->select('penulis.nama_lengkap AS penulis');
 		$this->db->select('penerbit.nama AS penerbit');
 		$this->db->from($this->table);
 		$this->db->join('kategori','kategori.id = buku.kategori_id');

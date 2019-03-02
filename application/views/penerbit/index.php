@@ -20,7 +20,7 @@
           <?php echo $this->session->flashdata('notif') ?>
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title"><a href="<?php echo base_url('penulis/create') ?>" class="btn btn-primary"><span class="fa fa-plus"></span> Input data</a></h3>
+              <h3 class="box-title"><a href="<?php echo base_url('penerbit/create') ?>" class="btn btn-primary"><span class="fa fa-plus"></span> Input data</a></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

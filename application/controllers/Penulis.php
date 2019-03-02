@@ -26,7 +26,7 @@ class Penulis extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $value->nama_lengkap;
+            $row[] = $value->nama_lengkap.' ('.$value->nama_alias.')';
             $row[] = "<a href='".base_url('penulis/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
             		&nbsp&nbsp 
             		<a class='btn btn-danger btn-delete' data-toggle='modal'
