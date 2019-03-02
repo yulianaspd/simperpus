@@ -382,6 +382,9 @@ function clearForm(){
           }
           alert(data.msg);
           table.ajax.reload();
+          $("#kode").prop('disabled', false);
+          $("#kode").val('');
+           $("#btn-cek-anggota").attr('disabled','');
         },
         error:function(data){
          console.log(data);

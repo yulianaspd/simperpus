@@ -168,8 +168,12 @@ class Pinjam extends CI_Controller {
 		
 		$store_pinjam = $this->m_pinjam->storeData($data_pinjam);
 		if($store_pinjam == TRUE){
-			$show_pinjam = $this->m_pinjam->showData($kode_pinjam);
-			$pinjam_id	= $show_pinjam[0]->id;
+			$show_pinjam 	= $this->m_pinjam->showData($kode_pinjam);
+			$pinjam_id		= $show_pinjam[0]->id;
+			$date_now 		= date('Y-m-d');
+			$date_convert 	= str_replace('-', '/', $date_now);
+			$jatuh_tempo 	= date('Y-m-d',strtotime($date_convert . "+2 days"));
+
 			// $arrayBuku = explode(",", $buku_id);
 			
 			foreach($buku_id as $value) { 
@@ -177,7 +181,7 @@ class Pinjam extends CI_Controller {
 						'pinjam_id' 		=> $pinjam_id,
 						'buku_id' 			=> $value,
 						'jml_perpanjangan' 	=> 0,
-						'jatuh_tempo'		=> date('Y-m-d'),
+						'jatuh_tempo'		=> $jatuh_tempo,
 						'status'			=> 1,
 						'denda'				=> 0
 					);
