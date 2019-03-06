@@ -74,8 +74,8 @@
             </li>
             <li class="header">LAPORAN</li> 
 
-            <li class="<?php echo $uri === 'laporananggota' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('laporananggota/index'); ?>">
+            <li class="<?php echo $uri === 'laporanAnggota' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporanAnggota/index'); ?>">
                 <i class="fa fa-list-alt"></i> <span>Laporan Angggota</span>
                 </a>
             </li>

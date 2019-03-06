@@ -7,8 +7,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_laporanAnggota extends CI_Model
 {
 	var $table = 'anggota'; //nama tabel dari database
-	var $column_order = array(null,'nama_lengkap','jenis_identitas'); //field yang ada di table user
-	var $column_search = array('kode', 'nama_lengkap','jenis_identitas','no_identitas','alamat','telepon'); //field yang diizin untuk pencarian 
+	var $column_order = array(null,'nama_lengkap','jenis_identitas','alamat'); //field yang ada di table user
+	var $column_search = array('kode', 
+							   'nama_lengkap',
+							   'nama_panggilan',
+							   'jenis_identitas',
+							   'no_identitas',
+							   'alamat',
+							   'telepon'); //field yang diizin untuk pencarian 
 	var $order = array('nama_lengkap' => 'asc'); // default order 
 	
 	private function _get_datatables_query($status)
@@ -16,8 +22,10 @@ class M_laporanAnggota extends CI_Model
 		$this->db->select('
 				kode,
 				nama_lengkap,
+				nama_panggilan,
 				jenis_identitas,
 				no_identitas,
+				alamat,
 				telepon,
 				status
 			');
@@ -81,8 +89,10 @@ class M_laporanAnggota extends CI_Model
 		$this->db->select('
 				kode,
 				nama_lengkap,
+				nama_panggilan,
 				jenis_identitas,
 				no_identitas,
+				alamat,
 				telepon,
 				status
 			');
@@ -90,5 +100,25 @@ class M_laporanAnggota extends CI_Model
 		$this->db->where('status', $status);
 
 		return $this->db->count_all_results();
+	}
+
+	//======================================================================
+
+	public function downloadPdf($status){
+		$this->db->select('
+				kode,
+				nama_lengkap,
+				nama_panggilan,
+				jenis_identitas,
+				no_identitas,
+				alamat,
+				telepon,
+				status
+			');
+		$this->db->from($this->table);
+		$this->db->where('status', $status);
+		$query = $this->db->get();
+		
+		return $query;
 	}
 }
