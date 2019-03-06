@@ -80,12 +80,6 @@
                 </a>
             </li>
 
-            <li class="<?php echo $uri === 'laporanbuku' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('laporanbuku/index'); ?>">
-                <i class="fa fa-file-text-o"></i> <span>Laporan Buku</span>
-                </a>
-            </li>
-
             <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('laporantransaksi/index'); ?>">
                 <i class="fa fa-line-chart"></i> <span>Laporan Transaksi</span>
@@ -93,7 +87,7 @@
             </li>
 
             <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('laporandenda/index'); ?>">
+                <a href="<?php echo base_url('laporanDenda/index'); ?>">
                 <i class="fa fa-money"></i> <span>Laporan Denda</span>
                 </a>
             </li>
