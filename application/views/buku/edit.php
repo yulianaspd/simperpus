@@ -56,7 +56,7 @@
                     <select class="form-control" name="penulis_id" id="penulis_id">
                       <option value=""  disabled-selected>-Pilih Penulis-</option>
                       <?php foreach($penulis as $value) {?>
-                        <option <?php if($value->id == $buku->penulis_id){ echo "selected"; } ?> value="<?php echo $value->id ?>"><?php echo $value->nama ?></option>
+                        <option <?php if($value->id == $buku->penulis_id){ echo "selected"; } ?> value="<?php echo $value->id ?>"><?php echo $value->nama_lengkap ?></option>
                       <?php } ?>
                     </select>
                 </div>

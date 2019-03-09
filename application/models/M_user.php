@@ -3,10 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_user extends CI_Model {
 
-	var $table = 'rak'; //nama tabel dari database
-	var $column_order = array(null, 'nama','email'); //field yang ada di table user
-	var $column_search = array('nama','email'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $table = 'user'; //nama tabel dari database
+	var $column_order = array(null, 'nama_lengkap','alamat','status'); //field yang ada di table user
+	var $column_search = array('nama_lengkap','panggilan','alamat','telepon','email','status'); //field yang diizin untuk pencarian 
+	var $order = array('nama_lengkap' => 'asc'); // default order 
 
 	public function __construct()
 	{
