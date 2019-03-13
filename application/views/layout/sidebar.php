@@ -67,8 +67,8 @@
                 <i class="fa  fa-download"></i> <span>Kembali</span>
                 </a>
             </li>
-            <li class="<?php echo $uri === 'user' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('perpanjang/index'); ?>">
+            <li class="<?php echo $uri === 'perpanjang' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('perpanjangan/index'); ?>">
                 <i class="fa fa-exchange"></i> <span>Perpanjang</span>
                 </a>
             </li>
@@ -80,13 +80,13 @@
                 </a>
             </li>
 
-            <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('laporantransaksi/index'); ?>">
-                <i class="fa fa-line-chart"></i> <span>Laporan Transaksi</span>
+            <li class="<?php echo $uri === 'laporantPeminjaman' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporanPeminjaman/index'); ?>">
+                <i class="fa fa-line-chart"></i> <span>Laporan Peminjaman</span>
                 </a>
             </li>
 
-            <li class="<?php echo $uri === 'laporantransaksi' ? 'active treeview menu-open':''; ?>">
+            <li class="<?php echo $uri === 'laporanDenda' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('laporanDenda/index'); ?>">
                 <i class="fa fa-money"></i> <span>Laporan Denda</span>
                 </a>
