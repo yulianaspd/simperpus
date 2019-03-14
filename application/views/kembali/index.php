@@ -1,5 +1,8 @@
 <!-- DataTables -->
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
+<!-- SweetAlert -->
+<link href="<?php echo base_url('assets/sweetalert/dist/sweetalert.css')?>" rel="stylesheet">
+
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css')?>">
 
@@ -158,7 +161,8 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<!-- SweetAlert -->
+<script src="<?php echo site_url('assets/sweetalert/dist/sweetalert.min.js')?>"></script>
 <!-- iCheck 1.0.1 -->
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
 <script>
@@ -188,11 +192,6 @@
                       data.anggota_id = $('#anggota_id').val();
                   }
         },
-        // "drawCallback": function(){
-        //    $('input[type="checkbox"]').iCheck({
-        //       checkboxClass: 'icheckbox_flat-blue'
-        //    });
-        // },
          "footerCallback": function ( row, data, start, end, display ) {
             var api = this.api(), data;
  
@@ -286,7 +285,8 @@ function clearForm(){
               console.log(table.ajax.json().total_denda); 
             }else{
               $("#box-buku").slideUp();
-              alert(data.error);
+              //alert(data.error);
+               swal(data.error, "", "error");
             }   
           },
           error: function(data){
@@ -324,7 +324,8 @@ function clearForm(){
                       });
         var total_data = $("#table-pinjam_wrapper").find('input[name="pinjam_detail_id"]:checked').length;
         if(total_data == 0){
-            alert("Data belum dipilih !");
+            // alert("Data belum dipilih !");
+             swal("Data belum dipilih !", "", "error");
         }else{
             $("#modal-confirm-list-kembali").modal('show');
             $(".jml_buku").html('<b>'+total_data+'</b>');
@@ -380,7 +381,8 @@ function clearForm(){
           if(data.keterangan == 'OK'){
               $('#modal-confirm-list-kembali').modal('hide');
           }
-          alert(data.msg);
+          // alert(data.msg);
+           swal(data.msg, "You clicked the button!", "success");
           table.ajax.reload();
           $("#kode").prop('disabled', false);
           $("#kode").val('');
