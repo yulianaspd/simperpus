@@ -20,6 +20,12 @@ Class LaporanDenda extends CI_Controller{
 
     public function ajaxGetDenda(){
         $tanggal_kembali = $this->input->post('tanggal_kembali');
+        if($tanggal_kembali != [] ){
+            $tanggal_kembali;
+        }else{
+            $tanggal_kembali = [date('Y-m-d'),date('Y-m-d')];
+        }
+
         $list = $this->m_laporanDenda->get_datatables($tanggal_kembali);
         $data = array();
         $no = $_POST['start'];
@@ -38,6 +44,7 @@ Class LaporanDenda extends CI_Controller{
             "recordsTotal" => $this->m_laporanDenda->count_all($tanggal_kembali),
             "recordsFiltered" => $this->m_laporanDenda->count_filtered($tanggal_kembali),
             "data" => $data,
+            "tanggal_kembali" => $tanggal_kembali,
         );
         //output dalam format JSON
         echo json_encode($output);

@@ -65,7 +65,7 @@
                           <tr>
                             <th>No</th>
                             <th>Anggota</th>
-                            <th>Identitas</th>
+                            <th>Denda</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -99,6 +99,7 @@
 <script src="<?php echo site_url()?>/assets/bower_components/moment/min/moment.min.js"></script>
 <script src="<?php echo site_url()?>/assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script>
+
   var daterange_array = new Array();
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -111,6 +112,8 @@
     //Date range as a button
     $('#daterange-btn').daterangepicker(
       {
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment(),
         ranges   : {
           'Today'       : [moment(), moment()],
           'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -118,9 +121,8 @@
           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
           'This Month'  : [moment().startOf('month'), moment().endOf('month')],
           'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
+        }
+       
       },
       function (start, end) {
         $('#daterange-btn span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'))
@@ -150,7 +152,7 @@
             "url": "<?php echo base_url('laporanDenda/ajaxGetDenda')?>",
             "type": "POST",
             "data": function (data) {
-                      data.tanggal_kembali = daterange_array;
+                      data.tanggal_kembali = daterange_array
                   }
         },
         "footerCallback": function ( row, data, start, end, display ) {
@@ -198,6 +200,7 @@
   $("#btn-tampilkan").on('click', function(e){
     $("#box-anggota").show();
      table.ajax.reload();
+     console.log(daterange_array);
   });
 
   $("#btn-download-pdf").on('click', function(e){
