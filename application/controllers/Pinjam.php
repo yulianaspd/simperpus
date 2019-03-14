@@ -153,7 +153,6 @@ class Pinjam extends CI_Controller {
 	public function store(){
 		$time 		 	= time().rand(0,32);
 		$kode_pinjam 	= base_convert($time, 10, 16); 
-		$user_id 		= $this->input->post('user_id');
 		$anggota_id 	= $this->input->post('anggota_id');
 		$buku_id   		= $this->input->post('buku_id');
 		$tanggal_pinjam = date('Y-m-d');
@@ -162,7 +161,7 @@ class Pinjam extends CI_Controller {
 
 		$data_pinjam = array(
 			'kode_pinjam'	=> $kode_pinjam,
-			'user_id'		=> $user_id,
+			'user_id'		=> $this->session->userdata('id'),
 			'anggota_id'	=> $anggota_id,
 			'tanggal_pinjam'=> $tanggal_pinjam,
 			'qty'			=> $qty,

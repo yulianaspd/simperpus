@@ -1,5 +1,7 @@
 <!-- DataTables -->
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
+<!-- SweetAlert -->
+<link href="<?php echo base_url('assets/sweetalert/dist/sweetalert.css')?>" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -122,6 +124,8 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
+<!-- SweetAlert -->
+<script src="<?php echo site_url('assets/sweetalert/dist/sweetalert.min.js')?>"></script>
 <script>
    var table;
   $(document).ready(function(){
@@ -189,7 +193,8 @@
                 $("#kode").prop('disabled', true);
               }else{
                 $("#box-buku").slideUp();
-                alert(data.error);
+                //alert(data.error);
+                 swal(data.error, "", "error");
               }   
             },
             error: function(data){
@@ -216,11 +221,13 @@
                   console.log(data.keterangan);
                   console.log(data.msg);
                }else{
-                  alert(data.error)
+                  //alert(data.error)
+                   swal(data.error, "", "error");
                }
             }else{
               $("#isbn").val('');
-              alert(data.error);
+              //alert(data.error);
+               swal(data.error, "", "success");
             }   
           },
           error: function(data){
@@ -249,7 +256,6 @@
 
     $('#btn-proses').click(function(e) {
         var anggota_id  = $("#anggota_id").val();
-        var user_id     = "<?php echo $this->session->userdata('id') ?>";
         var buku_id = $.map(table.data(), function (item) {
                               return item[1]
                       });
@@ -258,14 +264,13 @@
           dataType:"JSON",
           url: "<?php echo base_url('pinjam/store'); ?>",
           data: {
-            user_id:user_id,
             anggota_id:anggota_id,
             buku_id:buku_id
           },
           success: function(data){
-            console.log(data);
             clearForm();
-            alert("Transaksi Sukses");
+            //alert("Transaksi Sukses");
+             swal("Transaksi Sukses", "You clicked the button!", "success");
           },
           error:function(data){
            console.log(data);

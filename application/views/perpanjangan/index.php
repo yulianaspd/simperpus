@@ -1,6 +1,6 @@
 <!-- DataTables -->
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
-<!-- DataTables -->
+<!-- SweetAlert -->
 <link href="<?php echo base_url('assets/sweetalert/dist/sweetalert.css')?>" rel="stylesheet">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/all.css')?>">
@@ -14,7 +14,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url('dashboard/index'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active"><?php echo $title?></li>
+        <li class="active"><?php echo $title?></li> 
       </ol>
     </section>
 
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                       <td>2.</td>
-                      <td>NAMA LENGKAP <?php echo $this->session->userdata('id') ?></td>
+                      <td>NAMA LENGKAP</td>
                       <td class="text-right nama_lengkap"></td>
                     </tr>
                     <tr>
@@ -148,7 +148,7 @@
  
 <!-- DataTables -->
 <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js')?>"></script>
-<!-- DataTables -->
+<!-- SweetAlert -->
 <script src="<?php echo site_url('assets/sweetalert/dist/sweetalert.min.js')?>"></script>
 <!-- iCheck 1.0.1 -->
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js') ?>"></script>
@@ -237,8 +237,10 @@ function clearForm(){
               table.ajax.reload();
             }else{
               $("#box-buku").slideUp();
-              alert(data.error);
-            }   
+              swal(data.error, "", "error");
+              //alert(data.error);
+            } 
+
           },
           error: function(data){
             console.log(data);
@@ -260,7 +262,7 @@ function clearForm(){
                       });
         var jml_check_buku = $("#table-pinjam_wrapper").find('input[name="pinjam_detail_id"]:checked').length;
         if(jml_check_buku == 0){
-            alert("Data belum dipilih !");
+            swal("Data belum dipilih !", "", "error");
         }else{
           $("#modal-confirm-list-kembali").modal('show');
           $(".jml_buku").html('<b>'+jml_check_buku+'</b>');

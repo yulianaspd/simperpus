@@ -7,6 +7,7 @@ class Perpanjangan extends CI_Controller {
 		parent::__construct();
 		$this->load->model(
 			[
+				'm_auth',
 				'm_perpanjangan',
 				'm_pinjam',
 				'm_pinjamDetail',
@@ -15,6 +16,9 @@ class Perpanjangan extends CI_Controller {
 			]
 		);
 		$this->load->helper('url');
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()
