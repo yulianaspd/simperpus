@@ -311,7 +311,7 @@ function clearForm(){
               $('#modal-confirm-list-kembali').modal('hide');
           }
           swal(data.msg, "You clicked the button!", "success");
-          clearForm();
+          table.ajax.reload();
         },
         error:function(data){
          console.log(data);

@@ -227,7 +227,7 @@
             }else{
               $("#isbn").val('');
               //alert(data.error);
-               swal(data.error, "", "success");
+               swal(data.error, "", "error");
             }   
           },
           error: function(data){
