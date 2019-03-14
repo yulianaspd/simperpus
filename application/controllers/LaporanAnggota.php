@@ -4,8 +4,11 @@ Class LaporanAnggota extends CI_Controller{
     
     function __construct() {
         parent::__construct();
-        $this->load->model('m_laporanAnggota');
+        $this->load->model(['m_auth','m_laporanAnggota']);
         $this->load->library('pdf');
+        if(!$this->m_auth->loggedIn()){
+            redirect('auth');
+        }
     }
 
     public function index(){

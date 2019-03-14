@@ -6,7 +6,10 @@ class Kategori extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->model(['m_kategori','m_rak']);
+		$this->load->model(['m_auth','m_kategori','m_rak']);
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()

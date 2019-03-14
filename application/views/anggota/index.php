@@ -29,9 +29,9 @@
                    <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode</th>
+                            <th>Anggota</th>
                             <th>Identitas</th>
-                            <th>Nama Anggota</th>
-                            <th>Telepon</th>
                             <th>Alamat</th>
                             <th></th>
                         </tr>
@@ -39,16 +39,6 @@
                     <tbody>
                       
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>No</th>
-                            <th>Identitas</th>
-                            <th>Nama Anggota</th>
-                            <th>Telepon</th>
-                            <th>Alamat</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
               </div>
             </div>

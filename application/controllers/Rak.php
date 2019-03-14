@@ -5,8 +5,11 @@ class Rak extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_rak');
+		$this->load->model(['m_auth','m_rak']);
 		$this->load->helper('url');
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()
@@ -16,7 +19,7 @@ class Rak extends CI_Controller {
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);
 		$this->load->view('rak/index', $data);
-		$this->load->view('layout/footer');
+		$this->load->view('layout/footer');	
 	}
 
 	public function ajaxGetIndex(){

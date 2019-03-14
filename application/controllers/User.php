@@ -9,6 +9,9 @@ class User extends CI_Controller {
 			'm_auth',
 			'm_user'
 		]);
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()
@@ -161,7 +164,6 @@ class User extends CI_Controller {
 			'panggilan'		=> $panggilan,
 			'alamat'		=> $alamat,
 			'email'			=> $email,
-			'password'		=> md5('simperpus12345'),
 			'telepon'		=> $telepon,
 			'status'		=> $status,
 			'updated_at'	=> date('Y-m-d H:i:s')

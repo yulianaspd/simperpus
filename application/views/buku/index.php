@@ -39,16 +39,6 @@
                     <tbody>
                       
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>No</th>
-                            <th>ISBN</th>
-                            <th>Judul</th>
-                            <th>Halman</th>
-                            <th>Kategori</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
               </div>
             </div>

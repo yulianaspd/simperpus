@@ -4,8 +4,11 @@ Class LaporanDenda extends CI_Controller{
     
     function __construct() {
         parent::__construct();
-        $this->load->model('m_laporanDenda');
+        $this->load->model(['m_auth','m_laporanDenda']);
         $this->load->library('pdf');
+        if(!$this->m_auth->loggedIn()){
+            redirect('auth');
+        }
     }
 
     public function index(){

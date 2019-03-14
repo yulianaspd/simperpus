@@ -67,7 +67,7 @@
                 <i class="fa  fa-download"></i> <span>Kembali</span>
                 </a>
             </li>
-            <li class="<?php echo $uri === 'perpanjang' ? 'active treeview menu-open':''; ?>">
+            <li class="<?php echo $uri === 'perpanjangan' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('perpanjangan/index'); ?>">
                 <i class="fa fa-exchange"></i> <span>Perpanjang</span>
                 </a>

@@ -5,7 +5,10 @@ class Anggota extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('m_anggota');
+		$this->load->model(['m_auth','m_anggota']);
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()
@@ -26,9 +29,9 @@ class Anggota extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = '<div class="text-center">'.$value->jenis_identitas.'<br>'.$value->no_identitas.'</div>';
-			$row[] = $value->nama_lengkap.' ('.$value->nama_panggilan.')';
-			$row[] = $value->telepon;
+			$row[] = '<b>'.$value->kode.'</b>';
+			$row[] = $value->nama_lengkap.' ('.$value->nama_panggilan.')<br>'.$value->telepon;
+			$row[] = $value->jenis_identitas.'<br>'.$value->no_identitas;
 			$row[] = $value->alamat;
 			 $row[] = "<a href='".base_url('anggota/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
             		&nbsp&nbsp 
@@ -36,7 +39,7 @@ class Anggota extends CI_Controller {
                     data-target='#modal-delete-data'
                     data-href='". base_url('anggota/delete/'.$value->id)."''
                     data-id=\"".$value->id."\"
-                    data-nama=\"".$value->nama_lengkap."\"
+                    data-nama=\"".$value->nama_panggilan."\"
                     href='#'><i class='fa fa-fw fa-trash-o'></i></a>";
             $data[] = $row;
 		}

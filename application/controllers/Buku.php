@@ -6,11 +6,15 @@ class Buku extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model([
+			'm_auth',
 			'm_buku',
 			'm_kategori',
 			'm_penulis',
 			'm_penerbit'
 		]);
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()

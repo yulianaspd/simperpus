@@ -7,6 +7,7 @@ class Pinjam extends CI_Controller {
 		parent::__construct();
 		$this->load->model(
 			[
+				'm_auth',
 				'm_pinjam',
 				'm_pinjamDetail',
 				'm_pinjamTemp',
@@ -15,6 +16,9 @@ class Pinjam extends CI_Controller {
 			]
 		);
 		$this->load->helper('url');
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()

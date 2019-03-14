@@ -7,6 +7,7 @@ class Kembali extends CI_Controller {
 		parent::__construct();
 		$this->load->model(
 			[
+				'm_auth',
 				'm_kembali',
 				'm_pinjam',
 				'm_pinjamDetail',
@@ -15,6 +16,9 @@ class Kembali extends CI_Controller {
 			]
 		);
 		$this->load->helper('url');
+		if(!$this->m_auth->loggedIn()){
+			redirect('auth');
+		}
 	}
 
 	public function index()
@@ -88,8 +92,8 @@ class Kembali extends CI_Controller {
 		              </div>';
 			$row[] = $no;
 			$row[] = $value->judul;
-			$row[] = $value->tanggal_pinjam;
-			$row[] = $value->jatuh_tempo;
+			$row[] = date('d-M-Y', strtotime($value->tanggal_pinjam)).'<br>'.date('H:i', strtotime($value->tanggal_pinjam));
+			$row[] = date('d-M-Y', strtotime($value->jatuh_tempo));
 			$row[] = $terlambat." Hari";
 			$row[] = number_format($denda);
 		    $row[] = $value->id;
@@ -103,7 +107,7 @@ class Kembali extends CI_Controller {
             "recordsTotal" => $this->m_kembali->count_all($anggota_id),
             "recordsFiltered" => $this->m_kembali->count_filtered($anggota_id),
             "data" => $data,
-            "total_denda" => $total_denda,
+            "total_denda" => $total_denda
         );
         //output dalam format JSON
         echo json_encode($output);
