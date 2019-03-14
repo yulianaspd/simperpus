@@ -5,7 +5,14 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
         <div class="pull-left image">
-            <img src="<?php echo site_url()?>assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            <?php
+            $jenis_kelamin = $this->session->userdata('jenis_kelamin');
+            if($jenis_kelamin == 1){
+            ?>
+                <img src="<?php echo site_url()?>assets/img/user_laki.png" class="img-rectangle" alt="User Image">
+            <?php }else if($jenis_kelamin == 0){ ?>
+                <img src="<?php echo site_url()?>assets/img/user_perempuan.png" class="img-rectangle" alt="User Image">
+            <?php } ?>    
         </div>
         <div class="pull-left info">
             <p><?php echo $this->session->userdata('panggilan'); ?></p>
@@ -15,7 +22,7 @@
       
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">DATA MASTER</li>
+            <li class="header">DATA MASTER </li>
             <li class="<?php echo $uri === 'dashboard' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('dashboard/index');?>">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>

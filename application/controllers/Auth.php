@@ -34,10 +34,11 @@ class Auth extends CI_Controller {
 			if($checking != FALSE){
 				foreach($checking as $data){
 					$session_data = array(
-						'id'		=> $data->id,
-						'panggilan'	=> $data->panggilan,
-						'email' 	=> $data->email,
-						'status' 	=> $data->status 
+						'id'			=> $data->id,
+						'panggilan'		=> $data->panggilan,
+						'jenis_kelamin' => $data->jenis_kelamin,
+						'email' 		=> $data->email,
+						'status' 		=> $data->status 
 					);
 					$this->session->set_userdata($session_data);
 					redirect(base_url("dashboard/index"));
