@@ -37,17 +37,6 @@
                   </thead>
                   <tbody>
                   </tbody>
-
-                  <tfoot>
-                      <tr>
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Alamat</th>
-                          <th>Telepon</th>
-                          <th>Email</th>
-                          <th></th>
-                      </tr>
-                  </tfoot>
               </table>
             </div>
             <!-- /.box-body -->

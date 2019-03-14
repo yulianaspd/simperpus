@@ -36,16 +36,6 @@
                   </thead>
                   <tbody>
                   </tbody>
-
-                  <tfoot>
-                      <tr>
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Alamat</th>
-                          <th>Status</th>
-                          <th></th>
-                      </tr>
-                  </tfoot>
               </table>
             </div>
             <!-- /.box-body -->
