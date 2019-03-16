@@ -87,9 +87,9 @@
                 </a>
             </li>
 
-            <li class="<?php echo $uri === 'laporantPeminjaman' ? 'active treeview menu-open':''; ?>">
-                <a href="<?php echo base_url('laporanPeminjaman/index'); ?>">
-                <i class="fa fa-line-chart"></i> <span>Laporan Peminjaman</span>
+            <li class="<?php echo $uri === 'laporanMutasiBuku' ? 'active treeview menu-open':''; ?>">
+                <a href="<?php echo base_url('laporanMutasiBuku/index'); ?>">
+                <i class="fa fa-retweet"></i> <span>Laporan Mutasi Buku</span>
                 </a>
             </li>
 
