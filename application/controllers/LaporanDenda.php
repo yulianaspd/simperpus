@@ -61,8 +61,8 @@ Class LaporanDenda extends CI_Controller{
         $total_denda = 0;
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetTitle('Data Anggota');
-        $pdf->SetSubject('Laporan Data Anggota Perpustakaan');
+        $pdf->SetTitle('laporan Denda');
+        $pdf->SetSubject('Laporan Denda');
         // set default header data
         $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
         $pdf->setFooterData(array(0,64,0), array(0,64,128));
@@ -71,18 +71,17 @@ Class LaporanDenda extends CI_Controller{
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
  
-        $pdf->SetHeaderMargin(30);
-        $pdf->SetTopMargin(20);
-        $pdf->setFooterMargin(20);
+        $pdf->SetHeaderMargin(10);
+        $pdf->SetTopMargin(10);
+        $pdf->setFooterMargin(10);
         $pdf->SetAutoPageBreak(true);
         $pdf->SetAuthor('SimPerpus');
         $pdf->SetDisplayMode('real', 'default');
         $pdf->AddPage();
         $i=0;
         $denda = $this->m_laporanDenda->downloadPdf($tanggal_kembali)->result();
-        $html='<h1 align="center"></h1>
-                <h3 align="center">Laporan Denda</h3>
-                <h4 align="center">'.date('d/m/Y', strtotime($tanggal_kembali[0])).' sampai '.date('d/m/Y', strtotime($tanggal_kembali[1])).'</h4>
+        $html='<h1 align="center">Laporan Denda Perpustakaan</h1>
+                <h4 align="center">'.date('d/m/Y', strtotime($tanggal_kembali[0])).' - '.date('d/m/Y', strtotime($tanggal_kembali[1])).'</h4>
                 <table cellspacing="1" bgcolor="#666666">
                     <tr bgcolor="#ffffff">
                         <th width="20%" align="center"><b>NO</b></th>

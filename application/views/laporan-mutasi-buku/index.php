@@ -249,7 +249,11 @@
       swal("Jenis Mutasi belum dipilih !", null, "error");
     }else{
       var param  = daterange_array.toString();
-      window.open("<?php echo base_url()?>laporanDenda/downloadPdf/"+param.replace(",","/"));   
+      if( jenis_mutasi == 1 ){
+        window.open("<?php echo base_url()?>laporanMutasiBuku/mutasiPinjamPdf/"+param.replace(",","/"));   
+      }else if( jenis_mutasi == 0 ){
+        window.open("<?php echo base_url()?>laporanMutasiBuku/mutasiKembaliPdf/"+param.replace(",","/"));   
+      }
     }
     
   });

@@ -64,27 +64,27 @@ Class LaporanAnggota extends CI_Controller{
             $keterangan = '<b style="color:red;">TIDAK AKTIF</b>';
         }
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetTitle('Data Anggota');
-        $pdf->SetSubject('Laporan Data Anggota Perpustakaan');
+        $pdf->SetTitle('Laporan Anggota');
+        $pdf->SetSubject('Laporan Anggota');
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
-$pdf->setFooterData(array(0,64,0), array(0,64,128));
+// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+// $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
 // set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+// $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+// $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
  
-        $pdf->SetHeaderMargin(30);
-        $pdf->SetTopMargin(20);
-        $pdf->setFooterMargin(20);
+        $pdf->SetHeaderMargin(10);
+        $pdf->SetTopMargin(10);
+        $pdf->setFooterMargin(10);
         $pdf->SetAutoPageBreak(true);
         $pdf->SetAuthor('SimPerpus');
         $pdf->SetDisplayMode('real', 'default');
         $pdf->AddPage();
         $i=0;
         $anggota = $this->m_laporanAnggota->downloadPdf($status)->result();
-        $html='<h1 align="center"></h1>
-                <h3 align="center">DATA ANGGOTA '.$keterangan.'</h3>
+        $html='<h1 align="center">Laporan Anggota Perpustakaan</h1>
+                <h3 align="center">ANGGOTA '.$keterangan.'</h3>
                 <table cellspacing="1" bgcolor="#666666">
                     <tr bgcolor="#ffffff">
                         <th width="5%" align="center"><b>NO</b></th>

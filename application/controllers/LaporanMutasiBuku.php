@@ -106,60 +106,65 @@ Class LaporanMutasiBuku extends CI_Controller{
     }
 
     
-//     function mutasiPinjamPdf($status){
-//         if($status == 1){
-//             $keterangan = '<b style="color:green;">AKTIF</b>';
-//         }else if($status == 0){
-//             $keterangan = '<b style="color:red;">TIDAK AKTIF</b>';
-//         }
-//         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-//         $pdf->SetTitle('Data Anggota');
-//         $pdf->SetSubject('Laporan Data Anggota Perpustakaan');
-// // set default header data
-// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
-// $pdf->setFooterData(array(0,64,0), array(0,64,128));
+    function mutasiPinjamPdf(){
+        $tanggal_pinjam = array();
+        $tanggal_pinjam[0] = $this->uri->segment(3);
+        $tanggal_pinjam[1] = $this->uri->segment(4);
+        
+        if($tanggal_pinjam == []){
+            $tanggal_pinjam[0] = "0000-00-00";
+            $tanggal_pinjam[1] = "0000-00-00";
+        }
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetTitle('Laporan Mutasi Pinjam');
+        $pdf->SetSubject('Laporan Mutasi Pinjam');
+        // set default header data
+        // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+        // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
-// // set header and footer fonts
-// $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-// $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        // set header and footer fonts
+        // $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        // $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
  
-//         $pdf->SetHeaderMargin(30);
-//         $pdf->SetTopMargin(20);
-//         $pdf->setFooterMargin(20);
-//         $pdf->SetAutoPageBreak(true);
-//         $pdf->SetAuthor('SimPerpus');
-//         $pdf->SetDisplayMode('real', 'default');
-//         $pdf->AddPage();
-//         $i=0;
-//         $anggota = $this->m_laporanAnggota->downloadPdf($status)->result();
-//         $html='<h1 align="center"></h1>
-//                 <h3 align="center">DATA ANGGOTA '.$keterangan.'</h3>
-//                 <table cellspacing="1" bgcolor="#666666">
-//                     <tr bgcolor="#ffffff">
-//                         <th width="5%" align="center"><b>NO</b></th>
-//                         <th width="35%" align="center"><b>ANGGOTA</b></th>
-//                         <th width="25%" align="center"><b>IDENTITAS</b></th>
-//                         <th width="35%" align="center"><b>ALAMAT</b></th>
-//                     </tr>';
-//         foreach ($anggota as $row) 
-//             {
-//                 $i++;
-//                 $html.='<tr bgcolor="#ffffff">
-//                             <td align="center">'.$i.'</td>
-//                             <td>'
-//                                 .' <b>'.$row->kode.'</b><br> '.
-//                                 $row->nama_lengkap.' ('.$row->nama_panggilan.')<br> '.
-//                                 $row->telepon. 
-//                             '</td>
-//                             <td>'
-//                                 .' <b>( '.$row->jenis_identitas.' )</b><br> '.
-//                                 $row->no_identitas.
-//                             '</td>
-//                             <td> '.$row->alamat.'</td>
-//                         </tr>';
-//             }
-//         $html.='</table>';
-//         $pdf->writeHTML($html, true, false, true, false, '');
-//         $pdf->Output('data_anggota.pdf', 'I');
-//     }
+        $pdf->SetHeaderMargin(10);
+        $pdf->SetTopMargin(10);
+        $pdf->setFooterMargin(10);
+        $pdf->SetAutoPageBreak(true);
+        //$pdf->SetMargins(PDF_MARGIN_LEFT, 40 , PDF_MARGIN_RIGHT);
+        $pdf->SetAutoPageBreak(true, PDF_MARGIN_FOOTER);
+        $pdf->SetAuthor('SimPerpus');
+        $pdf->SetDisplayMode('real', 'default');
+        $pdf->AddPage();
+        $i=0;
+        $data_pinjam = $this->m_laporanMutasiPinjam->downloadPdf($tanggal_pinjam)->result();
+        $html='<h1 align="center">Laporan Mutasi Pinjam</h1>
+                <h3 align="center">'.date('d/m/Y', strtotime($tanggal_pinjam[0])).'  -  '.date('d/m/Y', strtotime($tanggal_pinjam[1])).'</h3>
+                <table cellspacing="1" bgcolor="#666666">
+                    <tr bgcolor="#ffffff">
+                        <th width="5%" align="center"><b>NO</b></th>
+                        <th width="25%" align="center"><b>ANGGOTA</b></th>
+                        <th width="45%" align="center"><b>JUDUL</b></th>
+                        <th width="25%" align="center"><b>TANGGAL PINJAM & JATUH TEMPO</b></th>
+                    </tr>';
+        foreach ($data_pinjam as $index => $row) 
+            {
+                $i++;
+                $html.='<tr bgcolor="#ffffff">
+                            <td align="center">'.$i.'</td>
+                            <td><b> '.$row->kode.'</b><br> '.
+                                $row->nama_lengkap. 
+                            '</td>
+                            <td> '.$row->judul.'</td>
+                            <td> '
+                            .date('d-m-Y', strtotime($row->tanggal_pinjam)).'<br><b> - </b>'.
+                            '<div style="color:red"> '.date('d-m-Y',strtotime($row->jatuh_tempo)).' <br><i> ( Perpanjang '.$row->jml_perpanjangan.' x )</i></div>                            
+                            </td>
+                        </tr>';            
+            }
+        $html.='</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->Output('data_anggota.pdf', 'I');
+    }
+
+
 }
