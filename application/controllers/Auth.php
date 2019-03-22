@@ -35,6 +35,7 @@ class Auth extends CI_Controller {
 				foreach($checking as $data){
 					$session_data = array(
 						'id'			=> $data->id,
+						'nama_lengkap'	=> $data->nama_lengkap,
 						'panggilan'		=> $data->panggilan,
 						'jenis_kelamin' => $data->jenis_kelamin,
 						'email' 		=> $data->email,
