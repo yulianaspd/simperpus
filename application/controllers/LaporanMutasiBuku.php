@@ -5,7 +5,11 @@ Class LaporanMutasiBuku extends CI_Controller{
     
     function __construct() {
         parent::__construct();
-        $this->load->model(['m_auth','m_laporanMutasiPinjam']);
+        $this->load->model([
+            'm_auth',
+            'm_laporanMutasiPinjam',
+            'm_laporanMutasiKembali'
+        ]);
         $this->load->library('pdf');
         if(!$this->m_auth->loggedIn()){
             redirect('auth');
@@ -23,31 +27,78 @@ Class LaporanMutasiBuku extends CI_Controller{
     }
 
     public function ajaxGetMutasiPinjam(){
-        $tanggal = $this->input->post('tanggal');
+        $tanggal    = $this->input->post('tanggal');
+        $status     = $this->input->post('status');
+
         if($tanggal != [] ){
             $tanggal;
         }else{
             $tanggal = [date('Y-m-d'),date('Y-m-d')];
         }
 
-        $list = $this->m_laporanMutasiPinjam->get_datatables($tanggal);
+        $list = $this->m_laporanMutasiPinjam->get_datatables($tanggal, $status);
         $data = array();
         $no = $_POST['start'];
         $ket_status;
         foreach($list as $value){
+            
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = '<b>'.$value->kode.'</b><br>'.$value->nama_lengkap;
             $row[] = $value->judul;
-            $row[] = '<div style="color:green">'.date('d-M-Y', strtotime($value->tanggal_pinjam)).'</div> <i class="fa fa-long-arrow-right"></i> <div style="color:red">'.date('d-M-Y',strtotime($value->jatuh_tempo)).' <i>( Perpanjang '.$value->jml_perpanjangan.' x )</i></div>';
+            $row[] = '<div style="color:black">'.date('d-M-Y', strtotime($value->tanggal_pinjam)).'</div> <i class="fa fa-long-arrow-right"></i> <div style="color:red">'.date('d-M-Y',strtotime($value->jatuh_tempo)).' <i>( Perpanjang '.$value->jml_perpanjangan.' x )</i></div>';
 
             $data[] = $row;
         }
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->m_laporanMutasiPinjam->count_all($tanggal),
-            "recordsFiltered" => $this->m_laporanMutasiPinjam->count_filtered($tanggal),
+            "recordsTotal" => $this->m_laporanMutasiPinjam->count_all($tanggal, $status),
+            "recordsFiltered" => $this->m_laporanMutasiPinjam->count_filtered($tanggal, $status),
+            "data" => $data
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+
+     public function ajaxGetMutasiKembali(){
+        $tanggal    = $this->input->post('tanggal');
+        $status     = $this->input->post('status');
+
+        if($tanggal != [] ){
+            $tanggal;
+        }else{
+            $tanggal = [date('Y-m-d'),date('Y-m-d')];
+        }
+
+        $list = $this->m_laporanMutasiKembali->get_datatables($tanggal, $status);
+        $data = array();
+        $no = $_POST['start'];
+        $ket_status;
+        foreach($list as $value){
+            $date_diff = (strtotime($value->tanggal_kembali) - strtotime($value->jatuh_tempo))/86400;
+            if($date_diff > 0){
+                $terlambat = '<i class="fa fa-long-arrow-right"></i> <div style="color:red"> Terlambat '.$date_diff." hari</div>";
+                $denda = 1000*$date_diff;
+            }else{
+                $terlambat = "";
+                $denda ;
+            }
+
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = '<b>'.$value->kode.'</b><br>'.$value->nama_lengkap;
+            $row[] = $value->judul;
+            $row[] = date('d-M-Y', strtotime($value->jatuh_tempo));
+            $row[] = date('d-M-Y', strtotime($value->tanggal_kembali)).'<br>'.$terlambat;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_laporanMutasiKembali->count_all($tanggal, $status),
+            "recordsFiltered" => $this->m_laporanMutasiKembali->count_filtered($tanggal, $status),
             "data" => $data
         );
         //output dalam format JSON

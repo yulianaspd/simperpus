@@ -89,6 +89,7 @@ class M_laporanMutasiPinjam extends CI_Model
 
 	public function count_all($tanggal_pinjam)
 	{
+		
 		$this->db->select('anggota.kode');
 		$this->db->select('anggota.nama_lengkap');
 		$this->db->select('v_pinjam_detail.judul');

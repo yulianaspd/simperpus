@@ -2,6 +2,8 @@
 <link href="<?php echo base_url('assets/datatables/css/jquery.dataTables.min.css')?>" rel="stylesheet">
 <!-- daterange picker -->
 <link rel="stylesheet" href="<?php echo site_url()?>/assets/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+<!-- SweetAlert -->
+<link href="<?php echo base_url('assets/sweetalert/dist/sweetalert.css')?>" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -29,10 +31,17 @@
             <form class="form-horizontal">
               <div class="box-body">
                 <div class="form-group">
-                  <div class="col-sm-1">
+                 <!--  <div class="col-sm-1">
                     <label class="col-sm-2 control-label">Tanggal</label>
+                  </div> -->
+                   <div class="col-sm-4">
+                    <select class="form-control" id="jenis_mutasi" name="jenis_mutasi">
+                      <option value="#" disabled selected>-- Jenis Mutasi --</option>
+                      <option value="1">PINJAM</option>
+                      <option value="0">KEMBALI</option>
+                    </select>
                   </div>
-                  <div class="col-sm-7">
+                  <div class="col-sm-4">
                     <div class="input-group" style="width:100%" id="daterange" val="">
                       <button type="button" class="btn btn-default pull-right" id="daterange-btn" style="width:100%">
                         <span>
@@ -55,11 +64,12 @@
           </div>
           <!-- /.box -->
 
-          <div class="box box-primary" id="box-anggota">
+          <div class="box box-primary" id="box-mutasi-pinjam">
             <!-- form start -->
             <form id="form-pinjam" role="form" action="#">
-              <div class="box-body">  
-                  <!-- <div class="table-responsive"> -->
+              <div class="box-body"> 
+                <center><h3>Laporan Mutasi Pinjam</h3></center> 
+                  <!-- table-responsive-->
                   <table id="table-mutasi-pinjam" class="table table-bordered table-striped" style="width:100%">
                      <thead>
                           <tr>
@@ -70,14 +80,38 @@
                           </tr>
                       </thead>
                       <tbody>
-                        
                       </tbody>
                   </table>
+                  <!-- table-responsive -->
               </div>
               <!-- /.box-body -->
           </form>
         </div>
 
+         <div class="box box-primary" id="box-mutasi-kembali">
+            <!-- form start -->
+            <form id="form-kembali" role="form" action="#">
+              <div class="box-body"> 
+                <center><h3>Laporan Mutasi Kembali</h3></center> 
+                  <!-- table-responsive-->
+                  <table id="table-mutasi-kembali" class="table table-bordered table-striped" style="width:100%">
+                     <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Anggota</th>
+                            <th>Judul</th>
+                            <th>Jatuh Tempo</th>
+                            <th>Tanggal Kembali</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                  </table>
+                  <!-- table-responsive -->
+              </div>
+              <!-- /.box-body -->
+          </form>
+        </div>
 
         </div>
         <!--/.col (left) -->
@@ -93,16 +127,22 @@
 <!-- date-range-picker -->
 <script src="<?php echo site_url()?>/assets/bower_components/moment/min/moment.min.js"></script>
 <script src="<?php echo site_url()?>/assets/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- SweetAlert -->
+<script src="<?php echo site_url('assets/sweetalert/dist/sweetalert.min.js')?>"></script>
 <script>
 
   var daterange_array = new Array();
+  var jenis_mutasi = null;
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'IDR',
     minimumFractionDigits: 0
   });
+
   $(document).ready(function(){
-    $("#box-anggota").hide();
+    $("#box-mutasi-pinjam").hide();
+    $("#box-mutasi-kembali").hide();
 
     //Date range as a button
     $('#daterange-btn').daterangepicker(
@@ -137,8 +177,8 @@
       }
     )
     
-    //datatables
-    table = $('#table-mutasi-pinjam').DataTable({ 
+    //datatables mutasi pinjam
+    table_pinjam = $('#table-mutasi-pinjam').DataTable({ 
         "processing": true, 
         "serverSide": true, 
         "order": [], 
@@ -147,7 +187,8 @@
             "url": "<?php echo base_url('laporanMutasiBuku/ajaxGetMutasiPinjam')?>",
             "type": "POST",
             "data": function (data) {
-                      data.tanggal = daterange_array
+                      data.tanggal = daterange_array,
+                      data.status = jenis_mutasi
                   }
         },
         "columnDefs": [
@@ -158,16 +199,58 @@
           }
         ],  
     });
+
+    //datatables mutasi kembali
+    table_kembali = $('#table-mutasi-kembali').DataTable({ 
+        "processing": true, 
+        "serverSide": true, 
+        "order": [], 
+        
+        "ajax": {
+            "url": "<?php echo base_url('laporanMutasiBuku/ajaxGetMutasiKembali')?>",
+            "type": "POST",
+            "data": function (data) {
+                      data.tanggal = daterange_array,
+                      data.status = jenis_mutasi
+                  }
+        },
+        "columnDefs": [
+          { 
+            "targets": [ 0 ], 
+            "orderable": false, 
+            "searchable": false
+          }
+        ],  
+    });
+
   });
 
+  $("#jenis_mutasi").on('change', function(e){
+    jenis_mutasi = $(this).val();
+  }).trigger('change');
+
   $("#btn-tampilkan").on('click', function(e){
-    $("#box-anggota").show();
-     table.ajax.reload();
+    if( jenis_mutasi == 1 ){
+      $("#box-mutasi-pinjam").show();
+      $("#box-mutasi-kembali").hide();
+      table_pinjam.ajax.reload();
+    }else if( jenis_mutasi == 0 ){
+      $("#box-mutasi-pinjam").hide();
+      $("#box-mutasi-kembali").show();
+      table_kembali.ajax.reload();
+    }else{
+      swal("Jenis Mutasi belum dipilih !", null, "error");
+    } 
   });
 
   $("#btn-download-pdf").on('click', function(e){
-    var status = $('#status').val();
-    var param  = daterange_array.toString();
-    window.open("<?php echo base_url()?>laporanDenda/downloadPdf/"+param.replace(",","/")); 
+    var jenis_mutasi = $("#jenis_mutasi").val();
+    if( jenis_mutasi == null){
+      swal("Jenis Mutasi belum dipilih !", null, "error");
+    }else{
+      var param  = daterange_array.toString();
+      window.open("<?php echo base_url()?>laporanDenda/downloadPdf/"+param.replace(",","/"));   
+    }
+    
   });
 </script>
