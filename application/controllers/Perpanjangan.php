@@ -23,7 +23,7 @@ class Perpanjangan extends CI_Controller {
 
 	public function index()
 	{
-		$data['title'] 	= 'Perpanjangan';
+		$data['title'] 	= 'Perpanjang';
 		$data['icon'] 	= 'fa fa-exchange';
 		$data['uri']	= $this->uri->segment(1);
 		$this->load->view('layout/header', $data);

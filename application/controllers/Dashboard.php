@@ -5,8 +5,8 @@ class Dashboard extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->library('user_agent');
 		$this->load->model(['m_auth','m_dashboard']);
+		$this->load->library('user_agent');
 		if(!$this->m_auth->loggedIn()){
 			redirect('auth');
 		}
@@ -44,6 +44,17 @@ class Dashboard extends CI_Controller {
 		$data['perangkat']	= $perangkat;
 		$data['os']			= $this->agent->platform();
 		$data['browser']	= $this->agent->browser().' - '.$this->agent->version();
+
+		$chart_minggu_ini = $this->m_dashboard->chartMingguIni()->result();
+		foreach ($chart_minggu_ini as $key => $value) {
+			$arr_chart_minggu_ini[] = array(
+              'tanggal'  	=> $value->tanggal_pinjam,
+              'total'  		=> $value->total
+            );
+		}
+
+		$data['chart_minggu_ini'] = json_encode($arr_chart_minggu_ini);
+
 		$this->load->view('layout/header', $data);
 		$this->load->view('v_dashboard', $data);  
 		$this->load->view('layout/footer');       

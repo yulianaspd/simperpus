@@ -1,10 +1,5 @@
-<!-- jvectormap -->
-<!-- <link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/jvectormap/jquery-jvectormap.css"> -->
-<!-- Theme style -->
-  <!-- <link rel="stylesheet" href="<?php echo site_url() ?>assets/dist/css/AdminLTE.min.css"> -->
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-  folder instead of downloading all of them to reduce the load. -->
-  <!-- <link rel="stylesheet" href="<?php echo site_url() ?>assets/dist/css/skins/_all-skins.min.css"> -->
+<!-- Morris chart -->
+<link rel="stylesheet" href="<?php echo site_url()?>assets/bower_components/morris.js/morris.css">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -15,8 +10,7 @@
         <small>SIMPERPUS</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active"><i class="fa fa-dashboard"></i> <?php echo $title; ?></li>
       </ol>
     </section>
 
@@ -89,15 +83,12 @@
           <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right">
-              <li class="active"><a href="#revenue-chart" data-toggle="tab">Per Minggu</a></li>
-              <li><a href="#sales-chart" data-toggle="tab">Per Bulan</a></li>
-              <li><a href="#sales-chart" data-toggle="tab">Per Tahun</a></li>
+              <li class="active"><a href="#chart-minggu-ini" data-toggle="tab">Minggu Ini</a></li>
               <li class="pull-left header"><i class="fa fa-shopping-cart"></i> Peminjaman Buku</li>
             </ul>
             <div class="tab-content no-padding">
               <!-- Morris chart - Sales -->
-              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-              <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
+              <div class="chart tab-pane active" id="chart-minggu-ini"></div>
             </div>
           </div>
         </div>
@@ -129,7 +120,7 @@
             </div>
           </div>
           <!-- /.widget-user -->
-       
+        </div>
 
       </div>
 
@@ -138,14 +129,16 @@
   </div>
   <!-- /.content-wrapper -->
 
-<!-- AdminLTE App -->
-<!-- <script src="<?php echo base_url() ?>assets/dist/js/adminlte.min.js"></script> -->
-<!-- Sparkline -->
-<!-- <script src="<?php echo site_url()?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script> -->
-<!-- jvectormap  -->
-<!-- <script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<?php echo site_url()?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script> -->
-<!-- ChartJS -->
-<!-- <script src="<?php echo site_url()?>assets/bower_components/chart.js/Chart.js"></script> -->
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- <script src="<?php echo site_url()?>assets/dist/js/pages/dashboard2.js"></script>  -->
+<script src="<?php echo site_url()?>assets/bower_components/raphael/raphael.min.js"></script>
+<script src="<?php echo site_url()?>assets/bower_components/morris.js/morris.min.js"></script>
+<script>
+
+  new Morris.Area({
+    element: 'chart-minggu-ini',
+    data: <?php echo $chart_minggu_ini?>,
+    xkey: ['tanggal'],
+    ykeys: ['total'],
+    labels: ['Total']
+  });
+
+</script>

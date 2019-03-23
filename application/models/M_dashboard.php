@@ -29,4 +29,14 @@ class M_dashboard extends CI_Model {
 		$this->db->where('tanggal_kembali', date('Y-m-d'));
 		return $this->db->count_all_results();
 	}
+
+	public function chartMingguIni(){
+		$this->db->select('tanggal_pinjam, SUM(qty) AS total');
+		$this->db->from('pinjam');
+		$this->db->where('tanggal_pinjam > DATE_SUB(NOW(), INTERVAL 1 WEEK)');
+		$this->db->group_by('tanggal_pinjam');
+		
+		return $this->db->get();
+		
+	}
 }
