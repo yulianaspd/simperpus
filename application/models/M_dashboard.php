@@ -31,7 +31,7 @@ class M_dashboard extends CI_Model {
 	}
 
 	public function chartMingguIni(){
-		$this->db->select('tanggal_pinjam, SUM(qty) AS total');
+		$this->db->select('DATE_FORMAT(tanggal_pinjam, "%d-%M") AS tanggal, SUM(qty) AS total');
 		$this->db->from('pinjam');
 		$this->db->where('tanggal_pinjam > DATE_SUB(NOW(), INTERVAL 1 WEEK)');
 		$this->db->group_by('tanggal_pinjam');

@@ -133,12 +133,13 @@
 <script src="<?php echo site_url()?>assets/bower_components/morris.js/morris.min.js"></script>
 <script>
 
-  new Morris.Area({
+  new Morris.Bar({
     element: 'chart-minggu-ini',
     data: <?php echo $chart_minggu_ini?>,
     xkey: ['tanggal'],
     ykeys: ['total'],
-    labels: ['Total']
+    labels: ['Total'],
+    xLabelAngle: 60,
   });
 
 </script>

@@ -48,7 +48,7 @@ class Dashboard extends CI_Controller {
 		$chart_minggu_ini = $this->m_dashboard->chartMingguIni()->result();
 		foreach ($chart_minggu_ini as $key => $value) {
 			$arr_chart_minggu_ini[] = array(
-              'tanggal'  	=> $value->tanggal_pinjam,
+              'tanggal'  	=> $value->tanggal,
               'total'  		=> $value->total
             );
 		}
