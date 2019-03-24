@@ -76,6 +76,11 @@
                 "searchable": false
             },
             { 
+                "targets": [ 3 ], 
+                "orderable": false,
+                "searchable": false 
+            },
+            { 
                 "targets": [ 4 ], 
                 "orderable": false,
                 "searchable": false 

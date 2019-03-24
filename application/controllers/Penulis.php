@@ -8,6 +8,8 @@ class Penulis extends CI_Controller {
 		$this->load->model(['m_auth','m_penulis']);
 		if(!$this->m_auth->loggedIn()){
 			redirect('auth');
+		}else if($this->session->userdata('hak_akses') != 1){
+			show_404();
 		}
 	}
 

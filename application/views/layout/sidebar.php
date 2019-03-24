@@ -28,6 +28,7 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+        <?php if($this->session->userdata('hak_akses') == 1 ) { ?>    
             <li class="<?php echo $uri === 'rak' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('rak/index');?>">
                 <i class="fa fa-tasks"></i> <span>Rak</span>
@@ -63,6 +64,7 @@
                 <i class="fa fa-unlock-alt"></i> <span>User</span>
                 </a>
             </li>
+        <?php } ?>
             <li class="header">TRANSAKSI</li>
             <li class="<?php echo $uri === 'pinjam' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('pinjam/index'); ?>">
@@ -79,25 +81,25 @@
                 <i class="fa fa-exchange"></i> <span>Perpanjang</span>
                 </a>
             </li>
-            <li class="header">LAPORAN</li> 
 
+            <li class="header">LAPORAN</li> 
             <li class="<?php echo $uri === 'laporanAnggota' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('laporanAnggota/index'); ?>">
                 <i class="fa fa-list-alt"></i> <span>Laporan Angggota</span>
                 </a>
             </li>
-
             <li class="<?php echo $uri === 'laporanMutasiBuku' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('laporanMutasiBuku/index'); ?>">
                 <i class="fa fa-retweet"></i> <span>Laporan Mutasi Buku</span>
                 </a>
             </li>
-
+        <?php if($this->session->userdata('hak_akses') == 1 ) { ?>    
             <li class="<?php echo $uri === 'laporanDenda' ? 'active treeview menu-open':''; ?>">
                 <a href="<?php echo base_url('laporanDenda/index'); ?>">
                 <i class="fa fa-money"></i> <span>Laporan Denda</span>
                 </a>
             </li>
+        <?php } ?>    
         </ul>
     </section>
     <!-- /.sidebar -->

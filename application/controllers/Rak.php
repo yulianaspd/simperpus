@@ -9,6 +9,8 @@ class Rak extends CI_Controller {
 		$this->load->helper('url');
 		if(!$this->m_auth->loggedIn()){
 			redirect('auth');
+		}else if($this->session->userdata('hak_akses') != 1){
+			show_404();
 		}
 	}
 
