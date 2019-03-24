@@ -109,7 +109,7 @@ class Anggota extends CI_Controller {
 				);
 			
 			$this->m_anggota->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil disimpan. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('anggota/index');
 		}else{
 			form_error('jenis_identitas') != '' ? $data['jenis_identitas_value'] = '' : $data['jenis_identitas_value'] = set_value('jenis_identitas');
@@ -172,7 +172,6 @@ class Anggota extends CI_Controller {
 			);
 
 		$data = array(
-				'kode'			 	=> $kode,
 				'jenis_identitas' 	=> $jenis_identitas,
 				'no_identitas' 		=> $no_identitas,
 				'nama_lengkap' 		=> $nama_lengkap,
@@ -182,7 +181,7 @@ class Anggota extends CI_Controller {
 			);
 		
 		$this->m_anggota->updateData($where, $data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil di update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('anggota/index');
 	}
 
@@ -191,7 +190,7 @@ class Anggota extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_anggota->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil dihapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('anggota/index');
 	}
 

@@ -16,7 +16,13 @@
     <section class="content">
       
       <div class="row">
-        <!-- left column -->
+         <div class="col-md-12">
+          <div class="callout callout-info">
+            <h4><i class="fa fa-info"></i> Info</h4>
+
+            <p>Password setiap user baru masih standar dari sistem.</p>
+          </div>
+        </div>  
         <div class="col-md-12">
           <!-- general form elements -->
           <?php echo validation_errors(); ?>
