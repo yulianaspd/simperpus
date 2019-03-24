@@ -32,18 +32,23 @@ class Auth extends CI_Controller {
 			$checking = $this->m_auth->checkLogin('user', $where);
 			
 			if($checking != FALSE){
-				foreach($checking as $data){
-					$session_data = array(
-						'id'			=> $data->id,
-						'nama_lengkap'	=> $data->nama_lengkap,
-						'panggilan'		=> $data->panggilan,
-						'jenis_kelamin' => $data->jenis_kelamin,
-						'email' 		=> $data->email,
-						'hak_akses' 	=> $data->hak_akses 
-					);
-					$this->session->set_userdata($session_data);
-					redirect(base_url("dashboard/index"));
-				}
+				if($checking[0]->status == 0){
+					$this->session->set_flashdata('notif', '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Username Tidak Aktif ! </div>');
+					redirect('auth/index');	
+				}else{
+					foreach($checking as $data){
+						$session_data = array(
+							'id'			=> $data->id,
+							'nama_lengkap'	=> $data->nama_lengkap,
+							'panggilan'		=> $data->panggilan,
+							'jenis_kelamin' => $data->jenis_kelamin,
+							'email' 		=> $data->email,
+							'hak_akses' 	=> $data->hak_akses 
+						);
+						$this->session->set_userdata($session_data);
+						redirect(base_url("dashboard/index"));
+					}
+				}	
 			}else{
 				$this->session->set_flashdata('notif', '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Username / Password Salah ! </div>');
 				redirect('auth/index');
