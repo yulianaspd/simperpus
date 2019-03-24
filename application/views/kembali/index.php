@@ -61,7 +61,7 @@
                     </tr>
                     <tr>
                       <td>2.</td>
-                      <td>NAMA LENGKAP <?php echo $this->session->userdata('id') ?></td>
+                      <td>NAMA LENGKAP</td>
                       <td class="text-right nama_lengkap"></td>
                     </tr>
                     <tr>

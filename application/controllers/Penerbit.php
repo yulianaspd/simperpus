@@ -9,7 +9,7 @@ class Penerbit extends CI_Controller {
 		if(!$this->m_auth->loggedIn()){
 			redirect('auth');
 		}else if($this->session->userdata('hak_akses') != 1){
-			redirect('dashboard');
+			show_404();
 		}
 	}
 
