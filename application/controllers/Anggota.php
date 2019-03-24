@@ -149,6 +149,11 @@ class Anggota extends CI_Controller {
 
 		);
 
+		$data['status'] = array(
+			'1'	=> 'Aktif',
+			'0'	=> 'Tidak Aktif'
+		);
+
 		$data['parent_title']	= 'Anggota';
 		$data['title']	= 'Edit Anggota';
 		$data['icon']	= 'fa fa-users';
@@ -168,6 +173,7 @@ class Anggota extends CI_Controller {
 		$nama_panggilan	= $this->input->post('nama_panggilan');
 		$alamat			= $this->input->post('alamat');
 		$telepon		= $this->input->post('telepon');
+		$status			= $this->input->post('status');
 
 		$where = array(
 				'id'	=> $id
@@ -179,7 +185,8 @@ class Anggota extends CI_Controller {
 				'nama_lengkap' 		=> $nama_lengkap,
 				'nama_panggilan' 	=> $nama_panggilan,
 				'alamat'			=> $alamat,
-				'telepon'			=> $telepon
+				'telepon'			=> $telepon,
+				'status'			=> $status
 			);
 		
 		$this->m_anggota->updateData($where, $data);

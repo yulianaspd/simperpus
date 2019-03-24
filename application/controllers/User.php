@@ -96,6 +96,7 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('panggilan','Panggilan','required');
 		$this->form_validation->set_rules('jenis_kelamin','Jenis Kelamin','required');
 		$this->form_validation->set_rules('alamat','Alamat','required');
+		$this->form_validation->set_rules('hak_akses','Hak Akses','required');
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('telepon','Telepon','required');
 		$this->form_validation->set_rules('status','Status','required');
@@ -136,6 +137,7 @@ class User extends CI_Controller {
 					'form_panggilan' 	=> form_error('panggilan'),
 					'form_jenis_kelamin' => form_error('jenis_kelamin'),
 					'form_alamat' 		=> form_error('alamat'),
+					'form_hak_akses' 	=> form_error('hak_akses'),
 					'form_email' 		=> form_error('email'),
 					'form_telepon' 		=> form_error('telepon'),
 					'form_status' 		=> form_error('status')
