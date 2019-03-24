@@ -80,7 +80,7 @@ class Penulis extends CI_Controller {
 							'nama_alias'	=> $nama_alias
 						);
 			$this->m_penulis->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('penulis/index');
 		}else{
 			$this->session->set_flashdata(
@@ -130,7 +130,7 @@ class Penulis extends CI_Controller {
 			);
 
 			$this->m_penulis->updateData($where,$data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 			redirect('penulis/index');
 		// }else{
 		// 	$this->session->set_flashdata(
@@ -149,7 +149,7 @@ class Penulis extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_penulis->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"> Success! Data berhasil dihapus </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 			redirect('penulis/index');
 		redirect('penulis/index');
 	}

@@ -78,7 +78,7 @@ class Rak extends CI_Controller {
 				'kode'	=> $kode
 			);
 			$this->m_rak->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('rak/index');
 		}else{
 			$this->session->set_flashdata('form_kode', form_error('kode'));
@@ -118,7 +118,7 @@ class Rak extends CI_Controller {
 		);
 
 		$this->m_rak->updateData($where,$data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('rak/index');
 	}
 
@@ -127,7 +127,7 @@ class Rak extends CI_Controller {
 			'id'	=> $id
 		);
 		$this->m_rak->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('rak/index');
 	}
 

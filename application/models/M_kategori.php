@@ -87,7 +87,7 @@ class M_kategori extends CI_Model {
 	
 //=========================================================
 	public function getData(){
-		$this->db->select('*'); 
+		$this->db->select('kategori.*'); 
 		$this->db->from('kategori');
 		$this->db->join('rak', 'rak.id = kategori.rak_id');
 		$query = $this->db->get();

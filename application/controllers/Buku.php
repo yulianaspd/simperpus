@@ -121,7 +121,7 @@ class Buku extends CI_Controller {
 				// 'tanggal_terbit' => $tanggal_terbit
 			);
 			$this->m_buku->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data tersimpan. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('buku/index');
 		}else{
 			form_error('isbn') != '' ? $data['isbn_value'] = '' : $data['isbn_value'] = set_value('isbn');
@@ -185,7 +185,7 @@ class Buku extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_buku->updateData($where,$data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('buku/index');
 	}
 
@@ -194,7 +194,7 @@ class Buku extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_buku->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('buku/index');
 	}
 

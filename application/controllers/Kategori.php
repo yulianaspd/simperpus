@@ -82,7 +82,7 @@ class Kategori extends CI_Controller {
 				'nama'	 => $nama
 			);
 			$this->m_kategori->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data tersimpan. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('kategori/index');
 		}else{
 			$this->session->set_flashdata(
@@ -126,7 +126,7 @@ class Kategori extends CI_Controller {
 		);
 
 		$this->m_kategori->updateData($where,$data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('kategori/index');
 	}
 
@@ -135,7 +135,7 @@ class Kategori extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_kategori->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('kategori/index');		
 	}
 

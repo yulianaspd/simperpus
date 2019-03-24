@@ -5,7 +5,7 @@ class M_penulis extends CI_Model {
 	var $table = 'penulis'; //nama tabel dari database
 	var $column_order = array(null, 'nama_lengkap','nama_alias'); //field yang ada di table penulis
 	var $column_search = array('nama_lengkap','nama_alias'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $order = array('nama_lengkap' => 'asc'); // default order 
 
 	public function __construct()
 	{

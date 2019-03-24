@@ -6,7 +6,7 @@ class M_buku extends CI_Model {
 	var $table = 'buku'; //nama tabel dari database
 	var $column_order = array(null,'isbn', 'judul', 'halaman', 'kategori.nama'); //field yang ada di table user
 	var $column_search = array('isbn', 'judul', 'halaman', 'kategori.nama'); //field yang diizin untuk pencarian 
-	var $order = array('buku.id' => 'asc'); // default order 
+	var $order = array('buku.judul' => 'asc'); // default order 
 
 	public function __construct()
 	{

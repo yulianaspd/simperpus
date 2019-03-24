@@ -6,7 +6,7 @@ class M_rak extends CI_Model {
 	var $table = 'rak'; //nama tabel dari database
 	var $column_order = array(null, 'kode'); //field yang ada di table user
 	var $column_search = array('kode'); //field yang diizin untuk pencarian 
-	var $order = array('id' => 'asc'); // default order 
+	var $order = array('kode' => 'asc'); // default order 
 
 	public function __construct()
 	{

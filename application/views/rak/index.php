@@ -34,14 +34,6 @@
                   </thead>
                   <tbody>
                   </tbody>
-
-                  <tfoot>
-                      <tr>
-                          <th>ID</th>
-                          <th>Kode</th>
-                          <th></th>
-                      </tr>
-                  </tfoot>
               </table>
             </div>
             <!-- /.box-body -->

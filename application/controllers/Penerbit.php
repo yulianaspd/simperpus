@@ -89,7 +89,7 @@ class Penerbit extends CI_Controller {
 				'email'  	=> $email
 			);
 			$this->m_penerbit->storeData($data);
-			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data tersimpan. </div>');
+			$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Tersimpan. </div>');
 			redirect('penerbit/index');
 		}else{
 			$this->session->set_flashdata(
@@ -141,7 +141,7 @@ class Penerbit extends CI_Controller {
 		);
 
 		$this->m_penerbit->updateData($where, $data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('penerbit/index');
 	}
 
@@ -150,7 +150,7 @@ class Penerbit extends CI_Controller {
 			'id' => $id
 		);
 		$this->m_penerbit->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('penerbit/index');
 	}
 
