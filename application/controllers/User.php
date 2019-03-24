@@ -30,17 +30,17 @@ class User extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $value) {
-        	if($value->status == 1){
-        		$status = 'ADMINISTRATOR';
+        	if($value->hak_akses == 1){
+        		$hak_akses = 'ADMINISTRATOR';
         	}else{
-        		$status = 'OPERATOR';
+        		$hak_akses = 'OPERATOR';
         	}
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $value->nama_lengkap.'<br>( '.$value->panggilan.' )';
             $row[] = $value->alamat.'<br>'.$value->email.'<br>'.$value->telepon;
-            $row[] = $status;
+            $row[] = $hak_akses;
             $row[] = "<a href='".base_url('user/edit/'.$value->id) ."' class='btn btn-warning'><i class='fa fa-pencil-square-o'></i></a> 
             		&nbsp&nbsp 
             		<a class='btn btn-danger btn-delete' data-toggle='modal'
@@ -72,9 +72,13 @@ class User extends CI_Controller {
 		$data['title']		= 'Input User';
 		$data['icon']		= 'fa fa-unlock-alt';
 		$data['uri']		= $this->uri->segment(1);
-		$data['status']		= array(
+		$data['hak_akses']	= array(
 								'1' => 'Administrator', 
 								'0' => 'Operator' 
+								);
+		$data['status']		= array(
+								'1' => 'Aktif', 
+								'0' => 'Tidak Aktif' 
 								);
 		$data['jenis_kelamin']	= array(
 								'1' => 'Laki-laki', 
@@ -88,6 +92,7 @@ class User extends CI_Controller {
 	public function store(){
 		$this->form_validation->set_rules('nama_lengkap','Nama Lengkap','required');
 		$this->form_validation->set_rules('panggilan','Panggilan','required');
+		$this->form_validation->set_rules('jenis_kelamin','Jenis Kelamin','required');
 		$this->form_validation->set_rules('alamat','Alamat','required');
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('telepon','Telepon','required');
@@ -99,6 +104,7 @@ class User extends CI_Controller {
 			$panggilan 		= $this->input->post('panggilan');
 			$jenis_kelamin	= $this->input->post('jenis_kelamin');
 			$alamat 		= $this->input->post('alamat');
+			$hak_akses		= $this->input->post('hak_akses');
 			$email 			= $this->input->post('email');
 			$telepon 		= $this->input->post('telepon');
 			$status 		= $this->input->post('status');
@@ -107,6 +113,7 @@ class User extends CI_Controller {
 				'panggilan'		=> $panggilan,
 				'jenis_kelamin'	=> $jenis_kelamin,
 				'alamat'		=> $alamat,
+				'hak_akses'		=> $hak_akses,
 				'email'			=> $email,
 				'password'		=> md5('simperpus12345'),
 				'telepon'		=> $telepon,
@@ -125,6 +132,7 @@ class User extends CI_Controller {
 				array(
 					'form_nama_lengkap' => form_error('nama_lengkap'),
 					'form_panggilan' 	=> form_error('panggilan'),
+					'form_jenis_kelamin' => form_error('jenis_kelamin'),
 					'form_alamat' 		=> form_error('alamat'),
 					'form_email' 		=> form_error('email'),
 					'form_telepon' 		=> form_error('telepon'),
@@ -142,9 +150,13 @@ class User extends CI_Controller {
 		$data['title']		= 'Edit User';
 		$data['icon']		= 'fa fa-unlock-alt';
 		$data['uri']		= $this->uri->segment(1);
-		$data['status']		= array(
+		$data['hak_akses']	= array(
 								'1' => 'Administrator', 
 								'0' => 'Operator' 
+								);
+		$data['status']		= array(
+								'1' => 'Aktif', 
+								'0' => 'Tidak aktif' 
 								);
 		$data['jenis_kelamin']	= array(
 								'1' => 'Laki-laki', 
@@ -167,6 +179,7 @@ class User extends CI_Controller {
 		$panggilan 		= $this->input->post('panggilan');
 		$jenis_kelamin	= $this->input->post('jenis_kelamin');
 		$alamat 		= $this->input->post('alamat');
+		$hak_akses		= $this->input->post('hak_akses');
 		$email 			= $this->input->post('email');
 		$telepon 		= $this->input->post('telepon');
 		$status 		= $this->input->post('status');
@@ -175,6 +188,7 @@ class User extends CI_Controller {
 			'panggilan'		=> $panggilan,
 			'jenis_kelamin'	=> $jenis_kelamin,
 			'alamat'		=> $alamat,
+			'hak_akses'		=> $hak_akses,
 			'email'			=> $email,
 			'telepon'		=> $telepon,
 			'status'		=> $status,

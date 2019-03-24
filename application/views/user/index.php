@@ -30,7 +30,7 @@
                           <th>No</th>
                           <th>Nama</th>
                           <th>Alamat</th>
-                          <th>Status</th>
+                          <th>Hak Akses</th>
                           <th></th>
                       </tr>
                   </thead>

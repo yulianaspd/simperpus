@@ -36,7 +36,7 @@
                     </div>
                   </div>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                   <label for="jenisKelaminLabel">Jenis Kelamin</label>
                   <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                     <?php foreach ($jenis_kelamin as $key_jk => $value_jk){ ?>
@@ -47,6 +47,14 @@
                  <div class="form-group">
                   <label for="alamatLabel">Alamat</label>            
                   <textarea class="form-control" name="alamat" id="alamat" rows="3" placeholder="Alamat"><?php echo $user[0]->alamat;?></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="hakAksesLabel">Hak Akses</label>
+                  <select class="form-control" name="hak_akses" id="hak_akses">
+                    <?php foreach ($hak_akses as $key_ha => $value_ha){ ?>
+                      <option value="<?php echo $key_ha ?>" <?php if($user[0]->hak_akses == $key_ha){ echo "selected"; } ?>><?php echo $value_ha; ?></option>
+                    <?php } ?>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="emailLabel">Email</label>                  

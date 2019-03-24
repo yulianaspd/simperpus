@@ -46,8 +46,10 @@
                 </div>
                 <div class="form-group">
                   <label for="jenisKelaminLabel">Jenis Kelamin</label>
+                  <?php echo $this->session->flashdata('form_jenis_kelamin') ?>
                   <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
-                     <?php foreach ($jenis_kelamin as $key_jk => $value_jk){ ?>
+                    <option value="" disabled selected>-Pilih Jenis Kelamin-</option>
+                    <?php foreach ($jenis_kelamin as $key_jk => $value_jk){ ?>
                       <option value="<?php echo $key_jk ?>"><?php echo $value_jk; ?></option>
                     <?php } ?>
                   </select>
@@ -56,6 +58,16 @@
                   <label for="alamatLabel">Alamat</label>
                   <?php echo $this->session->flashdata('form_alamat') ?>
                   <textarea class="form-control" name="alamat" id="alamat" rows="3" placeholder="Alamat"><?php echo $this->session->flashdata('alamat_value') ?></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="hakAksesLabel">Hak Akses</label>
+                  <?php echo $this->session->flashdata('form_hak_akses') ?>
+                  <select class="form-control" name="hak_akses" id="hak_akses">
+                    <option value="" disabled selected>-Pilih Hak Akses-</option>
+                    <?php foreach ($hak_akses as $key_ha => $value_ha){ ?>
+                      <option value="<?php echo $key_ha ?>"><?php echo $value_ha; ?></option>
+                    <?php } ?>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="emailLabel">Email</label>

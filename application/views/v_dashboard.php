@@ -108,7 +108,7 @@
               </div>
               <!-- /.widget-user-image -->
               <h3 class="widget-user-username"><?php echo $nama_petugas; ?></h3>
-              <h5 class="widget-user-desc"><?php echo $jabatan; ?></h5>
+              <h5 class="widget-user-desc"><?php echo $hak_akses; ?></h5>
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">

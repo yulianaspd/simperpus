@@ -39,7 +39,7 @@ class Auth extends CI_Controller {
 						'panggilan'		=> $data->panggilan,
 						'jenis_kelamin' => $data->jenis_kelamin,
 						'email' 		=> $data->email,
-						'status' 		=> $data->status 
+						'hak_akses' 	=> $data->hak_akses 
 					);
 					$this->session->set_userdata($session_data);
 					redirect(base_url("dashboard/index"));

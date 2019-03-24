@@ -25,7 +25,13 @@ class Dashboard extends CI_Controller {
 		
 		$data['nama_petugas']	= $this->session->userdata('nama_lengkap');
 		$data['jenis_kelamin']	= $this->session->userdata('jenis_kelamin');
-		$data['jabatan']		= 'Administrator';
+		$hak_akses = $this->session->userdata('hak_akses');
+		if($hak_akses == 1){
+			$data['hak_akses']	= 'Administrator';
+		}else if($hak_akses == 0){
+			$data['hak_akses']	= 'Operator'; 
+		}
+		
 
 		if ($this->agent->is_mobile('iphone'))
 		{
