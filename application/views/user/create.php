@@ -44,6 +44,14 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="jenisKelaminLabel">Jenis Kelamin</label>
+                  <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                     <?php foreach ($jenis_kelamin as $key_jk => $value_jk){ ?>
+                      <option value="<?php echo $key_jk ?>"><?php echo $value_jk; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
                  <div class="form-group">
                   <label for="alamatLabel">Alamat</label>
                   <?php echo $this->session->flashdata('form_alamat') ?>

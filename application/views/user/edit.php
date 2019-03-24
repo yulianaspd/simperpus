@@ -37,6 +37,14 @@
                   </div>
                 </div>
                  <div class="form-group">
+                  <label for="jenisKelaminLabel">Jenis Kelamin</label>
+                  <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                    <?php foreach ($jenis_kelamin as $key_jk => $value_jk){ ?>
+                      <option value="<?php echo $key_jk ?>" <?php if($user[0]->status == $key_jk){ echo "selected"; } ?>><?php echo $value_jk; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+                 <div class="form-group">
                   <label for="alamatLabel">Alamat</label>            
                   <textarea class="form-control" name="alamat" id="alamat" rows="3" placeholder="Alamat"><?php echo $user[0]->alamat;?></textarea>
                 </div>
@@ -60,7 +68,7 @@
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> Update</button>
               </div>
             </form>
           </div>

@@ -76,6 +76,10 @@ class User extends CI_Controller {
 								'1' => 'Administrator', 
 								'0' => 'Operator' 
 								);
+		$data['jenis_kelamin']	= array(
+								'1' => 'Laki-laki', 
+								'0' => 'Perempuan' 
+								);
 		$this->load->view('layout/header', $data);
 		$this->load->view('user/create', $data);
 		$this->load->view('layout/footer');
@@ -93,6 +97,7 @@ class User extends CI_Controller {
 		if($this->form_validation->run() == TRUE){
 			$nama_lengkap 	= $this->input->post('nama_lengkap');
 			$panggilan 		= $this->input->post('panggilan');
+			$jenis_kelamin	= $this->input->post('jenis_kelamin');
 			$alamat 		= $this->input->post('alamat');
 			$email 			= $this->input->post('email');
 			$telepon 		= $this->input->post('telepon');
@@ -100,6 +105,7 @@ class User extends CI_Controller {
 			$data = array(
 				'nama_lengkap'	=> $nama_lengkap,
 				'panggilan'		=> $panggilan,
+				'jenis_kelamin'	=> $jenis_kelamin,
 				'alamat'		=> $alamat,
 				'email'			=> $email,
 				'password'		=> md5('simperpus12345'),
@@ -140,6 +146,10 @@ class User extends CI_Controller {
 								'1' => 'Administrator', 
 								'0' => 'Operator' 
 								);
+		$data['jenis_kelamin']	= array(
+								'1' => 'Laki-laki', 
+								'0' => 'Perempuan' 
+								);
 		$where = array (
 			'id'	=> $id,
 		);
@@ -155,6 +165,7 @@ class User extends CI_Controller {
 		$id				= $this->input->post('id');
 		$nama_lengkap 	= $this->input->post('nama_lengkap');
 		$panggilan 		= $this->input->post('panggilan');
+		$jenis_kelamin	= $this->input->post('jenis_kelamin');
 		$alamat 		= $this->input->post('alamat');
 		$email 			= $this->input->post('email');
 		$telepon 		= $this->input->post('telepon');
@@ -162,6 +173,7 @@ class User extends CI_Controller {
 		$data = array(
 			'nama_lengkap'	=> $nama_lengkap,
 			'panggilan'		=> $panggilan,
+			'jenis_kelamin'	=> $jenis_kelamin,
 			'alamat'		=> $alamat,
 			'email'			=> $email,
 			'telepon'		=> $telepon,
@@ -174,7 +186,7 @@ class User extends CI_Controller {
 		);
 
 		$this->m_user->updateData($where,$data);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data berhasil update. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('user/index');
 	}
 
@@ -183,7 +195,7 @@ class User extends CI_Controller {
 			'id'	=> $id
 		);
 		$this->m_user->deleteData($where);
-		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data terhapus. </div>');
+		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Terhapus. </div>');
 		redirect('user/index');
 	}
 
