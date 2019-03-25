@@ -59,6 +59,9 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li>
+            <a href="<?php echo base_url('gantiPassword/index') ?>"><i class="fa fa-key"></i> Ganti Password</a>
+          </li>
+          <li>
             <a href="<?php echo base_url('auth/logout') ?>"><i class="fa fa-sign-out"></i> Logout</a>
           </li>
         </ul>
