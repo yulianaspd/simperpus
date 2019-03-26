@@ -188,7 +188,6 @@ class Anggota extends CI_Controller {
 				'telepon'			=> $telepon,
 				'status'			=> $status
 			);
-		
 		$this->m_anggota->updateData($where, $data);
 		$this->session->set_flashdata('notif', '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Success! Data Berhasil Update. </div>');
 		redirect('anggota/index');

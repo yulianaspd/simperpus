@@ -70,7 +70,7 @@
                   <label for="statusLabel">Status</label>
                   <select class="form-control" name="status" id="status">
                       <?php foreach($status as $key_st => $val_st){ ?>
-                      <option value="<?php echo $val_st ?>" <?php if($key_st == $anggota->status){ echo 'selected'; } ?> ><?php echo $val_st; ?></option>
+                      <option value="<?php echo $key_st ?>" <?php if($key_st == $anggota->status){ echo 'selected'; } ?> ><?php echo $val_st; ?></option>
                       <?php }?>
                   </select>
                 </div>

@@ -29,7 +29,7 @@ class M_laporanMutasiPinjam extends CI_Model
 						 FROM pinjam_detail, buku
 						 WHERE 
 						 	pinjam_detail.buku_id = buku.id AND
-						 	pinjam_detail.created_at BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
+						 	DATE(pinjam_detail.created_at) BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
 						) AS v_pinjam_detail','v_pinjam_detail.pinjam_id = pinjam.id');
 		$this->db->join('anggota','anggota.id = pinjam.anggota_id');
 		$this->db->where('pinjam.tanggal_pinjam BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"');
@@ -106,7 +106,7 @@ class M_laporanMutasiPinjam extends CI_Model
 						 FROM pinjam_detail, buku
 						 WHERE 
 						 	pinjam_detail.buku_id = buku.id AND
-						 	pinjam_detail.created_at BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
+						 	DATE(pinjam_detail.created_at) BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
 						) AS v_pinjam_detail','v_pinjam_detail.pinjam_id = pinjam.id');
 		$this->db->join('anggota','anggota.id = pinjam.anggota_id');
 		$this->db->where('pinjam.tanggal_pinjam BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"');
@@ -132,7 +132,7 @@ class M_laporanMutasiPinjam extends CI_Model
 						 FROM pinjam_detail, buku
 						 WHERE 
 						 	pinjam_detail.buku_id = buku.id AND
-						 	pinjam_detail.created_at BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
+						 	DATE(pinjam_detail.created_at) BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"
 						) AS v_pinjam_detail','v_pinjam_detail.pinjam_id = pinjam.id');
 		$this->db->join('anggota','anggota.id = pinjam.anggota_id');
 		$this->db->where('pinjam.tanggal_pinjam BETWEEN "'. $tanggal_pinjam[0]. '" AND "'. $tanggal_pinjam[1].'"');
